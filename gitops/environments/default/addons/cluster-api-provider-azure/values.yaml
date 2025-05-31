@@ -1,0 +1,14 @@
+core: "cluster-api:v1.8.4"
+infrastructure: "azure:v1.17.0"
+addon: "helm:v0.2.5"
+manager:
+  featureGates:
+    core:
+      ClusterTopology: true
+additionalDeployments:
+  azureserviceoperator-controller-manager:
+    deployment:
+      containers:
+      - name: manager
+        args:
+          --crd-pattern: "documentdb.azure.com/*;managedidentity.azure.com/*;keyvault.azure.com/*"
