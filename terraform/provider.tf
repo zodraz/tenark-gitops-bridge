@@ -42,19 +42,50 @@ provider "azurerm" {
   }
 }
 
+# resource "local_file" "kubeconfig" {
+#   content  = module.aks.kube_config_raw
+#   filename = "${path.module}/kubeconfig"
+# }
+
 resource "local_file" "kubeconfig" {
-  content  = module.aks.kube_config_raw
-  filename = "${path.module}/kubeconfig"
+  content  = module.aks.kubeconfig_raw
+  filename = "kubeconfig"
 }
 
-provider "kubernetes" {
-   config_path = local_file.kubeconfig.filename
+output "kubeconfig_file" {
+    value = "${path.cwd}/kubeconfig"
+}
+
+data "terraform_remote_state" "kubeconfig_file" {
+  backend = "remote"
+
+  config = {
+    organization = "Tenark"
+    workspaces = {
+      name = "control-plane"
+    }
+  }
 }
 
 provider "helm" {
   kubernetes {
-     config_path = local_file.kubeconfig.filename
+    config_path = "${data.terraform_remote_state.kubeconfig_file.outputs.kubeconfig_file}"
   }
-
 }
+
+provider "kubernetes" {
+  config_path = "${data.terraform_remote_state.kubeconfig_file.outputs.kubeconfig_file}"
+}
+
+
+# provider "kubernetes" {
+#    config_path = local_file.kubeconfig.filename
+# }
+
+# provider "helm" {
+#   kubernetes {
+#      config_path = local_file.kubeconfig.filename
+#   }
+
+# }
 provider "random" {}
