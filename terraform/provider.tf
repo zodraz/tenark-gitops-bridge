@@ -47,16 +47,27 @@ provider "azurerm" {
 #   filename = "${path.module}/kubeconfig"
 # }
 
-resource "local_file" "kubeconfig" {
-  content  = module.aks.kube_config_raw
-  filename = "kubeconfig"
+output "kube_config_host" {
+  value = module.aks.kube_config[0].host
 }
 
-output "kubeconfig_file" {
-    value = "${path.cwd}/kubeconfig"
+output "kube_config_client_certificate" {
+  value     = module.aks.kube_config[0].client_certificate
+  sensitive = true
 }
 
-data "terraform_remote_state" "kubeconfig_file" {
+output "kube_config_client_key" {
+  value     = module.aks.kube_config[0].client_key
+  sensitive = true
+}
+
+output "kube_config_cluster_ca_certificate" {
+  value     = module.aks.kube_config[0].cluster_ca_certificate
+  sensitive = true
+}
+
+
+data "terraform_remote_state" "remote_state" {
   backend = "remote"
 
   config = {
@@ -69,12 +80,17 @@ data "terraform_remote_state" "kubeconfig_file" {
 
 provider "helm" {
   kubernetes {
-    config_path = "${data.terraform_remote_state.kubeconfig_file.outputs.kubeconfig_file}"
+    host                   = data.terraform_remote_state.remote_state.outputs.kube_config_host
+    client_certificate     = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_certificate)
+    client_key             = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_key)
+    cluster_ca_certificate = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_cluster_ca_certificate)
   }
 }
-
 provider "kubernetes" {
-  config_path = "${data.terraform_remote_state.kubeconfig_file.outputs.kubeconfig_file}"
+    host                   = data.terraform_remote_state.remote_state.outputs.kube_config_host
+    client_certificate     = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_certificate)
+    client_key             = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_key)
+    cluster_ca_certificate = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_cluster_ca_certificate)
 }
 
 
