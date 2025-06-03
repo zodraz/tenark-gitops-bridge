@@ -48,7 +48,7 @@ provider "azurerm" {
 # }
 
 resource "local_file" "kubeconfig" {
-  content  = module.aks.kubeconfig_raw
+  content  = module.aks.kube_config_raw
   filename = "kubeconfig"
 }
 
