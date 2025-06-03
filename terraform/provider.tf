@@ -49,6 +49,7 @@ provider "azurerm" {
 
 output "kube_config_host" {
   value = module.aks.host
+  sensitive = true
 }
 
 output "kube_config_client_certificate" {
@@ -78,21 +79,36 @@ data "terraform_remote_state" "remote_state" {
   }
 }
 
+# provider "helm" {
+#   kubernetes {
+#     host                   = data.terraform_remote_state.remote_state.outputs.kube_config_host
+#     client_certificate     = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_certificate)
+#     client_key             = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_key)
+#     cluster_ca_certificate = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_cluster_ca_certificate)
+#   }
+# }
+# provider "kubernetes" {
+#     host                   = data.terraform_remote_state.remote_state.outputs.kube_config_host
+#     client_certificate     = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_certificate)
+#     client_key             = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_key)
+#     cluster_ca_certificate = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_cluster_ca_certificate)
+# }
+
+
 provider "helm" {
   kubernetes {
-    host                   = data.terraform_remote_state.remote_state.outputs.kube_config_host
-    client_certificate     = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_certificate)
-    client_key             = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_key)
-    cluster_ca_certificate = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_cluster_ca_certificate)
+    host                   = module.aks.host
+    client_certificate     = base64decode(module.aks.client_certificate)
+    client_key             = base64decode(module.aks.client_key)
+    cluster_ca_certificate = base64decode(module.aks.cluster_ca_certificate)
   }
 }
 provider "kubernetes" {
-    host                   = data.terraform_remote_state.remote_state.outputs.kube_config_host
-    client_certificate     = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_certificate)
-    client_key             = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_key)
-    cluster_ca_certificate = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_cluster_ca_certificate)
+    host                   = module.aks.host
+    client_certificate     = base64decode(module.aks.client_certificate)
+    client_key             = base64decode(module.aks.client_key)
+    cluster_ca_certificate = base64decode(module.aks.cluster_ca_certificate)
 }
-
 
 # provider "kubernetes" {
 #    config_path = local_file.kubeconfig.filename
