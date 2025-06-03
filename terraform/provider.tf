@@ -48,21 +48,21 @@ provider "azurerm" {
 # }
 
 output "kube_config_host" {
-  value = module.aks.kube_config[0].host
+  value = module.aks.host
 }
 
 output "kube_config_client_certificate" {
-  value     = module.aks.kube_config[0].client_certificate
+  value     = module.aks.client_certificate
   sensitive = true
 }
 
 output "kube_config_client_key" {
-  value     = module.aks.kube_config[0].client_key
+  value     = module.aks.client_key
   sensitive = true
 }
 
 output "kube_config_cluster_ca_certificate" {
-  value     = module.aks.kube_config[0].cluster_ca_certificate
+  value     = module.aks.cluster_ca_certificate
   sensitive = true
 }
 
