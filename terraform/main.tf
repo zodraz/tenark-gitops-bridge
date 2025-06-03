@@ -261,3 +261,22 @@ module "gitops_bridge_bootstrap" {
     chart_version = var.addons_versions[0].argocd_chart_version
   }
 }
+
+################################################################################
+# ACR
+################################################################################
+
+resource "azurerm_container_registry" "acr" {
+  name                = "tenark-registry"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  sku                 = "Standard"
+}
+
+output "container_registry_name" {
+  value = azurerm_container_registry.acr.name
+}
+
+output "container_registry_login_server" {
+  value = azurerm_container_registry.acr.login_server
+}
