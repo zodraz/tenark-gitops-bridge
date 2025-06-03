@@ -4,6 +4,30 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "vnet_name" {
+  description = "Specifies the name of the VNET."
+  default     = "tenark-gitops"
+  type        = string
+}
+
+variable "id_aks_name" {
+  description = "Specifies the name of the Managed Identity."
+  default     = "tenark-gitops"
+  type        = string
+}
+
+variable "cluster_name" {
+  description = "Specifies the name for the AKS cluster"
+  type        = string
+  default     = "tenark-gitops"
+}
+
+variable "cluster_log_analytics_workspace_name" {
+  description = "Specifies the Log analytics name for the AKS cluster"
+  type        = string
+  default     = "tenark-gitops"
+}
+
 variable "location" {
   description = "Specifies the the location for the Azure resources."
   type        = string

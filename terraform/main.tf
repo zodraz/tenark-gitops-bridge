@@ -97,7 +97,7 @@ module "network" {
   }
   virtual_network_address_space = ["10.52.0.0/16"]
   virtual_network_location      = azurerm_resource_group.this.location
-  virtual_network_name          = "vnet1"
+  virtual_network_name          = var.vnet_name
   virtual_network_tags          = var.tags
 }
 
@@ -115,6 +115,8 @@ module "aks" {
   role_based_access_control_enabled = var.role_based_access_control_enabled
   rbac_aad                          = var.rbac_aad
   prefix                            = var.prefix
+  # cluster_name                      = var.cluster_name
+  # cluster_log_analytics_workspace_name = var.cluster_log_analytics_workspace_name 
   network_plugin                    = var.network_plugin
   vnet_subnet_id                    = lookup(module.network.vnet_subnets_name_id, "aks")
   os_disk_size_gb                   = var.os_disk_size_gb
@@ -162,7 +164,7 @@ module "aks" {
 ################################################################################
 
 resource "azurerm_user_assigned_identity" "akspe" {
-  name                = "akspe"
+  name                = var.id_aks_name
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
 }
