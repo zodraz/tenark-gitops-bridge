@@ -1,13 +1,13 @@
 variable "resource_group_name" {
   description = "Specifies the name of the resource group."
-  default     = "aks-gitops"
+  default     = "tenark-gitops"
   type        = string
 }
 
 variable "location" {
   description = "Specifies the the location for the Azure resources."
   type        = string
-  default     = "eastus2"
+  default     = "westeurope"
 }
 
 variable "agents_size" {
@@ -19,7 +19,7 @@ variable "agents_size" {
 variable "kubernetes_version" {
   description = "Specifies which Kubernetes release to use. The default used is the latest Kubernetes version available in the location."
   type        = string
-  default     = null
+  default     = "1.33"
 }
 
 variable "infrastructure_provider" {
@@ -111,7 +111,7 @@ variable "rbac_aad" {
 variable "prefix" {
   description = "Specifies the prefix for the AKS cluster"
   type        = string
-  default     = "gitops"
+  default     = "tenark-gitops"
 }
 
 variable "network_plugin" {
@@ -159,7 +159,7 @@ variable "enable_host_encryption" {
 variable "log_analytics_workspace_enabled" {
   description = "Specifies whether Log Analytics is enabled"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "agents_min_count" {
@@ -183,7 +183,7 @@ variable "agents_max_pods" {
 variable "azure_policy_enabled" {
   description = "Should the Azure Policy Add-On be enabled? For more details please visit Understand Azure Policy for Azure Kubernetes Service"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "network_policy" {

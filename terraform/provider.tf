@@ -1,4 +1,12 @@
 terraform {
+  cloud {
+    organization = "Tenark"
+    # hostname = "app.terraform.io" # Optional; defaults to app.terraform.io
+
+    workspaces {
+      name = "control-plane"
+    }
+  }
   required_providers {
     azuread = {
       source  = "hashicorp/azuread"
@@ -34,20 +42,20 @@ provider "azurerm" {
   }
 }
 
-resource "local_file" "kubeconfig" {
-  content  = module.aks.kube_config_raw
-  filename = "${path.module}/kubeconfig"
-}
+# resource "local_file" "kubeconfig" {
+#   content  = module.aks.kube_config_raw
+#   filename = "${path.module}/kubeconfig"
+# }
 
-provider "kubernetes" {
-  config_path = local_file.kubeconfig.filename
+# provider "kubernetes" {
+#   config_path = local_file.kubeconfig.filename
 
-}
+# }
 
-provider "helm" {
-  kubernetes {
-    config_path = local_file.kubeconfig.filename
-  }
+# provider "helm" {
+#   kubernetes {
+#     config_path = local_file.kubeconfig.filename
+#   }
 
-}
+# }
 provider "random" {}
