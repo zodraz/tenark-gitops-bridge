@@ -1,6 +1,6 @@
 locals {
   name        = local.environment
-  environment = "control-plane"
+  environment = "global-control-plane"
   location    = var.location
 
   #cluster_version = var.kubernetes_version
@@ -64,7 +64,9 @@ locals {
 
   tags = {
     Blueprint  = local.name
-    GithubRepo = "github.com/gitops-bridge-dev/gitops-bridge"
+    GithubRepo = "https://github.com/zodraz/tenark-gitops-bridge"
+    Environment = local.environment
+    CreatedWith = "Terraform"
   }
 }
 

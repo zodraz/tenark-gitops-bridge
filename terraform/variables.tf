@@ -66,7 +66,7 @@ variable "git_public_ssh_key" {
 variable "gitops_addons_org" {
   description = "Specifies the Git repository org/user contains for addons."
   type        = string
-  default     = "https://github.com/azure-samples"
+  default     = "https://github.com/zodraz"
 }
 variable "gitops_addons_repo" {
   description = "Specifies the Git repository contains for addons."
