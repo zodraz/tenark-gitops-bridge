@@ -128,7 +128,7 @@ module "aks" {
   log_analytics_workspace_enabled   = var.log_analytics_workspace_enabled
   agents_min_count                  = var.agents_min_count
   agents_max_count                  = var.agents_max_count
-  agents_count                      = 1 # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
+  agents_count                      = 2 # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
   agents_max_pods                   = var.agents_max_pods
   agents_pool_name                  = "system"
   agents_availability_zones         = ["3"]

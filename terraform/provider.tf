@@ -42,11 +42,6 @@ provider "azurerm" {
   }
 }
 
-# resource "local_file" "kubeconfig" {
-#   content  = module.aks.kube_config_raw
-#   filename = "${path.module}/kubeconfig"
-# }
-
 output "kube_config_host" {
   value = module.aks.host
   sensitive = true
@@ -67,34 +62,6 @@ output "kube_config_cluster_ca_certificate" {
   sensitive = true
 }
 
-
-data "terraform_remote_state" "remote_state" {
-  backend = "remote"
-
-  config = {
-    organization = "Tenark"
-    workspaces = {
-      name = "control-plane"
-    }
-  }
-}
-
-# provider "helm" {
-#   kubernetes {
-#     host                   = data.terraform_remote_state.remote_state.outputs.kube_config_host
-#     client_certificate     = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_certificate)
-#     client_key             = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_key)
-#     cluster_ca_certificate = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_cluster_ca_certificate)
-#   }
-# }
-# provider "kubernetes" {
-#     host                   = data.terraform_remote_state.remote_state.outputs.kube_config_host
-#     client_certificate     = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_certificate)
-#     client_key             = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_client_key)
-#     cluster_ca_certificate = base64decode(data.terraform_remote_state.remote_state.outputs.kube_config_cluster_ca_certificate)
-# }
-
-
 provider "helm" {
   kubernetes {
     host                   = module.aks.host
@@ -110,14 +77,4 @@ provider "kubernetes" {
     cluster_ca_certificate = base64decode(module.aks.cluster_ca_certificate)
 }
 
-# provider "kubernetes" {
-#    config_path = local_file.kubeconfig.filename
-# }
-
-# provider "helm" {
-#   kubernetes {
-#      config_path = local_file.kubeconfig.filename
-#   }
-
-# }
 provider "random" {}
