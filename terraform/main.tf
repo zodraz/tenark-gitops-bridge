@@ -1,6 +1,6 @@
 locals {
   name        = local.environment
-  environment = "global-control-plane"
+  environment = "control-plane"
   location    = var.location
 
   #cluster_version = var.kubernetes_version
