@@ -1,7 +1,7 @@
 apiVersion: azure.upbound.io/v1beta1
 kind: ResourceGroup
 metadata:
-  name: crossplane-vnet-rgv4
+  name: crossplane-vnet-rgv5
 spec:
   forProvider:
     location: Sweden Central

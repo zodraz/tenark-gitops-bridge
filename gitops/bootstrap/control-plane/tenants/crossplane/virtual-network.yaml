@@ -1,7 +1,7 @@
 apiVersion: network.azure.upbound.io/v1beta1
 kind: VirtualNetwork
 metadata:
-  name: crossplane-vnetv4
+  name: crossplane-vnetv5
   namespace: crossplane-system
 spec:
   forProvider:
