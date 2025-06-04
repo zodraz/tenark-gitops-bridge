@@ -25,7 +25,7 @@ locals {
     enable_argo_events                     = try(var.addons.enable_argo_events, true) # installed by default
     enable_argo_workflows                  = try(var.addons.enable_argo_workflows, true) # installed by default
     enable_cluster_proportional_autoscaler = try(var.addons.enable_cluster_proportional_autoscaler, false)
-    enable_cert_manager                    = var.infrastructure_provider == "capz" || try(var.addons.enable_cert_manager,false) ? true : false
+    enable_cert_manager                    = true
     enable_gatekeeper                      = try(var.addons.enable_gatekeeper, false)
     enable_gpu_operator                    = try(var.addons.enable_gpu_operator, false)
     enable_ingress_nginx                   = try(var.addons.enable_ingress_nginx, false)
@@ -241,7 +241,7 @@ resource "kubernetes_secret" "git_secrets" {
 # GitOps Bridge: Bootstrap
 ################################################################################
 module "gitops_bridge_bootstrap" {
-  depends_on = [module.aks]
+  depends_on = [module.aks,time_sleep.wait_60_seconds]
   source     = "gitops-bridge-dev/gitops-bridge/helm"
 
   cluster = {
@@ -260,6 +260,12 @@ module "gitops_bridge_bootstrap" {
     namespace     = local.argocd_namespace
     chart_version = var.addons_versions[0].argocd_chart_version
   }
+}
+
+resource "time_sleep" "wait_60_seconds" {
+  # depends_on = [kubernetes_namespace.openfaas]
+
+  destroy_duration = "60s"
 }
 
 ################################################################################
