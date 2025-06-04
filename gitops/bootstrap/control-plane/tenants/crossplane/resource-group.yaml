@@ -5,3 +5,6 @@ metadata:
 spec:
   forProvider:
     location: Sweden Central
+  providerConfigRef:
+    name: azure-hotmail
+    namespace: crossplane-system
