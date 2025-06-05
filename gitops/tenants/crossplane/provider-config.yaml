@@ -8,5 +8,5 @@ spec:
     source: Secret
     secretRef:
       namespace: crossplane-system
-      name: azure-creds
-      key: creds
+      name: azure-hotmail-credentials
+      key: credentials

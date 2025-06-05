@@ -1,0 +1,14 @@
+apiVersion: logic.azure.upbound.io/v1beta2
+kind: AppWorkflow
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logic/v1beta2/apptriggerrecurrence
+  labels:
+    testing.upbound.io/example-name: apptrgrecurrence-aw
+  name: apptrgrecurrence-aw
+spec:
+  forProvider:
+    location: West Europe
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apptrgrecurrence-rg

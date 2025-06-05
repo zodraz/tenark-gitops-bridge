@@ -126,14 +126,14 @@ module "aks" {
   enable_auto_scaling               = var.enable_auto_scaling
   enable_host_encryption            = var.enable_host_encryption
   log_analytics_workspace_enabled   = var.log_analytics_workspace_enabled
-  agents_min_count                  = var.agents_min_count
-  agents_max_count                  = var.agents_max_count
-  agents_count                      = 2 # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
-  agents_max_pods                   = var.agents_max_pods
-  agents_pool_name                  = "system"
-  agents_availability_zones         = ["3"]
-  agents_type                       = "VirtualMachineScaleSets"
-  agents_size                       = var.agents_size
+  # agents_min_count                  = var.agents_min_count
+  # agents_max_count                  = var.agents_max_count
+  # agents_count                      = 2 # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
+  # agents_max_pods                   = var.agents_max_pods
+  # agents_pool_name                  = "system"
+  # agents_availability_zones         = ["3"]
+  # agents_type                       = "VirtualMachineScaleSets"
+  # agents_size                       = var.agents_size
   monitor_metrics                   = {}
   azure_policy_enabled              = var.azure_policy_enabled
   microsoft_defender_enabled        = var.microsoft_defender_enabled
@@ -142,13 +142,55 @@ module "aks" {
   workload_identity_enabled = true
   oidc_issuer_enabled       = true
 
-  agents_labels = {
-    "nodepool" : "defaultnodepool"
+  node_pools = {
+    systempool = {
+      name           = "systempool"
+      vm_size        = var.agents_size
+      node_count     = 2
+      mode           = "User"
+      os_type        = "Linux"
+      enable_auto_scaling = true
+      min_count      = var.agents_min_count
+      max_count      = var.agents_max_count
+      max_pods                     = var.agents_max_pods
+      availability_zones           = ["3"]
+      type                         = "VirtualMachineScaleSets"
+
+      node_labels = {
+        purpose = "apps"
+        "nodepool" : "defaultnodepool"
+      }
+      tags = {
+        # environment = "dev"
+         Agent : "defaultnodepoolagent"
+      }
+    }
+    userpool = {
+      name           = "userpool"
+      vm_size        = var.agents_size
+      node_count     = 2
+      mode           = "User"
+      os_type        = "Linux"
+      enable_auto_scaling = true
+      min_count      = var.agents_min_count
+      max_count      = var.agents_max_count
+      max_pods                     = var.agents_max_pods
+      availability_zones           = ["3"]
+      type                         = "VirtualMachineScaleSets"
+      node_labels = {
+        purpose = "apps"
+      }
+      tags = var.tags
+    }
   }
 
-  agents_tags = {
-    "Agent" : "defaultnodepoolagent"
-  }
+  # agents_labels = {
+  #   "nodepool" : "defaultnodepool"
+  # }
+
+  # agents_tags = {
+  #   "Agent" : "defaultnodepoolagent"
+  # }
 
   network_policy             = var.network_policy
   net_profile_dns_service_ip = var.net_profile_dns_service_ip
@@ -285,4 +327,121 @@ output "container_registry_name" {
 
 output "container_registry_login_server" {
   value = azurerm_container_registry.acr.login_server
+}
+
+################################################################################
+# KeyVault
+################################################################################
+
+resource "random_string" "azurerm_key_vault_name" {
+  length  = 13
+  lower   = true
+  numeric = false
+  special = false
+  upper   = false
+}
+
+locals {
+  current_user_id = coalesce(var.msi_id, data.azurerm_client_config.current.object_id)
+}
+
+resource "azurerm_key_vault" "vault" {
+  name                       = coalesce(var.vault_name, "vault-${random_string.azurerm_key_vault_name.result}")
+  location                   = azurerm_resource_group.this.location
+  resource_group_name        = azurerm_resource_group.this.name
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  sku_name                   = var.sku_name
+  soft_delete_retention_days = 7
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = local.current_user_id
+
+    key_permissions    = var.key_permissions
+    secret_permissions = var.secret_permissions
+    certificate_permissions = var.certificate_permissions
+  }
+}
+
+resource "azurerm_key_vault_certificate" "imported" {
+  name         = "tenark-cert"
+  key_vault_id = azurerm_key_vault.vault.id
+
+  certificate {
+    contents = filebase64("${path.module}/aks-ingress-tls.pfx")
+    # password = var.pfx_password
+  }
+
+  certificate_policy {
+    issuer_parameters {
+      name = "Unknown"  # Required when importing
+    }
+
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      subject            = "CN=tenark.com"
+      validity_in_months = 12
+      key_usage = [                               
+        "digitalSignature",
+        "keyEncipherment"
+      ]
+    }
+
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+  }
+
+  depends_on = [azurerm_key_vault_access_policy.example] # Ensure permissions exist
+}
+
+
+resource "random_string" "azurerm_key_vault_key_name" {
+  length  = 13
+  lower   = true
+  numeric = false
+  special = false
+  upper   = false
+}
+
+resource "azurerm_key_vault_key" "key" {
+  name = coalesce(var.key_name, "key-${random_string.azurerm_key_vault_key_name.result}")
+
+  key_vault_id = azurerm_key_vault.vault.id
+  key_type     = var.key_type
+  key_size     = var.key_size
+  key_opts     = var.key_ops
+
+  rotation_policy {
+    automatic {
+      time_before_expiry = "P30D"
+    }
+
+    expire_after         = "P90D"
+    notify_before_expiry = "P29D"
+  }
+}
+
+output "azurerm_key_vault_name" {
+  value = azurerm_key_vault.vault.name
+}
+
+output "azurerm_key_vault_id" {
+  value = azurerm_key_vault.vault.id
 }
