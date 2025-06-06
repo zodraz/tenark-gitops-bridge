@@ -144,9 +144,9 @@ module "aks" {
 
   node_pools = {
     systempool = {
-      name           = "systempool"
+      name           = "syspool"
       vm_size        = var.agents_size
-      node_count     = 2
+      node_count     = 1
       mode           = "User"
       os_type        = "Linux"
       enable_auto_scaling = true
@@ -397,15 +397,15 @@ resource "azurerm_key_vault_certificate" "imported" {
       ]
     }
 
-    lifetime_action {
-      action {
-        action_type = "AutoRenew"
-      }
+    # lifetime_action {
+    #   action {
+    #     action_type = "AutoRenew"
+    #   }
 
-      trigger {
-        days_before_expiry = 30
-      }
-    }
+    #   trigger {
+    #     days_before_expiry = 30
+    #   }
+    # }
   }
 }
 
