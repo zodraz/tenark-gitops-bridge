@@ -184,14 +184,6 @@ module "aks" {
     }
   }
 
-  # agents_labels = {
-  #   "nodepool" : "defaultnodepool"
-  # }
-
-  # agents_tags = {
-  #   "Agent" : "defaultnodepoolagent"
-  # }
-
   network_policy             = var.network_policy
   net_profile_dns_service_ip = var.net_profile_dns_service_ip
   net_profile_service_cidr   = var.net_profile_service_cidr
@@ -363,51 +355,51 @@ resource "azurerm_key_vault" "vault" {
   }
 }
 
-resource "azurerm_key_vault_certificate" "imported" {
-  name         = "tenark-cert"
-  key_vault_id = azurerm_key_vault.vault.id
+# resource "azurerm_key_vault_certificate" "imported" {
+#   name         = "tenark-cert"
+#   key_vault_id = azurerm_key_vault.vault.id
 
-  certificate {
-    contents = filebase64("${path.module}/aks-ingress-tls.pfx")
-    # password = var.pfx_password
-  }
+#   certificate {
+#     contents = filebase64("${path.module}/aks-ingress-tls.pfx")
+#     # password = var.pfx_password
+#   }
 
-  certificate_policy {
-    issuer_parameters {
-      name = "Unknown"  # Required when importing
-    }
+#   certificate_policy {
+#     issuer_parameters {
+#       name = "Unknown"  # Required when importing
+#     }
 
-    key_properties {
-      exportable = true
-      key_size   = 2048
-      key_type   = "RSA"
-      reuse_key  = true
-    }
+#     key_properties {
+#       exportable = true
+#       key_size   = 2048
+#       key_type   = "RSA"
+#       reuse_key  = true
+#     }
 
-    secret_properties {
-      content_type = "application/x-pkcs12"
-    }
+#     secret_properties {
+#       content_type = "application/x-pkcs12"
+#     }
 
-    x509_certificate_properties {
-      subject            = "CN=tenark.com"
-      validity_in_months = 12
-      key_usage = [                               
-        "digitalSignature",
-        "keyEncipherment"
-      ]
-    }
+#     x509_certificate_properties {
+#       subject            = "CN=tenark.com"
+#       validity_in_months = 12
+#       key_usage = [                               
+#         "digitalSignature",
+#         "keyEncipherment"
+#       ]
+#     }
 
-    # lifetime_action {
-    #   action {
-    #     action_type = "AutoRenew"
-    #   }
+#     # lifetime_action {
+#     #   action {
+#     #     action_type = "AutoRenew"
+#     #   }
 
-    #   trigger {
-    #     days_before_expiry = 30
-    #   }
-    # }
-  }
-}
+#     #   trigger {
+#     #     days_before_expiry = 30
+#     #   }
+#     # }
+#   }
+# }
 
 
 resource "random_string" "azurerm_key_vault_key_name" {
@@ -416,24 +408,6 @@ resource "random_string" "azurerm_key_vault_key_name" {
   numeric = false
   special = false
   upper   = false
-}
-
-resource "azurerm_key_vault_key" "key" {
-  name = coalesce(var.key_name, "key-${random_string.azurerm_key_vault_key_name.result}")
-
-  key_vault_id = azurerm_key_vault.vault.id
-  key_type     = var.key_type
-  key_size     = var.key_size
-  key_opts     = var.key_ops
-
-  rotation_policy {
-    automatic {
-      time_before_expiry = "P30D"
-    }
-
-    expire_after         = "P90D"
-    notify_before_expiry = "P29D"
-  }
 }
 
 output "azurerm_key_vault_name" {
