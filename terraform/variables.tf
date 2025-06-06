@@ -303,3 +303,9 @@ variable "msi_id" {
   description = "The Managed Service Identity ID. If this value isn't null (the default), 'data.azurerm_client_config.current.object_id' will be set to this value."
   default     = null
 }
+
+variable "dns_zone_name" {
+  type        = string
+  default     = "tenark.com"
+  description = "Name of the DNS zone."
+}

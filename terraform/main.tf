@@ -445,3 +445,20 @@ output "azurerm_key_vault_name" {
 output "azurerm_key_vault_id" {
   value = azurerm_key_vault.vault.id
 }
+
+resource "random_string" "azurerm_dns_zone_name" {
+  length  = 13
+  lower   = true
+  numeric = false
+  special = false
+  upper   = false
+}
+
+resource "azurerm_dns_zone" "zone" {
+  name = (
+    var.dns_zone_name != null ?
+    var.dns_zone_name :
+    "www.${random_string.azurerm_dns_zone_name.result}.tenark.com"
+  )
+  resource_group_name = azurerm_resource_group.this.name
+}

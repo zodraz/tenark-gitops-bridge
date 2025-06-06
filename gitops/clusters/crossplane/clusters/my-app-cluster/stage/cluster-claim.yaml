@@ -10,7 +10,11 @@ spec:
     name: my-app-cluster-stage-secret    
   location: "EastUs"
   aks:
+<<<<<<< HEAD
     adminUser: 89c128a2-fd86-4583-9ce6-551dcbbd18b6
+=======
+    adminUser:  89c128a2-fd86-4583-9ce6-551dcbbd18b6
+>>>>>>> 939274f320c9417fe4de60b7c2b85bda4f5b5dd4
     tags:
       environment: stage
   virtualNetwork:

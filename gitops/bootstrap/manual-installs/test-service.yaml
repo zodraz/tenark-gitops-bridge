@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.azure.com/tls-cert-keyvault-uri: <KeyVaultCertificateUri>
+  name: aks-helloworld
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+  - host: tenark.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: aks-helloworld
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - tenark.com
+    secretName: keyvault-<your ingress name>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aks-helloworld 
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: aks-helloworld
