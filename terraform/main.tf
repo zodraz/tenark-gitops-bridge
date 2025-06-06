@@ -143,32 +143,32 @@ module "aks" {
   oidc_issuer_enabled       = true
 
   node_pools = {
-    systempool = {
-      name           = "syspool"
-      vm_size        = var.agents_size
-      node_count     = 1
-      mode           = "User"
-      os_type        = "Linux"
-      enable_auto_scaling = true
-      min_count      = var.agents_min_count
-      max_count      = var.agents_max_count
-      max_pods                     = var.agents_max_pods
-      availability_zones           = ["3"]
-      type                         = "VirtualMachineScaleSets"
+    # systempool = {
+    #   name           = "syspool"
+    #   vm_size        = var.agents_size
+    #   node_count     = 2
+    #   mode           = "User"
+    #   os_type        = "Linux"
+    #   enable_auto_scaling = true
+    #   min_count      = var.agents_min_count
+    #   max_count      = var.agents_max_count
+    #   max_pods                     = var.agents_max_pods
+    #   availability_zones           = ["3"]
+    #   type                         = "VirtualMachineScaleSets"
 
-      node_labels = {
-        purpose = "apps"
-        "nodepool" : "defaultnodepool"
-      }
-      tags = {
-        # environment = "dev"
-         Agent : "defaultnodepoolagent"
-      }
-    }
+    #   node_labels = {
+    #     purpose = "apps"
+    #     "nodepool" : "defaultnodepool"
+    #   }
+    #   tags = {
+    #     # environment = "dev"
+    #      Agent : "defaultnodepoolagent"
+    #   }
+    # }
     userpool = {
       name           = "userpool"
       vm_size        = var.agents_size
-      node_count     = 2
+      node_count     = 1
       mode           = "User"
       os_type        = "Linux"
       enable_auto_scaling = true
