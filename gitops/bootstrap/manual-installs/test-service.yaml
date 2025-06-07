@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.azure.com/tls-cert-keyvault-uri: <KeyVaultCertificateUri>
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://tenark.vault.azure.net/certificates/aks-certificate-tenark/89f19a70ffe54ca2b4824937e15e4add
   name: aks-helloworld
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
@@ -20,7 +20,7 @@ spec:
   tls:
   - hosts:
     - tenark.com
-    secretName: keyvault-<your ingress name>
+    secretName: keyvault-aks-helloworld
 ---
 apiVersion: v1
 kind: Service

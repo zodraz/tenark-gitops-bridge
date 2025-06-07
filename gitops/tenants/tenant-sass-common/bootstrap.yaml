@@ -1,0 +1,33 @@
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: tenant-sass-common-bootstrap
+#   namespace: argo-cd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "2"
+#   labels:
+#     clusterName: tenant-sass-common
+# spec:
+#   project: default
+#   sources:
+#     - path: common
+#       repoURL: https://github.com/leunamnauj/Engineering-Multi-Tenancy-for-Crossplane-Automating-Environments-with-vClusters-and-GitOps.git
+#       targetRevision: HEAD
+  
+#   destination:
+#     server: https://tenant-sass-common.tenant-sass-common:443
+#     namespace: crossplane-system
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
+#     retry:
+#       limit: 5
+#       backoff:
+#         duration: 30s
+#         factor: 5
+#         maxDuration: 3m0s
+

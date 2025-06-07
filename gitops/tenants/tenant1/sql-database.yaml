@@ -1,0 +1,22 @@
+# apiVersion: sql.azure.upbound.io/v1beta2
+# kind: MSSQLDatabase
+# metadata:
+#   annotations:
+#     meta.upbound.io/example-id: sql/v1beta2/mssqldatabase
+#   labels:
+#     testing.upbound.io/example-name: example
+#   name: example
+# spec:
+#   forProvider:
+#     collation: SQL_Latin1_General_CP1_CI_AS
+#     enclaveType: VBS
+#     licenseType: LicenseIncluded
+#     maxSizeGb: 4
+#     readScale: true
+#     serverIdSelector:
+#       matchLabels:
+#         testing.upbound.io/example-name: example
+#     skuName: S0
+#     tags:
+#       foo: bar
+#     zoneRedundant: true

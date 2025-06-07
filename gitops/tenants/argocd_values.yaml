@@ -1,0 +1,10 @@
+---
+global:
+  domain: argocd.tenark.com
+configs:
+  params:
+    server.insecure: "true"
+server:
+  ingress:
+    enabled: true
+    ingressClassName: webapprouting.kubernetes.azure.com

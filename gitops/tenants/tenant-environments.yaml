@@ -1,25 +1,32 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: tenants-test
+  name: tenants-environments
   namespace: argocd
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
+  - list:
+      elements:
+      # - tenant: tenant-sass-common
+      - tenant: tenant1
+      - tenant: tenant2
   - clusters:
-      selector:
-        matchLabels:
-          environment: global-control-plane
+    selector:
+      matchLabels:
+        environment: control-plane
   template:
     metadata:
-      name: tenants-test
+      name: tenants-environments
     spec:
       project: default
       source:
         repoURL: '{{metadata.annotations.addons_repo_url}}'
         targetRevision: '{{metadata.annotations.addons_repo_revision}}'
-        path: 'gitops/tenants/{{metadata.annotations.infrastructure_provider}}'
+        path: 'gitops/tenants/{{.tenant}}'
       destination:
         name: '{{name}}'
         namespace: workload

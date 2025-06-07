@@ -1,0 +1,26 @@
+# apiVersion: sql.azure.upbound.io/v1beta2
+# kind: MSSQLElasticPool
+# metadata:
+#   annotations:
+#     meta.upbound.io/example-id: sql/v1beta2/mssqlelasticpool
+#   labels:
+#     testing.upbound.io/example-name: examplemssqlelasticpool
+#   name: tenark-main-sql-elastic-pool
+# spec:
+#   forProvider:
+#     location: West Europe
+#     maxSizeGb: 5
+#     perDatabaseSettings:
+#       maxCapacity: 4
+#       minCapacity: 1
+#     resourceGroupNameSelector:
+#       matchLabels:
+#         testing.upbound.io/example-name: mssqlelasticpool-rg
+#     serverNameSelector:
+#       matchLabels:
+#         testing.upbound.io/example-name: mssqlelasticpoolsrv
+#     sku:
+#       capacity: 4
+#       family: Gen5
+#       name: GP_Gen5
+#       tier: GeneralPurpose

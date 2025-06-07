@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenant-sass-common-vcluster
+  namespace: argo-cd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    clusterName: tenant-sass-common
+spec:
+  project: default
+  sources:
+    # - path: environments/env-green/ingress
+    #   repoURL: https://github.com/leunamnauj/Engineering-Multi-Tenancy-for-Crossplane-Automating-Environments-with-vClusters-and-GitOps.git
+    #   targetRevision: HEAD
+    
+    - repoURL: https://charts.loft.sh
+      targetRevision: 0.22.0
+      chart: vcluster
+      helm:
+        releaseName: tenant-sass-common
+        values: |
+          pro: false
+          exportKubeConfig:
+            context: tenant-sass-common
+            server: https://tenant-sass-common.tenark.com:32443
+            secret:
+              name: tenant-sass-common-ext
+              namespace: tenant-sass-common
+          sync:
+            toHost:
+              ingresses:
+                enabled: true
+          controlPlane:
+            distro:
+              k3s:
+                enabled: true
+            proxy:
+              extraSANs:
+              - tenant-sass-common
+              - tenant-sass-common.tenant-sass-common
+              - tenant-sass-common.tenant-sass-common.svc
+              - tenant-sass-common.tenant-sass-common.svc.cluster.local
+            statefulSet:
+              scheduling:
+                podManagementPolicy: OrderedReady
+                    
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tenant-sass-common
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

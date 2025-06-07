@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: tenants-sass-common-apps
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      - repo_path: kubernetes/Tenark.AuthServer
+      - repo_path: kubernetes/Tenark.DbMigrator
+      - repo_path: kubernetes/Tenark.HttpApi.Host
+      - repo_path: kubernetes/Tenark.ControlPlane
+      - repo_path: kubernetes/Tenark.Portal
+  - clusters:
+    selector:
+      matchLabels:
+        environment: control-plane
+  template:
+    metadata:
+      name: tenants-sass-common-apps
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/zodraz/tenark-webs.git'
+        targetRevision: 'HEAD'
+        path: '{{.repo_path}}'
+      destination:
+        name: '{{name}}'
+        namespace: workload
+      syncPolicy:
+        retry:
+          limit: 10
+        automated: {}
+        syncOptions:
+          - CreateNamespace=true
