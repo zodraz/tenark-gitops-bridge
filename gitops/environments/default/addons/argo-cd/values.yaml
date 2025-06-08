@@ -34,6 +34,9 @@ applicationSet:
       annotations:
         prometheus.io/scrape: true
 
+global:
+  domain: argocd.tenark.com
+
 server:
   autoscaling:
     enabled: true
@@ -55,6 +58,9 @@ server:
     annotations:
       # https://cloud-provider-azure.sigs.k8s.io/topics/loadbalancer/#loadbalancer-annotations
       service.beta.kubernetes.io/azure-load-balancer-internal: false
+  ingress:
+    enabled: true
+    ingressClassName: webapprouting.kubernetes.azure.com
 
 configs:
   cm:

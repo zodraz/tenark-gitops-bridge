@@ -126,14 +126,14 @@ module "aks" {
   enable_auto_scaling               = var.enable_auto_scaling
   enable_host_encryption            = var.enable_host_encryption
   log_analytics_workspace_enabled   = var.log_analytics_workspace_enabled
-  # agents_min_count                  = var.agents_min_count
-  # agents_max_count                  = var.agents_max_count
-  # agents_count                      = 2 # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
-  # agents_max_pods                   = var.agents_max_pods
-  # agents_pool_name                  = "system"
-  # agents_availability_zones         = ["3"]
-  # agents_type                       = "VirtualMachineScaleSets"
-  # agents_size                       = var.agents_size
+  agents_min_count                  = var.agents_min_count
+  agents_max_count                  = var.agents_max_count
+  agents_count                      = 2 # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
+  agents_max_pods                   = var.agents_max_pods
+  agents_pool_name                  = "system"
+  agents_availability_zones         = ["3"]
+  agents_type                       = "VirtualMachineScaleSets"
+  agents_size                       = var.agents_size
   monitor_metrics                   = {}
   azure_policy_enabled              = var.azure_policy_enabled
   microsoft_defender_enabled        = var.microsoft_defender_enabled
@@ -142,30 +142,7 @@ module "aks" {
   workload_identity_enabled = true
   oidc_issuer_enabled       = true
 
-  node_pools = {
-    # systempool = {
-    #   name           = "syspool"
-    #   vm_size        = var.agents_size
-    #   node_count     = 2
-    #   mode           = "User"
-    #   os_type        = "Linux"
-    #   enable_auto_scaling = true
-    #   min_count      = var.agents_min_count
-    #   max_count      = var.agents_max_count
-    #   max_pods                     = var.agents_max_pods
-    #   availability_zones           = ["3"]
-    #   type                         = "VirtualMachineScaleSets"
-
-    #   node_labels = {
-    #     purpose = "apps"
-    #     "nodepool" : "defaultnodepool"
-    #   }
-    #   tags = {
-    #     # environment = "dev"
-    #      Agent : "defaultnodepoolagent"
-    #   }
-    # }
-    userpool = {
+  node_pools = {    userpool = {
       name           = "userpool"
       vm_size        = var.agents_size
       node_count     = 1
