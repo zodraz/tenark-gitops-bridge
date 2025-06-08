@@ -31,7 +31,7 @@ locals {
     enable_ingress_nginx                   = try(var.addons.enable_ingress_nginx, false)
     enable_kargo                           = try(var.addons.enable_kargo, true) # installed by default
     kargo_chart_version                    = var.addons_versions[0].kargo_chart_version
-    enable_kyverno                         = try(var.addons.enable_kyverno, false)
+    enable_kyverno                         = try(var.addons.enable_kyverno, true)
     enable_kube_prometheus_stack           = try(var.addons.enable_kube_prometheus_stack, false)
     enable_metrics_server                  = try(var.addons.enable_metrics_server, false)
     enable_prometheus_adapter              = try(var.addons.enable_prometheus_adapter, false)
