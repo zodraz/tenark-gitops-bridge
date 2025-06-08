@@ -43,6 +43,8 @@ spec:
             statefulSet:
               scheduling:
                 podManagementPolicy: OrderedReady
+          networking:
+            serviceCIDR: 10.0.0.0/16
                     
   destination:
     server: https://kubernetes.default.svc
