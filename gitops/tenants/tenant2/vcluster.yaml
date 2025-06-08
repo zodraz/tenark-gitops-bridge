@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: tenant2-vcluster
-  namespace: argo-cd
+  namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
@@ -10,9 +10,9 @@ metadata:
 spec:
   project: default
   sources:
-    - path: environments/env-green/ingress
-      repoURL: https://github.com/leunamnauj/Engineering-Multi-Tenancy-for-Crossplane-Automating-Environments-with-vClusters-and-GitOps.git
-      targetRevision: HEAD
+    # - path: environments/env-green/ingress
+    #   repoURL: https://github.com/leunamnauj/Engineering-Multi-Tenancy-for-Crossplane-Automating-Environments-with-vClusters-and-GitOps.git
+    #   targetRevision: HEAD
     - repoURL: https://charts.loft.sh
       targetRevision: 0.22.0
       chart: vcluster

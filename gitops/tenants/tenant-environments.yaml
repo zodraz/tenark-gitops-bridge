@@ -11,7 +11,7 @@ spec:
   generators:
   - list:
       elements:
-      # - tenant: tenant-sass-common
+      - tenant: tenant-sass-common
       - tenant: tenant1
       - tenant: tenant2
   - clusters:

@@ -2,12 +2,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tenant-common-bootstrap
-  namespace: argocd
+  name: tenant2-bootstrap
+  namespace: argo-cd
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   labels:
-    clusterName: tenant-common
+    clusterName: tenant1
 spec:
   project: default
   sources:
@@ -19,7 +19,7 @@ spec:
       path: 'gitops/tenants/common'
   
   destination:
-    server: https://env-tenant-common.env-tenant-common:443
+    server: https://env-tenant2.env-tenant2:443
     namespace: crossplane-system
   syncPolicy:
     automated:
