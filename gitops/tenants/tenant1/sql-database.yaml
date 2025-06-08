@@ -1,8 +1,6 @@
 apiVersion: sql.azure.upbound.io/v1beta2
 kind: MSSQLDatabase
 metadata:
-  annotations:
-    meta.upbound.io/example-id: sql/v1beta2/mssqldatabase
   name: sqldb-tenark-sass-tenant1
 spec:
   forProvider:
