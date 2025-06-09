@@ -8,7 +8,7 @@ spec:
     administratorLoginPasswordSecretRef:
       key: sql-server-key
       name: sql-server-secret-common
-      # namespace: upbound-system
+      namespace: crossplane-system
     location: West Europe
     resourceGroupNameRef:
       name: rg-tenark-sass-tenant-common
