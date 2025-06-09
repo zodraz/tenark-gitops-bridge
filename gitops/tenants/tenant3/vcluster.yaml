@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: demo-vcluster
+  name: demo-vcluster2
   namespace: argocd
 spec:
   destination:
     name: ''
-    namespace: demo-vcluster
+    namespace: demo-vcluster2
     server: 'https://kubernetes.default.svc'
   source:
     path: ''
@@ -14,17 +14,17 @@ spec:
     targetRevision: 0.20.0-beta.6
     chart: vcluster
     helm:
-      releaseName: demo-vcluster
+      releaseName: demo-vcluster2
       values: |
         controlPlane:
           ingress:
             enabled: true
-            host: demo.vcluster.local
+            host: demo.vcluster2.local
             spec:
               ingressClassName: nginx
           proxy:
             extraSANs:
-            - demo.vcluster.local
+            - demo.vcluster2.local
         sync:
           fromHost:
             ingressClasses:
