@@ -10,6 +10,7 @@ spec:
     location: West Europe
     minimumTlsVersion: "1.2"
     redisConfiguration: {}
+    redisVersion: "6"
     resourceGroupNameRef:
       name: rg-tenark-sass-tenant-common
     skuName: Standard
