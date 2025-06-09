@@ -1,0 +1,7 @@
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  name: rg-tenark-sass-tenant-common2
+spec:
+  forProvider:
+    location: West Europe
