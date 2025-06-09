@@ -1,20 +1,20 @@
-# apiVersion: sql.azure.upbound.io/v1beta2
-# kind: MSSQLElasticPool
-# metadata:
-#   name: sqlep-tenark-sass-tenant-common
-# spec:
-#   forProvider:
-#     location: West Europe
-#     maxSizeGb: 5
-#     perDatabaseSettings:
-#       maxCapacity: 4
-#       minCapacity: 1
-#     resourceGroupNameRef:
-#       name: rg-tenark-sass-tenant-common
-#     serverIdRef:
-#       name: sql-tenark-sass-tenant-common
-#     sku:
-#       capacity: 4
-#       family: Gen5
-#       name: GP_Gen5
-#       tier: GeneralPurpose
+apiVersion: sql.azure.upbound.io/v1beta2
+kind: MSSQLElasticPool
+metadata:
+  name: sqlep-tenark-sass-tenant-common
+spec:
+  forProvider:
+    location: West Europe
+    maxSizeGb: 5
+    perDatabaseSettings:
+      maxCapacity: 4
+      minCapacity: 1
+    resourceGroupNameRef:
+      name: rg-tenark-sass-tenant-common
+    serverIdRef:
+      name: sql-tenark-sass-tenant-common
+    sku:
+      capacity: 4
+      family: Gen5
+      name: GP_Gen5
+      tier: GeneralPurpose
