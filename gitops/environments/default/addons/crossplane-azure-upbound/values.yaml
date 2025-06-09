@@ -11,3 +11,18 @@ provider:
 
 deploymentRuntimeConfig:
   enabled: true
+
+providers:
+- network
+- compute
+- storage
+- authorization
+- containerservice
+- containerregistry
+- keyvault
+- operationalinsights
+- insights
+- managedidentity
+- resources
+- cache
+- sql
