@@ -1,15 +1,15 @@
-# apiVersion: sql.azure.upbound.io/v1beta2
-# kind: MSSQLServer
-# metadata:
-#   name: sql-tenark-sass-tenant-common
-# spec:
-#   forProvider:
-#     administratorLogin: 4dm1n157r470r
-#     administratorLoginPasswordSecretRef:
-#       key: sql-server-key
-#       name: sql-server-secret-common
-#       # namespace: upbound-system
-#     location: West Europe
-#     resourceGroupNameRef:
-#       name: rg-tenark-sass-tenant-common
-#     version: "12.0"
+apiVersion: sql.azure.upbound.io/v1beta2
+kind: MSSQLServer
+metadata:
+  name: sql-tenark-sass-tenant-common
+spec:
+  forProvider:
+    administratorLogin: 4dm1n157r470r
+    administratorLoginPasswordSecretRef:
+      key: sql-server-key
+      name: sql-server-secret-common
+      # namespace: upbound-system
+    location: West Europe
+    resourceGroupNameRef:
+      name: rg-tenark-sass-tenant-common
+    version: "12.0"
