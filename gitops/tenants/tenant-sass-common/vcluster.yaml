@@ -15,7 +15,7 @@ spec:
     #   targetRevision: HEAD
     
     - repoURL: https://charts.loft.sh
-      targetRevision: 0.22.0
+      targetRevision: 0.25.0
       chart: vcluster
       helm:
         releaseName: tenant-common
