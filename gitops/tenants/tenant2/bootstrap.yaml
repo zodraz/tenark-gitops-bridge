@@ -19,7 +19,7 @@ spec:
       path: 'gitops/tenants/common'
   
   destination:
-    server: https://env-tenant2.env-tenant2:443
+    server: https://tenant2.tenant2:443
     namespace: crossplane-system
   syncPolicy:
     automated:
