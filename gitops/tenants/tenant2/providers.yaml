@@ -1,0 +1,13 @@
+# apiVersion: pkg.crossplane.io/v1
+# kind: Provider
+# metadata:
+#   name: provider-azure-logic
+# spec:
+#   package: xpkg.upbound.io/upbound/provider-azure-logic:v1
+# ---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-family-azure
+spec:
+  package: xpkg.upbound.io/upbound/provider-family-azure:v1
