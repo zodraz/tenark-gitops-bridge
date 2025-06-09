@@ -11,5 +11,5 @@ spec:
     minimumTlsVersion: "1.2"
     redisConfiguration: {}
     resourceGroupNameRef:
-      name: rg-tenark-sass-tenant
+      name: rg-tenark-sass-tenant-common
     skuName: Standard
