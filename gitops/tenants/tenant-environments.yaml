@@ -16,6 +16,7 @@ spec:
                 - tenant: tenant-sass-common
                 - tenant: tenant1
                 - tenant: tenant2
+                - tenant: tenant3
           - clusters:
               selector:
                 matchLabels:
@@ -35,6 +36,8 @@ spec:
       syncPolicy:
         retry:
           limit: 10
-        automated: {}
+        automated:
+          prune: true
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true
