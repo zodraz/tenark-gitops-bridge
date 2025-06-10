@@ -9,8 +9,8 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: '{{metadata.annotations.addons_repo_url}}'
-      targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+    - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
+      targetRevision: 'HEAD'
       path: 'gitops/apps/aks-helloworld'
   
   destination:
