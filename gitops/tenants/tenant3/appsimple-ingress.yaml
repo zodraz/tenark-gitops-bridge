@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://tenark.vault.azure.net/certificates/aks-certificate-tenark/4568e5b249e644dfbcbcd85dbbcc2c73
+  name: sample-spring-kotlin
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+  - host: tenant3.tenark.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: sample-spring-kotlin
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - tenant3.tenark.com
+    secretName: keyvault-aks-helloworld

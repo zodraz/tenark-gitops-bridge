@@ -3,6 +3,8 @@ kind: ApplicationSet
 metadata:
   name: sample-spring-boot
   namespace: argocd
+  annotations:
+  argocd.argoproj.io/sync-wave: "2"
 spec:
   generators:
   - clusters: {} # (1)
