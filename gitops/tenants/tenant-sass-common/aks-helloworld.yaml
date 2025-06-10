@@ -14,8 +14,8 @@ spec:
       path: 'gitops/apps/aks-helloworld'
   
   destination:
-    server: https://kubernetes.default.svc:443
-    namespace: crossplane-system
+    server: https://kubernetes.default.svc
+    namespace: apps
   syncPolicy:
     automated:
       prune: true
