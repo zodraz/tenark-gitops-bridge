@@ -1,36 +1,36 @@
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: tenant2-bootstrap
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-  labels:
-    clusterName: tenant2
-spec:
-  project: default
-  sources:
-    # - chart: crossplane
-    #   repoURL: https://charts.crossplane.io/stable
-    #   targetRevision: 1.18.2
-    - repoURL: '{{metadata.annotations.addons_repo_url}}'
-      targetRevision: '{{metadata.annotations.addons_repo_revision}}'
-      path: 'gitops/tenants/common'
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: tenant2-bootstrap
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "2"
+#   labels:
+#     clusterName: tenant2
+# spec:
+#   project: default
+#   sources:
+#     # - chart: crossplane
+#     #   repoURL: https://charts.crossplane.io/stable
+#     #   targetRevision: 1.18.2
+#     - repoURL: '{{metadata.annotations.addons_repo_url}}'
+#       targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+#       path: 'gitops/tenants/common'
   
-  destination:
-    server: https://tenant2.tenant2:443
-    namespace: crossplane-system
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-    retry:
-      limit: 5
-      backoff:
-        duration: 30s
-        factor: 5
-        maxDuration: 3m0s
+#   destination:
+#     server: https://tenant2.tenant2:443
+#     namespace: crossplane-system
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
+#     retry:
+#       limit: 5
+#       backoff:
+#         duration: 30s
+#         factor: 5
+#         maxDuration: 3m0s
 
