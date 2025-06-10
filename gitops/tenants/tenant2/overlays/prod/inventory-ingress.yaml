@@ -1,0 +1,11 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: inventory-ingress
+spec:
+  rules:
+  - host: tenant2-prod.tenark.com
+  tls:
+  - hosts:
+    - tenant2-prod.tenark.com
+    secretName: keyvault-inventory-ingress-prod

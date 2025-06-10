@@ -12,6 +12,8 @@ spec:
     serverIdRef:
       name: sql-tenark-sass-tenant-common
     skuName: S0
+    elasticPoolIdRef:
+      name: sqlep-tenark-sass-tenant-common
     tags:
       tenant: tenant2
     zoneRedundant: true

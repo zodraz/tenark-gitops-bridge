@@ -15,7 +15,7 @@ spec:
               elements:
                 - tenant: tenant-sass-common
                 # - tenant: tenant1
-                - tenant: tenant2
+                # - tenant: tenant2
                 - tenant: tenant3
           - clusters:
               selector:

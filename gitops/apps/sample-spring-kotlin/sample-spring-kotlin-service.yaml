@@ -20,7 +20,7 @@ spec:
   tls:
   - hosts:
     - tenant3.tenark.com
-    secretName: keyvault-aks-helloworld
+    secretName: keyvault-sample-spring-kotlin
 ---
 apiVersion: v1
 kind: Service

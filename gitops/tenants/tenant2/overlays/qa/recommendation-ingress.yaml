@@ -1,0 +1,11 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: recommendation-ingress
+spec:
+  rules:
+  - host: tenant2-qa.tenark.com
+  tls:
+  - hosts:
+    - tenant2-qa.tenark.com
+    secretName: keyvault-recommendation-ingress-qa

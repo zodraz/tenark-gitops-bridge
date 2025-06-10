@@ -1,37 +1,37 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tenant3-vcluster
+  name: tenant2-vcluster
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
-    clusterName: tenant3
+    clusterName: tenant2-dev
 spec:
   project: default
   destination:
-    namespace: tenant3
+    namespace: tenant2
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://charts.loft.sh'
     targetRevision: 0.25.0
     chart: vcluster
     helm:
-      releaseName: tenant3
+      releaseName: tenant2
       values: |
         controlPlane:
           ingress:
             enabled: true
-            host: tenant3.tenark.com
+            host: tenant2-dev.tenark.com
             spec:
               ingressClassName: nginx
           proxy:
             extraSANs:
-            - tenant3.tenark.com
-            - tenant3
-            - tenant3.tenant3
-            - tenant3.tenant3.svc
-            - tenant3.tenant3.svc.cluster.local
+            - tenant2-dev.tenark.com
+            - tenant2-dev
+            - tenant2-dev.tenant2
+            - tenant2-dev.tenant2.svc
+            - tenant2-dev.tenant2.svc.cluster.local
         sync:
           fromHost:
             ingressClasses:
