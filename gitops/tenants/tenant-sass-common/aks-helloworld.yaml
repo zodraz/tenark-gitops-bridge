@@ -15,7 +15,7 @@ spec:
   
   destination:
     server: https://kubernetes.default.svc
-    namespace: apps
+    namespace: default
   syncPolicy:
     automated:
       prune: true
