@@ -1,56 +1,56 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: tenant1-vcluster
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-  labels:
-    clusterName: tenant1
-spec:
-  project: default
-  sources:
-    # - path: environments/env-green/ingress
-    #   repoURL: https://github.com/leunamnauj/Engineering-Multi-Tenancy-for-Crossplane-Automating-Environments-with-vClusters-and-GitOps.git
-    #   targetRevision: HEAD
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: tenant1-vcluster
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "1"
+#   labels:
+#     clusterName: tenant1
+# spec:
+#   project: default
+#   sources:
+#     # - path: environments/env-green/ingress
+#     #   repoURL: https://github.com/leunamnauj/Engineering-Multi-Tenancy-for-Crossplane-Automating-Environments-with-vClusters-and-GitOps.git
+#     #   targetRevision: HEAD
     
-    - repoURL: https://charts.loft.sh
-      targetRevision: 0.25.0
-      chart: vcluster
-      helm:
-        releaseName: tenant1
-        values: |
-          pro: false
-          exportKubeConfig:
-            context: tenant1
-            server: https://tenant1.tenark.com:32443
-            secret:
-              name: tenant1-ext
-              namespace: tenant1
-          sync:
-            toHost:
-              ingresses:
-                enabled: true
-          controlPlane:
-            distro:
-              k3s:
-                enabled: true
-            proxy:
-              extraSANs:
-              - tenant1
-              - tenant1.tenant1
-              - tenant1.tenant1.svc
-              - tenant1.tenant1.svc.cluster.local
-            statefulSet:
-              scheduling:
-                podManagementPolicy: OrderedReady
+#     - repoURL: https://charts.loft.sh
+#       targetRevision: 0.25.0
+#       chart: vcluster
+#       helm:
+#         releaseName: tenant1
+#         values: |
+#           pro: false
+#           exportKubeConfig:
+#             context: tenant1
+#             server: https://tenant1.tenark.com:32443
+#             secret:
+#               name: tenant1-ext
+#               namespace: tenant1
+#           sync:
+#             toHost:
+#               ingresses:
+#                 enabled: true
+#           controlPlane:
+#             distro:
+#               k3s:
+#                 enabled: true
+#             proxy:
+#               extraSANs:
+#               - tenant1
+#               - tenant1.tenant1
+#               - tenant1.tenant1.svc
+#               - tenant1.tenant1.svc.cluster.local
+#             statefulSet:
+#               scheduling:
+#                 podManagementPolicy: OrderedReady
                     
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: tenant1
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: tenant1
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true

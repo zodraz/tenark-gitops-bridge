@@ -29,7 +29,7 @@ spec:
             extraSANs:
             - tenant3.tenark.com
             - tenant3
-            - tenant3.tenant2
+            - tenant3.tenant3
             - tenant3.tenant3.svc
             - tenant3.tenant3.svc.cluster.local
         sync:
