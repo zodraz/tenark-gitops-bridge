@@ -8,7 +8,7 @@ spec:
     location: WestEurope
     resourceGroupName: tenark-infra-common
     serverName: tenark-sqlserver-common
-    administratorLogin: admin
+    administratorLogin: sqladmin
     administratorLoginPasswordSecretRef:
       name: sql-admin-password
       key: password
