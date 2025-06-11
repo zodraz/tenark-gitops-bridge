@@ -146,32 +146,31 @@ spec:
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
         # --- CRITICAL CHANGES FOR DATABASE NAMING PATCHES ---
-        # Instead of FromCompositeFieldPath, use generic 'Patch' type.
-        # This allows 'variables' to provide ALL inputs to fmt.
+        # The 'fromFieldPath' of the patch itself now points to the database's 'name'
+        # (which is the current item in the forEach loop). This will be the FIRST input to fmt.
+        # The XR's metadata.name will be provided as a variable, becoming the SECOND input.
 
-        # Patching external-name for the database (e.g., "my-app-db-cluster-myfirstdb")
-        - type: Patch # Changed from FromCompositeFieldPath
+        # Patching external-name for the database (e.g., "myfirstdb-my-app-db-cluster")
+        - type: FromCompositeFieldPath # Retain this type
+          fromFieldPath: name # <-- CRITICAL: This is the name of the current database item in the loop (e.g., "myfirstdb")
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
             - type: string
               string:
-                fmt: "%s-%s" # Now both values come explicitly from variables
+                fmt: "%s-%s" # <-- fmt will now receive DB_NAME, then XR_NAME
                 variables:
-                  # First variable: Get the XR's metadata.name (absolute path from XR root)
-                  - fromFieldPath: metadata.name
-                    # This path works because it's relative to the XR, not the forEach item.
-                  # Second variable: Get 'name' of the current item in the forEach loop (relative to current item)
-                  - fromFieldPath: name
-        # Patching Kubernetes managed resource name (e.g., "my-app-db-cluster-myfirstdb")
-        - type: Patch # Changed from FromCompositeFieldPath
+                  # This variable gets the XR's metadata.name by navigating up from the current forEach item.
+                  - fromFieldPath: ../../../metadata.name # <-- CRITICAL: Path to XR's metadata.name
+        # Patching Kubernetes managed resource name (e.g., "myfirstdb-my-app-db-cluster")
+        - type: FromCompositeFieldPath # Retain this type
+          fromFieldPath: name # <-- CRITICAL: This is the name of the current database item in the loop
           toFieldPath: metadata.name
           transforms:
             - type: string
               string:
-                fmt: "%s-%s"
+                fmt: "%s-%s" # <-- fmt will now receive DB_NAME, then XR_NAME
                 variables:
-                  - fromFieldPath: metadata.name
-                  - fromFieldPath: name
+                  - fromFieldPath: ../../../metadata.name # <-- CRITICAL: Path to XR's metadata.name
         # --- END CRITICAL CHANGES ---
 
         # Patching actual Azure SQL Database name (spec.forProvider.name) - This one was already fixed and is correct.
