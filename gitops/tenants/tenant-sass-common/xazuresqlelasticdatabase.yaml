@@ -1,0 +1,101 @@
+# xazuresqlelasticdatabase.yaml
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xazuresqlelasticdatabases.azure.example.org
+spec:
+  group: azure.example.org
+  names:
+    kind: XAzureSQLElasticDatabase
+    plural: xazuresqlelasticdatabases
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Identifier for the Elastic Database instance.
+              parameters:
+                type: object
+                description: Parameters for the Azure SQL Elastic Database.
+                properties:
+                  location:
+                    type: string
+                    description: Azure region where the resources will be deployed.
+                  resourceGroupName:
+                    type: string
+                    description: Name of the Azure Resource Group.
+                  serverName:
+                    type: string
+                    description: Name of the Azure SQL Server.
+                  administratorLogin:
+                    type: string
+                    description: Administrator login for the SQL Server.
+                  administratorLoginPasswordSecretRef:
+                    type: object
+                    description: Reference to a Secret containing the SQL Server administrator password.
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the Kubernetes Secret.
+                      key:
+                        type: string
+                        description: Key in the Secret containing the password.
+                    required:
+                      - name
+                      - key
+                  elasticPoolSku:
+                    type: object
+                    description: SKU details for the Elastic Pool.
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the SKU (e.g., Standard, Premium, GeneralPurpose).
+                      tier:
+                        type: string
+                        description: Tier of the SKU (e.g., Standard, Premium).
+                      capacity:
+                        type: integer
+                        description: Number of eDTUs or vCores.
+                    required:
+                      - name
+                      - tier
+                      - capacity
+                  databases:
+                    type: array
+                    description: List of databases to create within the elastic pool.
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Name of the SQL Database.
+                        collation:
+                          type: string
+                          description: Collation for the SQL Database.
+                      required:
+                        - name
+                required:
+                  - location
+                  - resourceGroupName
+                  - serverName
+                  - administratorLogin
+                  - administratorLoginPasswordSecretRef
+                  - elasticPoolSku
+                  - databases
+            required:
+              - parameters
+    # This allows Crossplane to publish connection details from the composed resources
+    # to a Kubernetes Secret named after the XR, in the same namespace as the XR.
+    connectionSecretKeys:
+      - endpoint
+      - username
+      - password
+      - port

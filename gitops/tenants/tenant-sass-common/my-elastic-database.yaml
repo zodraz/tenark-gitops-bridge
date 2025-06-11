@@ -1,0 +1,25 @@
+# my-elastic-database.yaml
+apiVersion: azure.example.org/v1alpha1
+kind: XAzureSQLElasticDatabase
+metadata:
+  name: my-app-db-cluster
+spec:
+  id: my-app-db-cluster-id
+  parameters:
+    location: "West Europe" # Or your preferred Azure region
+    resourceGroupName: "my-crossplane-sql-rg"
+    serverName: "mycrossplanesqlserver" # Must be globally unique in Azure
+    administratorLogin: "sqladmin"
+    administratorLoginPasswordSecretRef:
+      name: sql-admin-password
+      key: password
+    elasticPoolSku:
+      name: "Standard"
+      tier: "Standard"
+      capacity: 50 # 50 eDTUs for the pool
+    databases:
+      - name: "database1"
+        collation: "SQL_Latin1_General_CP1_CI_AS"
+      - name: "database2"
+        collation: "SQL_Latin1_General_CP1_CI_AS"
+      - name: "database3" # You can add more databases here
