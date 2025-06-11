@@ -1,4 +1,4 @@
-# xazuresqlelasticdatabase.yaml (Corrected)
+# xazuresqlelasticdatabase.yaml
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
@@ -31,10 +31,10 @@ spec:
                     description: Azure region where the resources will be deployed.
                   resourceGroupName:
                     type: string
-                    description: Name of the Azure Resource Group.
+                    description: Base name for the Azure Resource Group.
                   serverName:
                     type: string
-                    description: Name of the Azure SQL Server.
+                    description: Base name for the Azure SQL Server.
                   administratorLogin:
                     type: string
                     description: Administrator login for the SQL Server.
@@ -82,6 +82,9 @@ spec:
                           description: Collation for the SQL Database.
                       required:
                         - name
+                  namespace: # NEW: Namespace parameter
+                    type: string
+                    description: Kubernetes namespace where the connection secret will be created and related application components live.
                 required:
                   - location
                   - resourceGroupName
@@ -90,5 +93,6 @@ spec:
                   - administratorLoginPasswordSecretRef
                   - elasticPoolSku
                   - databases
+                  - namespace # NEW: Namespace is now required
             required:
               - parameters

@@ -1,4 +1,4 @@
-# composition-azuresqlelasticdatabase.yaml (Final Correction for forEach and Naming)
+# composition-azuresqlelasticdatabase.yaml
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
@@ -21,6 +21,7 @@ spec:
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
+        # Reverted: No namespace in resource group name
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
@@ -44,22 +45,23 @@ spec:
             serverVersion: "12.0"
             publicNetworkAccessEnabled: true
             minimalTlsVersion: "1.2"
+            administratorLoginPasswordSecretRef: {} # Will be patched below
             firewallRules:
               - name: AllowAzureServices
                 startIpAddress: "0.0.0.0"
                 endIpAddress: "0.0.0.0"
-          writeConnectionSecretToRef:
-            namespace: crossplane-system
-            name: sqldb-connection-details
+          writeConnectionSecretToRef: {} # Will be patched below
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
+        # Patch Resource Group Reference with original constructed name
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
             - type: string
               string:
                 fmt: "%s-rg"
+        # Reverted: No namespace in server name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: metadata.annotations[crossplane.io/external-name]
         - fromFieldPath: spec.parameters.serverName
@@ -70,6 +72,12 @@ spec:
           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.name
         - fromFieldPath: spec.parameters.administratorLoginPasswordSecretRef.key
           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.key
+        # RETAINED: Patch namespace for admin password secret ref
+        - fromFieldPath: spec.parameters.namespace
+          toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.namespace
+        # RETAINED: Patch namespace for connection secret
+        - fromFieldPath: spec.parameters.namespace
+          toFieldPath: writeConnectionSecretToRef.namespace
       connectionDetails:
         - fromConnectionSecretKey: username
         - fromConnectionSecretKey: password
@@ -89,14 +97,17 @@ spec:
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
+        # Patch Resource Group Reference with original constructed name
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
             - type: string
               string:
                 fmt: "%s-rg"
+        # Patch Server Name Reference with original constructed name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
+        # Reverted: No namespace in pool name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: metadata.name
           transforms:
@@ -124,57 +135,53 @@ spec:
         spec:
           forProvider:
             collation: SQL_Latin1_General_CP1_CI_AS # Default collation
-          writeConnectionSecretToRef:
-            namespace: crossplane-system
+          writeConnectionSecretToRef: {} # Will be patched below
       patches:
+        # Patch Resource Group Reference with original constructed name
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
             - type: string
               string:
                 fmt: "%s-rg"
+        # Patch Server Name Reference with original constructed name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
-        # --- START CRITICAL CHANGES FOR DATABASE NAMING ---
-        # Instead of FromCompositeFieldPath at patch level, let's derive both values
-        # through variables within the string transform for clarity and reliability.
-
-        # Patch to set the external-name for the database (Azure resource name)
-        # We want: <XR_NAME>-<DB_NAME>
-        - fromFieldPath: metadata.name # The current patch's context is the XR, so we get XR's metadata.name here
+        # Patching external-name for the database (still <XR_NAME>-<DB_NAME>)
+        - fromFieldPath: metadata.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
             - type: string
               string:
-                fmt: "%s-%s" # Expects two values
+                fmt: "%s-%s"
                 variables:
-                  - fromFieldPath: . # The first variable gets the value from the patch's fromFieldPath (XR's metadata.name)
-                  - fromFieldPath: name # The second variable gets the 'name' field of the CURRENT ITEM IN THE FOR_EACH LOOP
-        # Patch to set the Kubernetes managed resource name
-        # We want: <XR_NAME>-<DB_NAME>
-        - fromFieldPath: metadata.name # Same as above, XR's metadata.name
+                  - fromFieldPath: .
+                  - fromFieldPath: name
+        # Patching Kubernetes managed resource name (still <XR_NAME>-<DB_NAME>)
+        - fromFieldPath: metadata.name
           toFieldPath: metadata.name
           transforms:
             - type: string
               string:
-                fmt: "%s-%s" # Expects two values
+                fmt: "%s-%s"
                 variables:
-                  - fromFieldPath: . # The first variable gets the value from the patch's fromFieldPath (XR's metadata.name)
-                  - fromFieldPath: name # The second variable gets the 'name' field of the CURRENT ITEM IN THE FOR_EACH LOOP
-        # Patch to set the actual Azure SQL Database name (spec.forProvider.name)
-        # This one is simpler: it's just the 'name' field from the current database item.
-        - fromFieldPath: name # <-- CRITICAL CHANGE: This refers to the 'name' field of the current item in the 'databases' array
+                  - fromFieldPath: .
+                  - fromFieldPath: name
+        # Patching actual Azure SQL Database name (spec.forProvider.name)
+        - fromFieldPath: name
           toFieldPath: spec.forProvider.name
-        # --- END CRITICAL CHANGES FOR DATABASE NAMING ---
-
+        # Patch Elastic Pool Reference with original constructed name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.elasticPoolIdRef.name
           transforms:
             - type: string
               string:
                 fmt: "%s-pool"
-        - fromFieldPath: spec.parameters.databases[collation] # This is only applied if collation is provided in XR
+        - fromFieldPath: collation
           toFieldPath: spec.forProvider.collation
           policy:
             fromFieldPath: Optional
+        # RETAINED: Patch namespace for connection secret
+        - fromFieldPath: spec.parameters.namespace
+          toFieldPath: writeConnectionSecretToRef.namespace
       forEach: spec.parameters.databases

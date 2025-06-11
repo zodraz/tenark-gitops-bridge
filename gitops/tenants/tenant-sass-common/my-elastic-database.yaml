@@ -3,23 +3,24 @@ apiVersion: azure.example.org/v1alpha1
 kind: XAzureSQLElasticDatabase
 metadata:
   name: my-app-db-cluster
+  namespace: my-app-dev # IMPORTANT: The XR itself should also be in the same namespace
 spec:
   id: my-app-db-cluster-id
   parameters:
     location: "West Europe" # Or your preferred Azure region
-    resourceGroupName: "my-crossplane-sql-rg"
-    serverName: "mycrossplanesqlserver" # Must be globally unique in Azure
+    resourceGroupName: "app-sql" # Base name, will be combined with standard suffixes
+    serverName: "app-server" # Base name, will be combined with standard suffixes
     administratorLogin: "sqladmin"
     administratorLoginPasswordSecretRef:
-      name: sql-admin-password
+      name: sql-admin-password # Name of the secret you created
       key: password
     elasticPoolSku:
       name: "Standard"
       tier: "Standard"
       capacity: 50 # 50 eDTUs for the pool
     databases:
-      - name: "database1"
+      - name: "myfirstdb" # Actual database name
         collation: "SQL_Latin1_General_CP1_CI_AS"
-      - name: "database2"
+      - name: "myseconddb"
         collation: "SQL_Latin1_General_CP1_CI_AS"
-      - name: "database3" # You can add more databases here
+    namespace: "my-app-dev" # <-- The namespace parameter passed to the Composition
