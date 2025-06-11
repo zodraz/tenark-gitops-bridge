@@ -2,7 +2,7 @@ apiVersion: azure.tenark.com/v1alpha1
 kind: XAzureSQLElasticDatabase
 metadata:
   name: tenark-sql-elastic-db-cluster
-  namespace: default
+  namespace: workload
 spec:
   parameters:
     location: WestEurope
@@ -12,7 +12,7 @@ spec:
     administratorLoginPasswordSecretRef:
       name: sql-admin-password
       key: password
-    namespace: default # Namespace for connection secrets
+    namespace: workload # Namespace for connection secrets
 
     # SKU parameters for the Elastic Pool
     elasticPoolSku:
