@@ -32,7 +32,6 @@ spec:
             - type: string
               string:
                 fmt: "%s-rg"
-
     # 2. Create an Azure SQL Server
     - name: sqlserver
       base:
@@ -40,7 +39,7 @@ spec:
         kind: MSSQLServer
         spec:
           forProvider:
-            serverVersion: "12.0"
+            version: "12.0"
             publicNetworkAccessEnabled: true
             minimalTlsVersion: "1.2"
             administratorLoginPasswordSecretRef: {}
@@ -48,10 +47,9 @@ spec:
               - name: AllowAzureServices
                 startIpAddress: "0.0.0.0"
                 endIpAddress: "0.0.0.0"
-          # FIXED: Add writeConnectionSecretToRef
           writeConnectionSecretToRef:
             name: sqldb-connection-details # You can adjust this name
-            namespace: crossplane-system  # Or use spec.parameters.namespace if appropriate
+            namespace: crossplane-system # Or use spec.parameters.namespace if appropriate
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
@@ -78,22 +76,17 @@ spec:
         - fromConnectionSecretKey: password
         - fromConnectionSecretKey: port
         - fromConnectionSecretKey: endpoint
-
     # 3. Create an Azure SQL Elastic Pool
     - name: elasticpool
       base:
         apiVersion: sql.azure.upbound.io/v1beta1
         kind: MSSQLElasticPool
         spec:
-          # FIXED: sku and perDatabaseSettings must be arrays
           forProvider:
             perDatabaseSettings:
-              - maxCapacity: 1
-                minCapacity: 0
-            sku:
-              - name: B
-                tier: Basic
-                capacity: 100
+              maxCapacity: 1
+              minCapacity: 0
+            sku: {}
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
@@ -111,20 +104,18 @@ spec:
             - type: string
               string:
                 fmt: "%s-pool"
-        # The following patches are now unnecessary; the base spec defines the sku.
-        #- fromFieldPath: spec.parameters.elasticPoolSku.name
-        #  toFieldPath: spec.forProvider.sku.name
-        #- fromFieldPath: spec.parameters.elasticPoolSku.tier
-        #  toFieldPath: spec.forProvider.sku.tier
-        #- fromFieldPath: spec.parameters.elasticPoolSku.capacity
-        #  toFieldPath: spec.forProvider.sku.capacity
+        - fromFieldPath: spec.parameters.elasticPoolSku.name
+          toFieldPath: spec.forProvider.sku.name
+        - fromFieldPath: spec.parameters.elasticPoolSku.tier
+          toFieldPath: spec.forProvider.sku.tier
+        - fromFieldPath: spec.parameters.elasticPoolSku.capacity
+          toFieldPath: spec.forProvider.sku.capacity
         - fromFieldPath: spec.parameters.elasticPoolSku.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
             - type: string
               string:
                 fmt: "%s-pool"
-
     # 4. Create Azure SQL Databases within the Elastic Pool
     - name: sqldatabases
       base:
@@ -133,7 +124,10 @@ spec:
         spec:
           forProvider:
             collation: SQL_Latin1_General_CP1_CI_AS
-          writeConnectionSecretToRef: {}
+          # FIXED: Add writeConnectionSecretToRef
+          writeConnectionSecretToRef:
+            name: sqldb-connection-details # You can adjust this name
+            namespace: crossplane-system # Or use spec.parameters.namespace
       patches:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
@@ -173,6 +167,7 @@ spec:
           toFieldPath: spec.forProvider.collation
           policy:
             fromFieldPath: Optional
+        # NEW: Patch the namespace for the connection secret
         - fromFieldPath: spec.parameters.namespace
           toFieldPath: writeConnectionSecretToRef.namespace
       forEach: spec.parameters.databases
