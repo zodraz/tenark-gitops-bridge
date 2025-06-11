@@ -27,6 +27,10 @@ spec:
       - maxCapacity: 1
         minCapacity: 0.1
 
+    # Required for GeneralPurpose tier, must be >= 5GB.
+    # Use string format like "5GB", "100GB", "1TB", etc.
+    maxSizeBytes: "5GB"
+
     # databases to be created in the Elastic Pool (this is an array)
     databases:
       - name: tenant-common

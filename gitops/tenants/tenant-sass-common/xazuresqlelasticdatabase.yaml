@@ -7,7 +7,6 @@ spec:
   names:
     kind: XAzureSQLElasticDatabase
     plural: xazuresqlelasticdatabases
-    # Optional, but good practice if you want to use Claims
     claimNames:
       kind: AzureSQLElasticDatabase
       plural: azuresqlelasticdatabases
@@ -22,8 +21,6 @@ spec:
             spec:
               type: object
               properties:
-                # Removed 'id' as it's not typically used for direct parameter mapping
-                # and resource identification usually relies on external-name annotations.
                 parameters:
                   type: object
                   description: Parameters for the Azure SQL Elastic Database.
@@ -31,7 +28,6 @@ spec:
                     location:
                       type: string
                       description: Azure region where the resources will be deployed.
-                      # Add desired regions to the enum if you want to restrict
                       enum:
                         - EastUS
                         - WestUS
@@ -59,7 +55,6 @@ spec:
                       required:
                         - name
                         - key
-                    # Updated elasticPoolSku definition
                     elasticPoolSku:
                       type: object
                       description: SKU details for the Elastic Pool.
@@ -73,20 +68,19 @@ spec:
                           description: |
                             The tier of the SKU (e.g., Standard, Premium, GeneralPurpose, BusinessCritical).
                         capacity:
-                          type: number # Changed to number to align with typical vCore/DTU values
+                          type: number
                           description: |
                             Number of eDTUs or vCores (compute units).
-                        family: # Added 'family'
+                        family:
                           type: string
                           description: The family of hardware (e.g., Gen4, Gen5, Fsv2, DC).
-                        size: # Added 'size'
+                        size:
                           type: string
                           description: The size of the SKU (e.g., "100" for 100GB).
                       required:
                         - name
                         - tier
                         - capacity
-                    # NEW: Per-database settings for the Elastic Pool
                     perDatabaseSettings:
                       type: array
                       description: Per-database settings for the Elastic Pool.
@@ -102,7 +96,7 @@ spec:
                         required:
                           - maxCapacity
                           - minCapacity
-                      minItems: 1 # Ensure at least one entry is provided
+                      minItems: 1 
                     databases:
                       type: array
                       description: List of databases to create within the elastic pool.
@@ -118,11 +112,16 @@ spec:
                             default: SQL_Latin1_General_CP1_CI_AS
                         required:
                           - name
-                    # NEW: Namespace parameter
                     namespace:
                       type: string
                       description: Kubernetes namespace where connection secrets will be created.
                       default: default # Default to 'default' if not specified
+                    maxSizeBytes:
+                      type: string
+                      description: |
+                        The maximum storage limit for the Elastic Pool in bytes.
+                        Must be at least '5GB' for GeneralPurpose tier (e.g., "5368709120" for 5GB).
+                        Use string format like "5GB", "100GB", etc. for convenience in XR.
                   required:
                     - location
                     - resourceGroupName
