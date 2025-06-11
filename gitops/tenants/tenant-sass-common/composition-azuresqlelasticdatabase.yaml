@@ -146,7 +146,7 @@ spec:
             collation: SQL_Latin1_General_CP1_CI_AS
           writeConnectionSecretToRef:
             name: sqldb-connection-details
-            namespace: crossplane-system # Default, will be patched by XR's namespace parameter
+            namespace: crossplane-system
       patches:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
@@ -162,26 +162,24 @@ spec:
             - type: string
               string:
                 fmt: "%s-pool"
-        - type: FromCompositeFieldPath
-          fromFieldPath: name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-%s"
-                variables:
-                  - fromFieldPath: ../../../metadata.name
-        - type: FromCompositeFieldPath
-          fromFieldPath: name
+
+        # ------------------- START: CORRECTED CODE -------------------
+        # This patch combines the Composite Resource name and the database
+        # name from the loop to create a unique name for the managed resource
+        # in Kubernetes. This replaces the two incorrect patches.
+        - type: Combine
+          combine:
+            variables:
+              - fromFieldPath: metadata.name
+              - fromFieldPath: name
+            strategy: string
+            string:
+              fmt: "%s-%s"
           toFieldPath: metadata.name
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-%s"
-                variables:
-                  - fromFieldPath: ../../../metadata.name
+        # -------------------- END: CORRECTED CODE --------------------
+
         - fromFieldPath: name
-          toFieldPath: spec.forProvider.name # Database name from forEach
+          toFieldPath: spec.forProvider.name # This correctly sets the database name in Azure
         - fromFieldPath: collation
           toFieldPath: spec.forProvider.collation
           policy:
