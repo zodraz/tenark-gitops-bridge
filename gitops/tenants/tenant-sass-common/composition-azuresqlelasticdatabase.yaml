@@ -132,9 +132,12 @@ spec:
           toFieldPath: spec.forProvider.sku[0].size
           policy:
             fromFieldPath: Optional
-        # Patch for maxSizeBytes
         - fromFieldPath: spec.parameters.maxSizeBytes
           toFieldPath: spec.forProvider.maxSizeBytes
+          transforms:
+            - type: string
+              string:
+                convert: ToBytes
 
 
     # 4. Create Azure SQL Databases within the Elastic Pool
