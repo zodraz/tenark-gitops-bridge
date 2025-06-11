@@ -91,7 +91,7 @@ spec:
               - maxCapacity: 1
                 minCapacity: 0
             sku:
-              - {} # Define an empty object within the array to be fully patched
+              - {}
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
@@ -109,21 +109,18 @@ spec:
             - type: string
               string:
                 fmt: "%s-pool"
-        # External name for elastic pool derived from serverName
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
             - type: string
               string:
                 fmt: "%s-pool"
-        # Patches for elasticPoolSku now target the first element of the sku array
         - fromFieldPath: spec.parameters.elasticPoolSku.name
           toFieldPath: spec.forProvider.sku[0].name
         - fromFieldPath: spec.parameters.elasticPoolSku.tier
           toFieldPath: spec.forProvider.sku[0].tier
         - fromFieldPath: spec.parameters.elasticPoolSku.capacity
           toFieldPath: spec.forProvider.sku[0].capacity
-        # Adding patches for family and size with Optional policy, assuming they are in XR
         - fromFieldPath: spec.parameters.elasticPoolSku.family
           toFieldPath: spec.forProvider.sku[0].family
           policy:
@@ -134,7 +131,6 @@ spec:
             fromFieldPath: Optional
         - fromFieldPath: spec.parameters.maxSizeBytes
           toFieldPath: spec.forProvider.maxSizeBytes
-
 
     # 4. Create Azure SQL Databases within the Elastic Pool
     - name: sqldatabases
@@ -164,10 +160,9 @@ spec:
                 fmt: "%s-pool"
 
         # ------------------- START: CORRECTED CODE -------------------
-        # This patch combines the Composite Resource name and the database
-        # name from the loop to create a unique name for the managed resource
-        # in Kubernetes. This replaces the two incorrect patches.
-        - type: Combine
+        # This patch now uses the valid type "CombineFromComposite" as
+        # indicated by the error message you received.
+        - type: CombineFromComposite
           combine:
             variables:
               - fromFieldPath: metadata.name
@@ -179,7 +174,7 @@ spec:
         # -------------------- END: CORRECTED CODE --------------------
 
         - fromFieldPath: name
-          toFieldPath: spec.forProvider.name # This correctly sets the database name in Azure
+          toFieldPath: spec.forProvider.name
         - fromFieldPath: collation
           toFieldPath: spec.forProvider.collation
           policy:
