@@ -109,6 +109,13 @@ spec:
             - type: string
               string:
                 fmt: "%s-pool"
+        # Corrected: External name for elastic pool derived from serverName
+        - fromFieldPath: spec.parameters.serverName
+          toFieldPath: metadata.annotations[crossplane.io/external-name]
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-pool"
         # Patches for elasticPoolSku now target the first element of the sku array
         - fromFieldPath: spec.parameters.elasticPoolSku.name
           toFieldPath: spec.forProvider.sku[0].name
@@ -142,8 +149,7 @@ spec:
             collation: SQL_Latin1_General_CP1_CI_AS
           writeConnectionSecretToRef:
             name: sqldb-connection-details
-            # ADDED: Patch the namespace for the connection secret
-            namespace: crossplane-system # Default, will be patched if spec.parameters.namespace is defined
+            namespace: crossplane-system # Default, will be patched by XR's namespace parameter
       patches:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
@@ -183,7 +189,6 @@ spec:
           toFieldPath: spec.forProvider.collation
           policy:
             fromFieldPath: Optional
-        # NEW: Patch the namespace for the connection secret
         - fromFieldPath: spec.parameters.namespace
           toFieldPath: writeConnectionSecretToRef.namespace
       forEach: spec.parameters.databases

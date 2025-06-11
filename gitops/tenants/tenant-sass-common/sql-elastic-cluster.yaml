@@ -18,7 +18,7 @@ spec:
     elasticPoolSku:
       name: GP_Gen5       # e.g., 'GP_Gen5', 'BC_Gen5', 'StandardPool'
       tier: GeneralPurpose # e.g., 'GeneralPurpose', 'BusinessCritical', 'Standard'
-      capacity: 50        # e.g., 50 (for vCores), 100 (for DTUs)
+      capacity: 2        # e.g., 50 (for vCores), 100 (for DTUs)
       family: Gen5        # (Optional, if your SKU requires it)
       size: "100"         # (Optional, if your SKU requires it)
 
