@@ -96,10 +96,10 @@ spec:
                         required:
                           - maxCapacity
                           - minCapacity
-                      minItems: 1 
+                      minItems: 1
                     databases:
                       type: array
-                      description: List of databases to create within the elastic pool.
+                      description: List of databases to create within the Elastic Pool.
                       items:
                         type: object
                         properties:
@@ -115,13 +115,13 @@ spec:
                     namespace:
                       type: string
                       description: Kubernetes namespace where connection secrets will be created.
-                      default: default # Default to 'default' if not specified
+                      default: default
                     maxSizeBytes:
-                      type: string
+                      type: integer
                       description: |
                         The maximum storage limit for the Elastic Pool in bytes.
-                        Must be at least '5GB' for GeneralPurpose tier (e.g., "5368709120" for 5GB).
-                        Use string format like "5GB", "100GB", etc. for convenience in XR.
+                        Must be at least 5368709120 bytes (5GB) for GeneralPurpose tier.
+                        Example: 5368709120 for 5GB.
                   required:
                     - location
                     - resourceGroupName
@@ -129,14 +129,10 @@ spec:
                     - administratorLogin
                     - administratorLoginPasswordSecretRef
                     - elasticPoolSku
-                    - perDatabaseSettings # Added to required
+                    - perDatabaseSettings
                     - databases
-                    - namespace # Added to required
+                    - namespace
+                    - maxSizeBytes
               required:
                 - parameters
-      # Optional: Add subresources for status and scale if desired
-      # subresources:
-      #   status: {}
-      #   scale:
-      #     specReplicasPath: .spec.parameters.instanceCount # Example, if you add instanceCount
-      #     statusReplicasPath: .status.atProvider.instanceCount # Example
+      conversionReviewVersions: ["v1"]

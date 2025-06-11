@@ -27,9 +27,8 @@ spec:
       - maxCapacity: 1
         minCapacity: 0.1
 
-    # Required for GeneralPurpose tier, must be >= 5GB.
-    # Use string format like "5GB", "100GB", "1TB", etc.
-    maxSizeBytes: "5GB"
+     # Required for GeneralPurpose tier, must be at least 5368709120 bytes (5GB).
+    maxSizeBytes: 5368709120 
 
     # databases to be created in the Elastic Pool (this is an array)
     databases:
