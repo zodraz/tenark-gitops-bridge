@@ -132,14 +132,10 @@ spec:
           toFieldPath: spec.forProvider.sku[0].size
           policy:
             fromFieldPath: Optional
-        - fromFieldPath: spec.parameters.elasticPoolSku.name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-pool"
+        # Patch for maxSizeBytes
         - fromFieldPath: spec.parameters.maxSizeBytes
           toFieldPath: spec.forProvider.maxSizeBytes
+
 
     # 4. Create Azure SQL Databases within the Elastic Pool
     - name: sqldatabases
@@ -153,28 +149,22 @@ spec:
             name: sqldb-connection-details
             namespace: crossplane-system # Default, will be patched by XR's namespace parameter
       patches:
-        # Keep resourceGroupNameRef for the Resource Group, it's typically fine as a Ref
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
             - type: string
               string:
                 fmt: "%s-rg"
-
-        # NEW: Patch serverId from the composed SQL Server's actual Azure ID
-        - type: FromReference
-          fromFieldPath: status.atProvider.id # Get the full Azure ID
-          toFieldPath: spec.forProvider.serverId # Apply it to the MSSQLDatabase's serverId field
-          fieldRefs:
-            - name: sqlserver # This refers to the 'sqlserver' resource block name within THIS Composition
-
-        # NEW: Patch elasticPoolId from the composed Elastic Pool's actual Azure ID
-        - type: FromReference
-          fromFieldPath: status.atProvider.id # Get the full Azure ID
-          toFieldPath: spec.forProvider.elasticPoolId # Apply it to the MSSQLDatabase's elasticPoolId field
-          fieldRefs:
-            - name: elasticpool # This refers to the 'elasticpool' resource block name within THIS Composition
-
+        # Reverted to using serverNameRef.name
+        - fromFieldPath: spec.parameters.serverName
+          toFieldPath: spec.forProvider.serverNameRef.name
+        # Reverted to using elasticPoolIdRef.name
+        - fromFieldPath: spec.parameters.serverName
+          toFieldPath: spec.forProvider.elasticPoolIdRef.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-pool"
         - type: FromCompositeFieldPath
           fromFieldPath: name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
