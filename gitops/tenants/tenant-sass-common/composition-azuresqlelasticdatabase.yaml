@@ -135,42 +135,48 @@ spec:
         spec:
           forProvider:
             collation: SQL_Latin1_General_CP1_CI_AS # Default collation
-          writeConnectionSecretToRef: {} # Will be patched below
+          writeConnectionSecretToRef: {}
       patches:
-        # Patch Resource Group Reference with original constructed name
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
             - type: string
               string:
                 fmt: "%s-rg"
-        # Patch Server Name Reference with original constructed name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
-        # Patching external-name for the database (still <XR_NAME>-<DB_NAME>)
-        - fromFieldPath: metadata.name
+        # --- CRITICAL CHANGES FOR DATABASE NAMING PATCHES ---
+        # Instead of FromCompositeFieldPath, use generic 'Patch' type.
+        # This allows 'variables' to provide ALL inputs to fmt.
+
+        # Patching external-name for the database (e.g., "my-app-db-cluster-myfirstdb")
+        - type: Patch # Changed from FromCompositeFieldPath
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
             - type: string
               string:
-                fmt: "%s-%s"
+                fmt: "%s-%s" # Now both values come explicitly from variables
                 variables:
-                  - fromFieldPath: .
+                  # First variable: Get the XR's metadata.name (absolute path from XR root)
+                  - fromFieldPath: metadata.name
+                    # This path works because it's relative to the XR, not the forEach item.
+                  # Second variable: Get 'name' of the current item in the forEach loop (relative to current item)
                   - fromFieldPath: name
-        # Patching Kubernetes managed resource name (still <XR_NAME>-<DB_NAME>)
-        - fromFieldPath: metadata.name
+        # Patching Kubernetes managed resource name (e.g., "my-app-db-cluster-myfirstdb")
+        - type: Patch # Changed from FromCompositeFieldPath
           toFieldPath: metadata.name
           transforms:
             - type: string
               string:
                 fmt: "%s-%s"
                 variables:
-                  - fromFieldPath: .
+                  - fromFieldPath: metadata.name
                   - fromFieldPath: name
-        # Patching actual Azure SQL Database name (spec.forProvider.name)
+        # --- END CRITICAL CHANGES ---
+
+        # Patching actual Azure SQL Database name (spec.forProvider.name) - This one was already fixed and is correct.
         - fromFieldPath: name
           toFieldPath: spec.forProvider.name
-        # Patch Elastic Pool Reference with original constructed name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.elasticPoolIdRef.name
           transforms:
@@ -181,7 +187,6 @@ spec:
           toFieldPath: spec.forProvider.collation
           policy:
             fromFieldPath: Optional
-        # RETAINED: Patch namespace for connection secret
         - fromFieldPath: spec.parameters.namespace
           toFieldPath: writeConnectionSecretToRef.namespace
       forEach: spec.parameters.databases
