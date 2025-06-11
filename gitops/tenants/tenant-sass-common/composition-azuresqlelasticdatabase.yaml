@@ -1,4 +1,4 @@
-# composition-azuresqlelasticdatabase.yaml
+# composition-azuresqlelasticdatabase.yaml (Corrected for Crossplane v1.10+)
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
@@ -24,12 +24,12 @@ spec:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: metadata.annotations[crossplane.io/external-name] # Use XR's name as external name
           transforms:
-            - type: Format
+            - type: string # Changed from Format
               fmt: "%s-rg"
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: metadata.name
           transforms:
-            - type: Format
+            - type: string # Changed from Format
               fmt: "%s-rg"
 
     # 2. Create an Azure SQL Server
@@ -56,7 +56,7 @@ spec:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
-            - type: Format
+            - type: string # Changed from Format
               fmt: "%s-rg"
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: metadata.annotations[crossplane.io/external-name]
@@ -90,14 +90,14 @@ spec:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
-            - type: Format
+            - type: string # Changed from Format
               fmt: "%s-rg"
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: metadata.name
           transforms:
-            - type: Format
+            - type: string # Changed from Format
               fmt: "%s-pool"
         - fromFieldPath: spec.parameters.elasticPoolSku.name
           toFieldPath: spec.forProvider.sku.name
@@ -108,7 +108,7 @@ spec:
         - fromFieldPath: spec.parameters.elasticPoolSku.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
-            - type: Format
+            - type: string # Changed from Format
               fmt: "%s-pool"
 
     # 4. Create Azure SQL Databases within the Elastic Pool
@@ -126,7 +126,7 @@ spec:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
-            - type: Format
+            - type: string # Changed from Format
               fmt: "%s-rg"
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
@@ -134,26 +134,24 @@ spec:
           fromFieldPath: metadata.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
-            - type: Combine
+            - type: string # Changed from Combine
+              fmt: "%s-%s"
               variables:
                 - fromFieldPath: spec.parameters.databases[name] # Access the current database name in the loop
-              string:
-                fmt: "%s-%s"
         - type: FromCompositeFieldPath
           fromFieldPath: metadata.name
           toFieldPath: metadata.name
           transforms:
-            - type: Combine
+            - type: string # Changed from Combine
+              fmt: "%s-%s"
               variables:
                 - fromFieldPath: spec.parameters.databases[name]
-              string:
-                fmt: "%s-%s"
         - fromFieldPath: spec.parameters.databases[name]
           toFieldPath: spec.forProvider.name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.elasticPoolIdRef.name
           transforms:
-            - type: Format
+            - type: string # Changed from Format
               fmt: "%s-pool"
         - fromFieldPath: spec.parameters.databases[collation]
           toFieldPath: spec.forProvider.collation
