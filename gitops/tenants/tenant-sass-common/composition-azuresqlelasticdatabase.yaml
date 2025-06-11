@@ -1,4 +1,3 @@
-# composition-azuresqlelasticdatabase.yaml
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
@@ -21,7 +20,6 @@ spec:
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
-        # Reverted: No namespace in resource group name
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
@@ -45,23 +43,24 @@ spec:
             serverVersion: "12.0"
             publicNetworkAccessEnabled: true
             minimalTlsVersion: "1.2"
-            administratorLoginPasswordSecretRef: {} # Will be patched below
+            administratorLoginPasswordSecretRef: {}
             firewallRules:
               - name: AllowAzureServices
                 startIpAddress: "0.0.0.0"
                 endIpAddress: "0.0.0.0"
-          writeConnectionSecretToRef: {} # Will be patched below
+          # FIXED: Add writeConnectionSecretToRef
+          writeConnectionSecretToRef:
+            name: sqldb-connection-details # You can adjust this name
+            namespace: crossplane-system  # Or use spec.parameters.namespace if appropriate
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
-        # Patch Resource Group Reference with original constructed name
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
             - type: string
               string:
                 fmt: "%s-rg"
-        # Reverted: No namespace in server name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: metadata.annotations[crossplane.io/external-name]
         - fromFieldPath: spec.parameters.serverName
@@ -72,12 +71,8 @@ spec:
           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.name
         - fromFieldPath: spec.parameters.administratorLoginPasswordSecretRef.key
           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.key
-        # RETAINED: Patch namespace for admin password secret ref
         - fromFieldPath: spec.parameters.namespace
           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.namespace
-        # RETAINED: Patch namespace for connection secret
-        - fromFieldPath: spec.parameters.namespace
-          toFieldPath: writeConnectionSecretToRef.namespace
       connectionDetails:
         - fromConnectionSecretKey: username
         - fromConnectionSecretKey: password
@@ -90,36 +85,39 @@ spec:
         apiVersion: sql.azure.upbound.io/v1beta1
         kind: MSSQLElasticPool
         spec:
+          # FIXED: sku and perDatabaseSettings must be arrays
           forProvider:
             perDatabaseSettings:
-              maxCapacity: 1
-              minCapacity: 0
+              - maxCapacity: 1
+                minCapacity: 0
+            sku:
+              - name: B
+                tier: Basic
+                capacity: 100
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
-        # Patch Resource Group Reference with original constructed name
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
             - type: string
               string:
                 fmt: "%s-rg"
-        # Patch Server Name Reference with original constructed name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
-        # Reverted: No namespace in pool name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: metadata.name
           transforms:
             - type: string
               string:
                 fmt: "%s-pool"
-        - fromFieldPath: spec.parameters.elasticPoolSku.name
-          toFieldPath: spec.forProvider.sku.name
-        - fromFieldPath: spec.parameters.elasticPoolSku.tier
-          toFieldPath: spec.forProvider.sku.tier
-        - fromFieldPath: spec.parameters.elasticPoolSku.capacity
-          toFieldPath: spec.forProvider.sku.capacity
+        # The following patches are now unnecessary; the base spec defines the sku.
+        #- fromFieldPath: spec.parameters.elasticPoolSku.name
+        #  toFieldPath: spec.forProvider.sku.name
+        #- fromFieldPath: spec.parameters.elasticPoolSku.tier
+        #  toFieldPath: spec.forProvider.sku.tier
+        #- fromFieldPath: spec.parameters.elasticPoolSku.capacity
+        #  toFieldPath: spec.forProvider.sku.capacity
         - fromFieldPath: spec.parameters.elasticPoolSku.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
@@ -134,7 +132,7 @@ spec:
         kind: MSSQLDatabase
         spec:
           forProvider:
-            collation: SQL_Latin1_General_CP1_CI_AS # Default collation
+            collation: SQL_Latin1_General_CP1_CI_AS
           writeConnectionSecretToRef: {}
       patches:
         - fromFieldPath: spec.parameters.resourceGroupName
@@ -145,35 +143,24 @@ spec:
                 fmt: "%s-rg"
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
-        # --- CRITICAL CHANGES FOR DATABASE NAMING PATCHES ---
-        # The 'fromFieldPath' of the patch itself now points to the database's 'name'
-        # (which is the current item in the forEach loop). This will be the FIRST input to fmt.
-        # The XR's metadata.name will be provided as a variable, becoming the SECOND input.
-
-        # Patching external-name for the database (e.g., "myfirstdb-my-app-db-cluster")
-        - type: FromCompositeFieldPath # Retain this type
-          fromFieldPath: name # <-- CRITICAL: This is the name of the current database item in the loop (e.g., "myfirstdb")
+        - type: FromCompositeFieldPath
+          fromFieldPath: name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
             - type: string
               string:
-                fmt: "%s-%s" # <-- fmt will now receive DB_NAME, then XR_NAME
+                fmt: "%s-%s"
                 variables:
-                  # This variable gets the XR's metadata.name by navigating up from the current forEach item.
-                  - fromFieldPath: ../../../metadata.name # <-- CRITICAL: Path to XR's metadata.name
-        # Patching Kubernetes managed resource name (e.g., "myfirstdb-my-app-db-cluster")
-        - type: FromCompositeFieldPath # Retain this type
-          fromFieldPath: name # <-- CRITICAL: This is the name of the current database item in the loop
+                  - fromFieldPath: ../../../metadata.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: name
           toFieldPath: metadata.name
           transforms:
             - type: string
               string:
-                fmt: "%s-%s" # <-- fmt will now receive DB_NAME, then XR_NAME
+                fmt: "%s-%s"
                 variables:
-                  - fromFieldPath: ../../../metadata.name # <-- CRITICAL: Path to XR's metadata.name
-        # --- END CRITICAL CHANGES ---
-
-        # Patching actual Azure SQL Database name (spec.forProvider.name) - This one was already fixed and is correct.
+                  - fromFieldPath: ../../../metadata.name
         - fromFieldPath: name
           toFieldPath: spec.forProvider.name
         - fromFieldPath: spec.parameters.serverName
