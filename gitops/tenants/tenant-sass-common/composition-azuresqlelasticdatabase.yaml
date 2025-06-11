@@ -1,4 +1,4 @@
-# composition-azuresqlelasticdatabase.yaml (Corrected for Crossplane v1.10+)
+# composition-azuresqlelasticdatabase.yaml (Corrected for Crossplane v1.9+ nesting)
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
@@ -24,13 +24,15 @@ spec:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: metadata.annotations[crossplane.io/external-name] # Use XR's name as external name
           transforms:
-            - type: string # Changed from Format
-              fmt: "%s-rg"
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-rg"
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: metadata.name
           transforms:
-            - type: string # Changed from Format
-              fmt: "%s-rg"
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-rg"
 
     # 2. Create an Azure SQL Server
     - name: sqlserver
@@ -56,8 +58,9 @@ spec:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
-            - type: string # Changed from Format
-              fmt: "%s-rg"
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-rg"
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: metadata.annotations[crossplane.io/external-name]
         - fromFieldPath: spec.parameters.serverName
@@ -90,15 +93,17 @@ spec:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
-            - type: string # Changed from Format
-              fmt: "%s-rg"
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-rg"
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: metadata.name
           transforms:
-            - type: string # Changed from Format
-              fmt: "%s-pool"
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-pool"
         - fromFieldPath: spec.parameters.elasticPoolSku.name
           toFieldPath: spec.forProvider.sku.name
         - fromFieldPath: spec.parameters.elasticPoolSku.tier
@@ -108,8 +113,9 @@ spec:
         - fromFieldPath: spec.parameters.elasticPoolSku.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
-            - type: string # Changed from Format
-              fmt: "%s-pool"
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-pool"
 
     # 4. Create Azure SQL Databases within the Elastic Pool
     # This uses a forEach patch to create multiple databases based on the 'databases' array in the XR.
@@ -126,33 +132,37 @@ spec:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
           transforms:
-            - type: string # Changed from Format
-              fmt: "%s-rg"
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-rg"
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
         - type: FromCompositeFieldPath
           fromFieldPath: metadata.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
-            - type: string # Changed from Combine
-              fmt: "%s-%s"
-              variables:
-                - fromFieldPath: spec.parameters.databases[name] # Access the current database name in the loop
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-%s"
+                variables:
+                  - fromFieldPath: spec.parameters.databases[name] # Access the current database name in the loop
         - type: FromCompositeFieldPath
           fromFieldPath: metadata.name
           toFieldPath: metadata.name
           transforms:
-            - type: string # Changed from Combine
-              fmt: "%s-%s"
-              variables:
-                - fromFieldPath: spec.parameters.databases[name]
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-%s"
+                variables:
+                  - fromFieldPath: spec.parameters.databases[name]
         - fromFieldPath: spec.parameters.databases[name]
           toFieldPath: spec.forProvider.name
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.elasticPoolIdRef.name
           transforms:
-            - type: string # Changed from Format
-              fmt: "%s-pool"
+            - type: string
+              string: # <-- NEW: Nested 'string' field here
+                fmt: "%s-pool"
         - fromFieldPath: spec.parameters.databases[collation]
           toFieldPath: spec.forProvider.collation
           # Optional: Only apply if collation is provided
