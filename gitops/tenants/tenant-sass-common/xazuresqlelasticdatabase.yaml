@@ -1,4 +1,4 @@
-# xazuresqlelasticdatabase.yaml
+# xazuresqlelasticdatabase.yaml (Corrected)
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
@@ -92,10 +92,3 @@ spec:
                   - databases
             required:
               - parameters
-    # This allows Crossplane to publish connection details from the composed resources
-    # to a Kubernetes Secret named after the XR, in the same namespace as the XR.
-    connectionSecretKeys:
-      - endpoint
-      - username
-      - password
-      - port
