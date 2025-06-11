@@ -1,4 +1,4 @@
-# composition-azuresqlelasticdatabase.yaml (Corrected for forEach variable context)
+# composition-azuresqlelasticdatabase.yaml (Final Correction for forEach and Naming)
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
@@ -11,7 +11,110 @@ spec:
     apiVersion: azure.example.org/v1alpha1
     kind: XAzureSQLElasticDatabase
   resources:
-    # ... (ResourceGroup, SQLServer, ElasticPool sections remain unchanged)
+    # 1. Create a Resource Group
+    - name: resourcegroup
+      base:
+        apiVersion: azure.upbound.io/v1beta1
+        kind: ResourceGroup
+        spec:
+          forProvider: {}
+      patches:
+        - fromFieldPath: spec.parameters.location
+          toFieldPath: spec.forProvider.location
+        - fromFieldPath: spec.parameters.resourceGroupName
+          toFieldPath: metadata.annotations[crossplane.io/external-name]
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rg"
+        - fromFieldPath: spec.parameters.resourceGroupName
+          toFieldPath: metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rg"
+
+    # 2. Create an Azure SQL Server
+    - name: sqlserver
+      base:
+        apiVersion: sql.azure.upbound.io/v1beta1
+        kind: MSSQLServer
+        spec:
+          forProvider:
+            serverVersion: "12.0"
+            publicNetworkAccessEnabled: true
+            minimalTlsVersion: "1.2"
+            firewallRules:
+              - name: AllowAzureServices
+                startIpAddress: "0.0.0.0"
+                endIpAddress: "0.0.0.0"
+          writeConnectionSecretToRef:
+            namespace: crossplane-system
+            name: sqldb-connection-details
+      patches:
+        - fromFieldPath: spec.parameters.location
+          toFieldPath: spec.forProvider.location
+        - fromFieldPath: spec.parameters.resourceGroupName
+          toFieldPath: spec.forProvider.resourceGroupNameRef.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rg"
+        - fromFieldPath: spec.parameters.serverName
+          toFieldPath: metadata.annotations[crossplane.io/external-name]
+        - fromFieldPath: spec.parameters.serverName
+          toFieldPath: metadata.name
+        - fromFieldPath: spec.parameters.administratorLogin
+          toFieldPath: spec.forProvider.administratorLogin
+        - fromFieldPath: spec.parameters.administratorLoginPasswordSecretRef.name
+          toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.name
+        - fromFieldPath: spec.parameters.administratorLoginPasswordSecretRef.key
+          toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.key
+      connectionDetails:
+        - fromConnectionSecretKey: username
+        - fromConnectionSecretKey: password
+        - fromConnectionSecretKey: port
+        - fromConnectionSecretKey: endpoint
+
+    # 3. Create an Azure SQL Elastic Pool
+    - name: elasticpool
+      base:
+        apiVersion: sql.azure.upbound.io/v1beta1
+        kind: MSSQLElasticPool
+        spec:
+          forProvider:
+            perDatabaseSettings:
+              maxCapacity: 1
+              minCapacity: 0
+      patches:
+        - fromFieldPath: spec.parameters.location
+          toFieldPath: spec.forProvider.location
+        - fromFieldPath: spec.parameters.resourceGroupName
+          toFieldPath: spec.forProvider.resourceGroupNameRef.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rg"
+        - fromFieldPath: spec.parameters.serverName
+          toFieldPath: spec.forProvider.serverNameRef.name
+        - fromFieldPath: spec.parameters.serverName
+          toFieldPath: metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-pool"
+        - fromFieldPath: spec.parameters.elasticPoolSku.name
+          toFieldPath: spec.forProvider.sku.name
+        - fromFieldPath: spec.parameters.elasticPoolSku.tier
+          toFieldPath: spec.forProvider.sku.tier
+        - fromFieldPath: spec.parameters.elasticPoolSku.capacity
+          toFieldPath: spec.forProvider.sku.capacity
+        - fromFieldPath: spec.parameters.elasticPoolSku.name
+          toFieldPath: metadata.annotations[crossplane.io/external-name]
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-pool"
 
     # 4. Create Azure SQL Databases within the Elastic Pool
     - name: sqldatabases
@@ -22,7 +125,7 @@ spec:
           forProvider:
             collation: SQL_Latin1_General_CP1_CI_AS # Default collation
           writeConnectionSecretToRef:
-            namespace: crossplane-system # Or a dedicated secrets namespace
+            namespace: crossplane-system
       patches:
         - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupNameRef.name
@@ -32,33 +135,45 @@ spec:
                 fmt: "%s-rg"
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.serverNameRef.name
-        - type: FromCompositeFieldPath
-          fromFieldPath: metadata.name # The XR's name (e.g., "my-app-db-cluster") is the FIRST input to the string transform
+        # --- START CRITICAL CHANGES FOR DATABASE NAMING ---
+        # Instead of FromCompositeFieldPath at patch level, let's derive both values
+        # through variables within the string transform for clarity and reliability.
+
+        # Patch to set the external-name for the database (Azure resource name)
+        # We want: <XR_NAME>-<DB_NAME>
+        - fromFieldPath: metadata.name # The current patch's context is the XR, so we get XR's metadata.name here
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
             - type: string
               string:
-                fmt: "%s-%s" # Expects two strings: XR name, then database name
+                fmt: "%s-%s" # Expects two values
                 variables:
-                  - fromFieldPath: name # <-- CRITICAL CHANGE: Reference 'name' of the current database item directly
-        - type: FromCompositeFieldPath
-          fromFieldPath: metadata.name # The XR's name (e.g., "my-app-db-cluster") is the FIRST input to the string transform
+                  - fromFieldPath: . # The first variable gets the value from the patch's fromFieldPath (XR's metadata.name)
+                  - fromFieldPath: name # The second variable gets the 'name' field of the CURRENT ITEM IN THE FOR_EACH LOOP
+        # Patch to set the Kubernetes managed resource name
+        # We want: <XR_NAME>-<DB_NAME>
+        - fromFieldPath: metadata.name # Same as above, XR's metadata.name
           toFieldPath: metadata.name
           transforms:
             - type: string
               string:
-                fmt: "%s-%s" # Expects two strings: XR name, then database name
+                fmt: "%s-%s" # Expects two values
                 variables:
-                  - fromFieldPath: name # <-- CRITICAL CHANGE: Reference 'name' of the current database item directly
-        - fromFieldPath: spec.parameters.databases[name] # This is to directly set the actual Azure DB name
+                  - fromFieldPath: . # The first variable gets the value from the patch's fromFieldPath (XR's metadata.name)
+                  - fromFieldPath: name # The second variable gets the 'name' field of the CURRENT ITEM IN THE FOR_EACH LOOP
+        # Patch to set the actual Azure SQL Database name (spec.forProvider.name)
+        # This one is simpler: it's just the 'name' field from the current database item.
+        - fromFieldPath: name # <-- CRITICAL CHANGE: This refers to the 'name' field of the current item in the 'databases' array
           toFieldPath: spec.forProvider.name
+        # --- END CRITICAL CHANGES FOR DATABASE NAMING ---
+
         - fromFieldPath: spec.parameters.serverName
           toFieldPath: spec.forProvider.elasticPoolIdRef.name
           transforms:
             - type: string
               string:
                 fmt: "%s-pool"
-        - fromFieldPath: spec.parameters.databases[collation]
+        - fromFieldPath: spec.parameters.databases[collation] # This is only applied if collation is provided in XR
           toFieldPath: spec.forProvider.collation
           policy:
             fromFieldPath: Optional
