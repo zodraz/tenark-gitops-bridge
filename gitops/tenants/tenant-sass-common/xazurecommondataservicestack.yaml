@@ -1,0 +1,132 @@
+# xazurecommondataservicestack.yaml
+apiVersion: apiextensions.k8s.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xazurecommondataservicestacks.azure.tenark.com # CHANGED: Plural form
+spec:
+  group: azure.tenark.com
+  names:
+    kind: XAzureCommonDataServiceStack # CHANGED: New Composite Resource Kind
+    plural: xazurecommondataservicestacks # CHANGED: New Plural form
+    claimNames:
+      kind: AzureCommonDataServiceStack # CHANGED: New Claim Kind
+      plural: azurecommondataservicestacks # CHANGED: New Claim Plural form
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                parameters:
+                  type: object
+                  description: |
+                    Parameters define the desired state for a complete Azure Common Data Service Stack,
+                    including SQL Server, SQL Database, and Redis Cache, all integrated into an
+                    existing Virtual Network and Subnet by its full Azure Resource ID.
+                  properties:
+                    # commonNamePrefix is no longer needed here as "common" is in the kind name
+                    location:
+                      type: string
+                      description: Azure region where the resources will be deployed.
+                      enum:
+                        - EastUS
+                        - WestUS
+                        - NorthEurope
+                        - WestEurope
+                        - CentralUS
+                        - SoutheastAsia
+                    resourceGroupName:
+                      type: string
+                      description: Name for the Azure Resource Group where the SQL Server will reside.
+                    # Subnet Reference Parameter
+                    subnetAzureResourceID:
+                      type: string
+                      description: |
+                        The full Azure Resource ID of the existing Subnet to attach the SQL Server (and Redis Cache) to.
+                        This ID includes subscription, resource group, VNet name, and subnet name.
+                        Example: /subscriptions/uuid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/subnet
+                    # SQL Server Parameters
+                    # serverName will be derived from XR's metadata.name + suffixes
+                    administratorLogin:
+                      type: string
+                      description: Administrator login name for the SQL Server.
+                    administratorLoginPasswordSecretRef:
+                      type: object
+                      description: Secret reference for the SQL Server administrator password.
+                      properties:
+                        name:
+                          type: string
+                          description: Name of the Kubernetes Secret.
+                        key:
+                          type: string
+                          description: Key in the Kubernetes Secret holding the password.
+                      required:
+                        - name
+                        - key
+                    # SQL Database Parameters
+                    sqlDatabase:
+                      type: object
+                      description: Parameters for the Azure SQL Database.
+                      properties:
+                        # name will be derived from XR's metadata.name + suffixes
+                        collation:
+                          type: string
+                          description: Collation for the SQL Database.
+                          default: SQL_Latin1_General_CP1_CI_AS
+                        skuTier:
+                          type: string
+                          description: Tier of the SQL Database SKU (e.g., Basic, Standard, Premium, GeneralPurpose).
+                          enum: [Basic, Standard, Premium, GeneralPurpose, BusinessCritical]
+                        skuName:
+                          type: string
+                          description: Name of the SQL Database SKU (e.g., Basic for Basic tier; GP_Gen5_2 for GeneralPurpose with 2 vCores).
+                        capacity:
+                          type: integer
+                          description: Capacity of the SQL Database SKU (e.g., 5 for Basic tier, or vCores for GeneralPurpose).
+                      required:
+                        - skuTier
+                        - skuName
+                        - capacity
+                    # Redis Cache Parameters
+                    redisCache:
+                      type: object
+                      description: Parameters for the Azure Redis Cache instance.
+                      properties:
+                        # name will be derived from XR's metadata.name + suffixes
+                        skuName:
+                          type: string
+                          description: Name of the Redis Cache SKU (e.g., Basic, Standard, Premium).
+                          enum: [Basic, Standard, Premium]
+                        skuFamily:
+                          type: string
+                          description: Family of the Redis Cache SKU (e.g., C for Basic/Standard, P for Premium).
+                          enum: [C, P]
+                        skuCapacity:
+                          type: integer
+                          description: Capacity of the Redis Cache SKU (0-6 for Basic/Standard, 1-5 for Premium).
+                      required:
+                        - skuName
+                        - skuFamily
+                        - skuCapacity
+                    # Connection Secret Namespace
+                    connectionSecretNamespace:
+                      type: string
+                      description: Kubernetes namespace where connection secrets will be created.
+                      default: default
+                  required:
+                    - location
+                    - resourceGroupName
+                    - subnetAzureResourceID
+                    - administratorLogin
+                    - administratorLoginPasswordSecretRef
+                    - sqlDatabase
+                    - redisCache
+                    - connectionSecretNamespace
+              required:
+                - parameters
+      conversionReviewVersions: ["v1"]

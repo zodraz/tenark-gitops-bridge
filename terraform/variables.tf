@@ -208,7 +208,7 @@ variable "agents_max_count" {
 variable "agents_max_pods" {
   description = "Specifies the maximum number of pods that can run on each agent. Changing this forces a new resource to be created."
   type        = number
-  default     = 30
+  default     = 50
 }
 
 variable "azure_policy_enabled" {
