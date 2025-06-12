@@ -10,6 +10,7 @@ variable "vnet_name" {
   type        = string
 }
 
+
 variable "id_aks_name" {
   description = "Specifies the name of the Managed Identity."
   default     = "tenark-gitops"
@@ -20,6 +21,12 @@ variable "cluster_name" {
   description = "Specifies the name for the AKS cluster"
   type        = string
   default     = "tenark-gitops"
+}
+
+variable "create_user_nodepool" {
+  description = "Specifies the user node pool should be created"
+  type        = bool
+  default     = false
 }
 
 variable "cluster_log_analytics_workspace_name" {
@@ -308,4 +315,10 @@ variable "dns_zone_name" {
   type        = string
   default     = "tenark.com"
   description = "Name of the DNS zone."
+}
+
+variable "create_acr" {
+  description = "Set to true to create the Azure Container Registry, false to skip it."
+  type        = bool
+  default     = true # Set to 'false' if you want it to be skipped by default
 }

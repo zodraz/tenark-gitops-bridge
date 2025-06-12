@@ -13,7 +13,13 @@ spec:
     spec:
       containers:
       - name: sample-spring-kotlin
-        image: piomin/sample-spring-kotlin:1.4.8
+        image: quay.io/pminkows/sample-kotlin-spring:1.4.30
         ports:
         - containerPort: 8080
           name: http
+        env:
+          - name: PASS
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: sample-secret

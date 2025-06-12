@@ -94,8 +94,12 @@ module "network" {
       address_prefixes  = ["10.52.0.0/16"]
       service_endpoints = ["Microsoft.Storage"]
     }
+    data = {
+      address_prefixes  = ["10.53.0.0/16"]
+      service_endpoints = ["Microsoft.Storage"]
+    }
   }
-  virtual_network_address_space = ["10.52.0.0/16"]
+  virtual_network_address_space = ["10.0.0.0/8"]
   virtual_network_location      = azurerm_resource_group.this.location
   virtual_network_name          = var.vnet_name
   virtual_network_tags          = var.tags
@@ -142,23 +146,25 @@ module "aks" {
   workload_identity_enabled = true
   oidc_issuer_enabled       = true
 
-  node_pools = {    userpool = {
-      name           = "userpool"
-      vm_size        = var.agents_size
-      node_count     = 1
-      mode           = "User"
-      os_type        = "Linux"
+  node_pools = {
+    # Conditionally include the userpool
+    userpool = var.create_user_nodepool ? {
+      name                = "userpool"
+      vm_size             = var.agents_size
+      node_count          = 1
+      mode                = "User"
+      os_type             = "Linux"
       enable_auto_scaling = true
-      min_count      = var.agents_min_count
-      max_count      = var.agents_max_count
-      max_pods                     = var.agents_max_pods
-      availability_zones           = ["3"]
-      type                         = "VirtualMachineScaleSets"
+      min_count           = var.agents_min_count
+      max_count           = var.agents_max_count
+      max_pods            = var.agents_max_pods
+      availability_zones  = ["3"]
+      type                = "VirtualMachineScaleSets"
       node_labels = {
         purpose = "apps"
       }
       tags = var.tags
-    }
+    } : null
   }
 
   network_policy             = var.network_policy
@@ -284,6 +290,8 @@ resource "time_sleep" "wait_60_seconds" {
 ################################################################################
 
 resource "azurerm_container_registry" "acr" {
+  count = var.create_acr ? 1 : 0
+
   name                = "acrtenark"
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
