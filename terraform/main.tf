@@ -88,6 +88,13 @@ locals {
     tags = var.tags
   } : null # If false, the config is null
 
+   # Conditionally build the 'final_node_pools' map that will be passed to the module
+  final_node_pools = merge(
+    var.create_user_nodepool ? { userpool = local.userpool_config } : {},
+    # If you had other fixed node pools, you could add them here
+    # e.g., { systempool = { name = "systempool", ... } }
+  )
+
 }
 
 data "azurerm_subscription" "current" {}
@@ -187,10 +194,7 @@ module "aks" {
   #   } : null
   # }
 
-  node_pools = {
-    # Only include 'userpool' if userpool_config is not null
-    userpool = local.userpool_config
-  }
+  node_pools = local.final_node_pools
 
 
   network_policy             = var.network_policy
