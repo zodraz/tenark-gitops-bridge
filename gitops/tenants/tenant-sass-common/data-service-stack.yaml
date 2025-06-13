@@ -1,28 +1,28 @@
-# apiVersion: azure.tenark.com/v1alpha1
-# kind: XAzureCommonDataServiceStack 
-# metadata:
-#   name: tenark-sql-server
-#   namespace: workload
-# spec:
-#   parameters:
-#     location: WestEurope
-#     resourceGroupName: tenark-infra-common
-#     serverName: tenark-sqlserver-common
-#     subnetAzureResourceID: /subscriptions/bd43835b-1fe0-433f-a654-785ef6b4dc11/resourceGroups/tenark-gitops/providers/Microsoft.Network/virtualNetworks/tenark-gitops/subnets/data
-#     administratorLogin: sqladmin
-#     administratorLoginPasswordSecretRef:
-#       name: sql-admin-password
-#       key: password
-#     namespace: workload
-#     sqlDatabase:
-#       name: tenant-common-db
-#       collation: SQL_Latin1_General_CP1_CI_AS
-#       skuTier: Basic
-#       skuName: Basic
-#       capacity: 5
-#     redisCache:
-#       name: tenant-common-redis
-#       skuName: Basic
-#       skuFamily: C
-#       skuCapacity: 0
-#     connectionSecretNamespace: workload
+apiVersion: azure.tenark.com/v1alpha1
+kind: XAzureCommonDataServiceStack 
+metadata:
+  name: tenark-sql-server
+  namespace: workload
+spec:
+  parameters:
+    location: WestEurope
+    resourceGroupName: tenark-infra-common
+    serverName: tenark-sqlserver-common
+    subnetAzureResourceID: /subscriptions/bd43835b-1fe0-433f-a654-785ef6b4dc11/resourceGroups/tenark-gitops/providers/Microsoft.Network/virtualNetworks/tenark-gitops/subnets/data
+    administratorLogin: sqladmin
+    administratorLoginPasswordSecretRef:
+      name: sql-admin-password
+      key: password
+    namespace: workload
+    sqlDatabase:
+      name: tenant-common-db
+      collation: SQL_Latin1_General_CP1_CI_AS
+      skuTier: Basic
+      skuName: Basic
+      capacity: 5
+    redisCache:
+      name: tenant-common-redis
+      skuName: Basic
+      skuFamily: C
+      skuCapacity: 0
+    connectionSecretNamespace: workload
