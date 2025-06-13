@@ -1,14 +1,15 @@
-apiVersion: apiextensions.k8s.io/v1
+# xazurecommondataservicestack.yaml
+apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xazurecommondataservicestacks.azure.tenark.com # CHANGED: Plural form
+  name: xazurecommondataservicestacks.azure.tenark.com
 spec:
   group: azure.tenark.com
   names:
-    kind: XAzureCommonDataServiceStack # CHANGED: New Composite Resource Kind
-    plural: xazurecommondataservicestacks # CHANGED: New Plural form
+    kind: XAzureCommonDataServiceStack
+    plural: xazurecommondataservicestacks
     claimNames:
-      kind: AzureCommonDataServiceStack # CHANGED: New Claim Kind
+      kind: AzureCommonDataServiceStack
       plural: azurecommondataservicestacks
   versions:
     - name: v1alpha1
@@ -38,18 +39,12 @@ spec:
                         - WestEurope
                         - CentralUS
                         - SoutheastAsia
-                    resourceGroupName:
-                      type: string
-                      description: Name for the Azure Resource Group where the SQL Server will reside.
-                    # Subnet Reference Parameter
                     subnetAzureResourceID:
                       type: string
                       description: |
                         The full Azure Resource ID of the existing Subnet to attach the SQL Server (and Redis Cache) to.
                         This ID includes subscription, resource group, VNet name, and subnet name.
                         Example: /subscriptions/uuid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/subnet
-                    # SQL Server Parameters
-                    # serverName will be derived from XR's metadata.name + suffixes
                     administratorLogin:
                       type: string
                       description: Administrator login name for the SQL Server.
@@ -66,12 +61,10 @@ spec:
                       required:
                         - name
                         - key
-                    # SQL Database Parameters
                     sqlDatabase:
                       type: object
                       description: Parameters for the Azure SQL Database.
                       properties:
-                        # name will be derived from XR's metadata.name + suffixes
                         collation:
                           type: string
                           description: Collation for the SQL Database.
@@ -90,12 +83,10 @@ spec:
                         - skuTier
                         - skuName
                         - capacity
-                    # Redis Cache Parameters
                     redisCache:
                       type: object
                       description: Parameters for the Azure Redis Cache instance.
                       properties:
-                        # name will be derived from XR's metadata.name + suffixes
                         skuName:
                           type: string
                           description: Name of the Redis Cache SKU (e.g., Basic, Standard, Premium).
@@ -111,14 +102,12 @@ spec:
                         - skuName
                         - skuFamily
                         - skuCapacity
-                    # Connection Secret Namespace
                     connectionSecretNamespace:
                       type: string
                       description: Kubernetes namespace where connection secrets will be created.
                       default: default
                   required:
                     - location
-                    - resourceGroupName
                     - subnetAzureResourceID
                     - administratorLogin
                     - administratorLoginPasswordSecretRef
