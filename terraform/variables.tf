@@ -211,6 +211,12 @@ variable "agents_max_pods" {
   default     = 50
 }
 
+variable "user_pool_node_count" {
+  description = "Specifies the number of user pool nodes. Changing this forces a new resource to be created."
+  type        = number
+  default     = 1
+}
+
 variable "azure_policy_enabled" {
   description = "Should the Azure Policy Add-On be enabled? For more details please visit Understand Azure Policy for Azure Kubernetes Service"
   type        = bool

@@ -73,7 +73,7 @@ locals {
   userpool_config = var.create_user_nodepool ? {
     name                = "userpool"
     vm_size             = var.agents_size
-    node_count          = 1
+    node_count          = var.user_pool_node_count
     mode                = "User"
     os_type             = "Linux"
     enable_auto_scaling = true
@@ -173,29 +173,7 @@ module "aks" {
   workload_identity_enabled = true
   oidc_issuer_enabled       = true
 
-  # node_pools = {
-  #   # Conditionally include the userpool
-  #   userpool = var.create_user_nodepool ? {
-  #     name                = "userpool"
-  #     vm_size             = var.agents_size
-  #     node_count          = 1
-  #     mode                = "User"
-  #     os_type             = "Linux"
-  #     enable_auto_scaling = true
-  #     min_count           = var.agents_min_count
-  #     max_count           = var.agents_max_count
-  #     max_pods            = var.agents_max_pods
-  #     availability_zones  = ["3"]
-  #     type                = "VirtualMachineScaleSets"
-  #     node_labels = {
-  #       purpose = "apps"
-  #     }
-  #     tags = var.tags
-  #   } : null
-  # }
-
   node_pools = local.final_node_pools
-
 
   network_policy             = var.network_policy
   net_profile_dns_service_ip = var.net_profile_dns_service_ip
