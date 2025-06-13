@@ -72,7 +72,7 @@ locals {
   # Conditionally define the 'userpool' configuration
   userpool_config = var.create_user_nodepool ? {
     name                = "userpool"
-    vm_size             = var.agents_size
+    vm_size             = var.nodepool_size
     node_count          = var.user_pool_node_count
     mode                = "User"
     os_type             = "Linux"

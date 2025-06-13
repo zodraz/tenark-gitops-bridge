@@ -47,6 +47,12 @@ variable "agents_size" {
   type        = string
 }
 
+variable "nodepool_size" {
+  description = "Specifies the default virtual machine size for the Kubernetes node pool"
+  default     = "Standard_D2ps_v6"
+  type        = string
+}
+
 variable "kubernetes_version" {
   description = "Specifies which Kubernetes release to use. The default used is the latest Kubernetes version available in the location."
   type        = string
