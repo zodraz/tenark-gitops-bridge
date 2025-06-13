@@ -40,12 +40,12 @@ spec:
             ingresses:
               enabled: true
         policies:
-        resourceQuota:
-          enabled: true
-          quota:
-            cpu: "0.5"
-            memory: 0.5Gi
-            pods: "10"
+          resourceQuota:
+            enabled: true
+            quota:
+              cpu: "0.5"
+              memory: 0.5Gi
+              pods: "10"
   sources: []
   syncPolicy:
     automated:
