@@ -8,9 +8,9 @@ spec:
   names:
     kind: XAzureCommonDataServiceStack
     plural: xazurecommondataservicestacks
-    claimNames:
-      kind: AzureCommonDataServiceStack
-      plural: azurecommondataservicestacks
+  claimNames:
+    kind: AzureCommonDataServiceStack
+    plural: azurecommondataservicestacks
   versions:
     - name: v1alpha1
       served: true
@@ -116,4 +116,3 @@ spec:
                     - connectionSecretNamespace
               required:
                 - parameters
-      conversionReviewVersions: ["v1"]
