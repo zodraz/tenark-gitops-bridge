@@ -19,7 +19,7 @@ spec:
         path: apps/simple
       destination:
         server: '{{server}}' # (4)
-        namespace: demo # (5)
+        namespace: default # (5)
       syncPolicy: # (6)
         automated:
           selfHeal: true
