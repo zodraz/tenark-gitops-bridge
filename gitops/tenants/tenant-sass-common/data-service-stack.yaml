@@ -25,4 +25,5 @@ spec:
       skuName: Basic
       skuFamily: C
       skuCapacity: 0
+      redisVersion: "6"
     connectionSecretNamespace: workload
