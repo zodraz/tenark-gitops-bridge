@@ -83,7 +83,7 @@ spec:
           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.name
         - fromFieldPath: spec.parameters.administratorLoginPasswordSecretRef.key
           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.key
-        - fromFieldPath: spec.parameters.namespace # Using the namespace from the XR
+        - fromFieldPath: spec.parameters.connectionSecretNamespace
           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.namespace
         # Patch the output connection secret details
         - fromFieldPath: metadata.name
