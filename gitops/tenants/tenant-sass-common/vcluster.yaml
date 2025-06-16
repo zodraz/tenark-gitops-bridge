@@ -43,8 +43,8 @@ spec:
           resourceQuota:
             enabled: true
             quota:
-              cpu: "0.5"
-              memory: 0.5Gi
+              cpu: "3"
+              memory: 3Gi
               pods: "10"
   sources: []
   syncPolicy:
