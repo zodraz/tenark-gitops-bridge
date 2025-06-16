@@ -168,7 +168,7 @@ spec:
         - fromFieldPath: spec.parameters.sqlDatabase.capacity
           toFieldPath: spec.forProvider.sku.capacity
 
-    # 5. Azure Redis Cache
+    # 5. Create Azure Redis Cache
     - name: redis-cache
       base:
         apiVersion: cache.azure.upbound.io/v1beta1
@@ -180,30 +180,30 @@ spec:
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
-        # Set the resource group name directly using the same transform as the RG
         - fromFieldPath: metadata.name
           toFieldPath: spec.forProvider.resourceGroupName
           transforms:
             - type: string
               string:
                 fmt: "%s-rg"
-        # Generate and set the Redis name
         - fromFieldPath: spec.parameters.redisCache.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
         - fromFieldPath: spec.parameters.redisCache.name
           toFieldPath: metadata.name
-        # Patch other Redis parameters
         - fromFieldPath: spec.parameters.subnetAzureResourceID
           toFieldPath: spec.forProvider.subnetId
           policy:
-            fromFieldPath: Optional # Make subnet optional for Redis
+            fromFieldPath: Optional
+        # ----- CORRECTED AND NEW PATCHES START HERE -----
         - fromFieldPath: spec.parameters.redisCache.skuName
-          toFieldPath: spec.forProvider.sku.name
+          toFieldPath: spec.forProvider.skuName # <-- CORRECTED PATH (no .sku)
         - fromFieldPath: spec.parameters.redisCache.skuFamily
-          toFieldPath: spec.forProvider.sku.family
+          toFieldPath: spec.forProvider.family # <-- CORRECTED PATH (no .sku)
         - fromFieldPath: spec.parameters.redisCache.skuCapacity
-          toFieldPath: spec.forProvider.sku.capacity
-        # Patch the output connection secret details
+          toFieldPath: spec.forProvider.capacity # <-- CORRECTED PATH (no .sku)
+        - fromFieldPath: spec.parameters.redisCache.redisVersion
+          toFieldPath: spec.forProvider.redisVersion # <-- NEWLY ADDED PATCH
+        # ----- CORRECTED AND NEW PATCHES END HERE -----
         - fromFieldPath: metadata.name
           toFieldPath: spec.writeConnectionSecretToRef.name
           transforms:

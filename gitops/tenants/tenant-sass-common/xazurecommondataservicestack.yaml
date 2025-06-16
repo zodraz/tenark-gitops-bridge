@@ -98,10 +98,14 @@ spec:
                         skuCapacity:
                           type: integer
                           description: Capacity of the Redis Cache SKU (0-6 for Basic/Standard, 1-5 for Premium).
+                        redisVersion: # <-- ADD THIS
+                          type: string
+                          description: "The version of Redis to use, e.g., '6'."
                       required:
                         - skuName
                         - skuFamily
                         - skuCapacity
+                        - redisVersion
                     connectionSecretNamespace:
                       type: string
                       description: Kubernetes namespace where connection secrets will be created.
