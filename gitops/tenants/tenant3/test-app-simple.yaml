@@ -8,13 +8,13 @@ spec:
   - clusters: {} # (1)
   template:
     metadata:
-      name: '{{name}}-sample-spring-boot' # (2)
+      name: '{{name}}-sample-spring-bootv2' # (2)
     spec:
       project: default
       source: # (3)
-        repoURL: https://github.com/piomin/openshift-cluster-config.git
+        repoURL: https://github.com/zodraz/tenark-gitops-bridge
         targetRevision: HEAD
-        path: apps/simple
+        path: gitops/apps/sample-spring-kotlin
       destination:
         server: '{{server}}' # (4)
         namespace: demo # (5)
