@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: aks-helloworld
+  name: aks-helloworldv2
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "2"
