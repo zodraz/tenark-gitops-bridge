@@ -8,7 +8,7 @@ spec:
   - clusters: {} # (1)
   template:
     metadata:
-      name: '{{name}}-sample-spring-bootv2' # (2)
+      name: '{{name}}-sample-spring-bootv3' # (2)
     spec:
       project: default
       source: # (3)
@@ -17,7 +17,7 @@ spec:
         path: gitops/apps/sample-spring-kotlin
       destination:
         server: '{{server}}' # (4)
-        namespace: demo # (5)
+        namespace: default # (5)
       syncPolicy: # (6)
         automated:
           selfHeal: true
