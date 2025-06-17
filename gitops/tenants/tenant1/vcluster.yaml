@@ -1,48 +1,48 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: tenant1-vcluster
-#   namespace: argocd
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "1"
-#   labels:
-#     clusterName: tenant1
-# spec:
-#   project: default
-#   destination:
-#     namespace: tenant1
-#     server: 'https://kubernetes.default.svc'
-#   source:
-#     repoURL: 'https://charts.loft.sh'
-#     targetRevision: 0.25.0
-#     chart: vcluster
-#     helm:
-#       releaseName: tenant1
-#       values: |
-#         controlPlane:
-#           ingress:
-#             enabled: true
-#             host: tenant1.tenark.com
-#             spec:
-#               ingressClassName: nginx
-#           proxy:
-#             extraSANs:
-#             - tenant1.tenark.com
-#             - tenant1
-#             - tenant1.tenant1
-#             - tenant1.tenant1.svc
-#             - tenant1.tenant1.svc.cluster.local
-#         sync:
-#           fromHost:
-#             ingressClasses:
-#               enabled: true
-#           toHost:
-#             ingresses:
-#               enabled: true
-#   sources: []
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenant1-vcluster
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    clusterName: tenant1
+spec:
+  project: default
+  destination:
+    namespace: tenant1
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: 'https://charts.loft.sh'
+    targetRevision: 0.25.0
+    chart: vcluster
+    helm:
+      releaseName: tenant1
+      values: |
+        controlPlane:
+          ingress:
+            enabled: true
+            host: tenant1.tenark.com
+            spec:
+              ingressClassName: nginx
+          proxy:
+            extraSANs:
+            - tenant1.tenark.com
+            - tenant1
+            - tenant1.tenant1
+            - tenant1.tenant1.svc
+            - tenant1.tenant1.svc.cluster.local
+        sync:
+          fromHost:
+            ingressClasses:
+              enabled: true
+          toHost:
+            ingresses:
+              enabled: true
+  sources: []
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
