@@ -27,7 +27,7 @@ spec:
         path: '{{.repo_path}}/overlays/dev'
       destination:
         name: 'tenant2-dev'
-        namespace: workload
+        namespace: default
       syncPolicy:
         retry:
           limit: 10

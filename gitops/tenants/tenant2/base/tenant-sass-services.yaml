@@ -29,7 +29,7 @@ spec:
         path: '{{.repo_path}}'
       destination:
         name: 'tenant2'
-        namespace: workload
+        namespace: default
       syncPolicy:
         retry:
           limit: 10

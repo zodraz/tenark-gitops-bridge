@@ -27,7 +27,7 @@ spec:
         path: '{{.repo_path}}/overlays/qa'
       destination:
         name: 'tenant2-qa'
-        namespace: workload
+        namespace: default
       syncPolicy:
         retry:
           limit: 10
