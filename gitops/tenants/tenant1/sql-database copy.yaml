@@ -1,0 +1,19 @@
+apiVersion: sql.azure.upbound.io/v1beta2
+kind: MSSQLDatabase
+metadata:
+  name: sqldb-tenark-sass-tenant-common
+  namespace: default
+spec:
+  forProvider:
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: mssqlelasticpool-rg
+    serverNameRef:
+      name: mssqlelasticpoolsrv
+    elasticPoolIdRef:
+      name: examplemssqlelasticpool
+    name: tenant-common
+    collation: SQL_Latin1_General_CP1_CI_AS
+  writeConnectionSecretToRef:
+    namespace: default
+    name: tenant-common-db-connection
