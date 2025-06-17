@@ -1,214 +1,214 @@
-# azurecommondataservicestack-composition.yaml
-apiVersion: apiextensions.crossplane.io/v1
-kind: Composition
-metadata:
-  name: azurecommondataservicestack-composition
-  labels:
-    provider: azure
-    service: common-data-stack
-spec:
-  compositeTypeRef:
-    apiVersion: azure.tenark.com/v1alpha1
-    kind: XAzureCommonDataServiceStack
+# # azurecommondataservicestack-composition.yaml
+# apiVersion: apiextensions.crossplane.io/v1
+# kind: Composition
+# metadata:
+#   name: azurecommondataservicestack-composition
+#   labels:
+#     provider: azure
+#     service: common-data-stack
+# spec:
+#   compositeTypeRef:
+#     apiVersion: azure.tenark.com/v1alpha1
+#     kind: XAzureCommonDataServiceStack
 
-  resources:
-    # 1. Azure Resource Group
-    - name: resourcegroup
-      base:
-        apiVersion: azure.upbound.io/v1beta1 # Correct, modern API
-        kind: ResourceGroup
-        spec:
-          forProvider: {}
-      patches:
-        - fromFieldPath: spec.parameters.location
-          toFieldPath: spec.forProvider.location
-        # Generate the external (Azure) and K8s metadata name from the XR name
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.name
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
+#   resources:
+#     # 1. Azure Resource Group
+#     - name: resourcegroup
+#       base:
+#         apiVersion: azure.upbound.io/v1beta1 # Correct, modern API
+#         kind: ResourceGroup
+#         spec:
+#           forProvider: {}
+#       patches:
+#         - fromFieldPath: spec.parameters.location
+#           toFieldPath: spec.forProvider.location
+#         # Generate the external (Azure) and K8s metadata name from the XR name
+#         - fromFieldPath: metadata.name
+#           toFieldPath: metadata.annotations[crossplane.io/external-name]
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-rg"
+#         - fromFieldPath: metadata.name
+#           toFieldPath: metadata.name
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-rg"
 
-    # 2. Azure SQL Server
-    - name: sqlserver
-      base:
-        apiVersion: sql.azure.upbound.io/v1beta1
-        kind: MSSQLServer
-        spec:
-          forProvider:
-            version: "12.0"
-            publicNetworkAccessEnabled: false
-            minimalTlsVersion: "1.2"
-            administratorLoginPasswordSecretRef: {}
-            firewallRules:
-              - name: AllowAzureServices
-                startIpAddress: "0.0.0.0"
-                endIpAddress: "0.0.0.0"
-          writeConnectionSecretToRef:
-            name: sqldb-connection-details # This will be transformed
-      patches:
-        - fromFieldPath: spec.parameters.location
-          toFieldPath: spec.forProvider.location
-        # Set the resource group name directly using the same transform as the RG
-        - fromFieldPath: metadata.name
-          toFieldPath: spec.forProvider.resourceGroupName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
-        # Generate and set the server name
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-sqlserver"
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.name
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-sqlserver"
-        # Patch secret details from parameters
-        - fromFieldPath: spec.parameters.administratorLogin
-          toFieldPath: spec.forProvider.administratorLogin
-        - fromFieldPath: spec.parameters.administratorLoginPasswordSecretRef.name
-          toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.name
-        - fromFieldPath: spec.parameters.administratorLoginPasswordSecretRef.key
-          toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.key
-        - fromFieldPath: spec.parameters.connectionSecretNamespace
-          toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.namespace
-        # Patch the output connection secret details
-        - fromFieldPath: metadata.name
-          toFieldPath: spec.writeConnectionSecretToRef.name
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-sqldb-conn"
-        - fromFieldPath: spec.parameters.connectionSecretNamespace
-          toFieldPath: spec.writeConnectionSecretToRef.namespace
+#     # 2. Azure SQL Server
+#     - name: sqlserver
+#       base:
+#         apiVersion: sql.azure.upbound.io/v1beta1
+#         kind: MSSQLServer
+#         spec:
+#           forProvider:
+#             version: "12.0"
+#             publicNetworkAccessEnabled: false
+#             minimalTlsVersion: "1.2"
+#             administratorLoginPasswordSecretRef: {}
+#             firewallRules:
+#               - name: AllowAzureServices
+#                 startIpAddress: "0.0.0.0"
+#                 endIpAddress: "0.0.0.0"
+#           writeConnectionSecretToRef:
+#             name: sqldb-connection-details # This will be transformed
+#       patches:
+#         - fromFieldPath: spec.parameters.location
+#           toFieldPath: spec.forProvider.location
+#         # Set the resource group name directly using the same transform as the RG
+#         - fromFieldPath: metadata.name
+#           toFieldPath: spec.forProvider.resourceGroupName
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-rg"
+#         # Generate and set the server name
+#         - fromFieldPath: metadata.name
+#           toFieldPath: metadata.annotations[crossplane.io/external-name]
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-sqlserver"
+#         - fromFieldPath: metadata.name
+#           toFieldPath: metadata.name
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-sqlserver"
+#         # Patch secret details from parameters
+#         - fromFieldPath: spec.parameters.administratorLogin
+#           toFieldPath: spec.forProvider.administratorLogin
+#         - fromFieldPath: spec.parameters.administratorLoginPasswordSecretRef.name
+#           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.name
+#         - fromFieldPath: spec.parameters.administratorLoginPasswordSecretRef.key
+#           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.key
+#         - fromFieldPath: spec.parameters.connectionSecretNamespace
+#           toFieldPath: spec.forProvider.administratorLoginPasswordSecretRef.namespace
+#         # Patch the output connection secret details
+#         - fromFieldPath: metadata.name
+#           toFieldPath: spec.writeConnectionSecretToRef.name
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-sqldb-conn"
+#         - fromFieldPath: spec.parameters.connectionSecretNamespace
+#           toFieldPath: spec.writeConnectionSecretToRef.namespace
 
-     # 3. Azure SQL Server Virtual Network Rule
-    - name: sqlserver-vnet-rule
-      base:
-        apiVersion: sql.azure.upbound.io/v1beta1
-        kind: MSSQLVirtualNetworkRule # <-- CORRECTED
-        spec:
-          forProvider:
-            ignoreMissingVNetServiceEndpoint: false
-      patches:
-        - fromFieldPath: metadata.name
-          toFieldPath: spec.forProvider.serverName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-sqlserver"
-        - fromFieldPath: metadata.name
-          toFieldPath: spec.forProvider.resourceGroupName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
-        - fromFieldPath: spec.parameters.subnetAzureResourceID
-          toFieldPath: spec.forProvider.subnetId
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-sql-vnet-rule"
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.name
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-sql-vnet-rule"
-    # 4. Azure SQL Database
-    - name: sqldatabase
-      base:
-        apiVersion: sql.azure.upbound.io/v1beta1
-        kind: MSSQLDatabase
-        spec:
-          forProvider: {}
-      patches:
-        # Set server and RG names directly using the same transforms
-        - fromFieldPath: metadata.name
-          toFieldPath: spec.forProvider.serverName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-sqlserver"
-        - fromFieldPath: metadata.name
-          toFieldPath: spec.forProvider.resourceGroupName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
-        # Generate and set the database name
-        - fromFieldPath: spec.parameters.sqlDatabase.name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
-        - fromFieldPath: spec.parameters.sqlDatabase.name
-          toFieldPath: metadata.name
-        # Patch other database parameters
-        - fromFieldPath: spec.parameters.sqlDatabase.collation
-          toFieldPath: spec.forProvider.collation
-          policy:
-            fromFieldPath: Optional
-        - fromFieldPath: spec.parameters.sqlDatabase.skuTier
-          toFieldPath: spec.forProvider.sku.tier
-        - fromFieldPath: spec.parameters.sqlDatabase.skuName
-          toFieldPath: spec.forProvider.sku.name
-        - fromFieldPath: spec.parameters.sqlDatabase.capacity
-          toFieldPath: spec.forProvider.sku.capacity
+#      # 3. Azure SQL Server Virtual Network Rule
+#     - name: sqlserver-vnet-rule
+#       base:
+#         apiVersion: sql.azure.upbound.io/v1beta1
+#         kind: MSSQLVirtualNetworkRule # <-- CORRECTED
+#         spec:
+#           forProvider:
+#             ignoreMissingVNetServiceEndpoint: false
+#       patches:
+#         - fromFieldPath: metadata.name
+#           toFieldPath: spec.forProvider.serverName
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-sqlserver"
+#         - fromFieldPath: metadata.name
+#           toFieldPath: spec.forProvider.resourceGroupName
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-rg"
+#         - fromFieldPath: spec.parameters.subnetAzureResourceID
+#           toFieldPath: spec.forProvider.subnetId
+#         - fromFieldPath: metadata.name
+#           toFieldPath: metadata.annotations[crossplane.io/external-name]
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-sql-vnet-rule"
+#         - fromFieldPath: metadata.name
+#           toFieldPath: metadata.name
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-sql-vnet-rule"
+#     # 4. Azure SQL Database
+#     - name: sqldatabase
+#       base:
+#         apiVersion: sql.azure.upbound.io/v1beta1
+#         kind: MSSQLDatabase
+#         spec:
+#           forProvider: {}
+#       patches:
+#         # Set server and RG names directly using the same transforms
+#         - fromFieldPath: metadata.name
+#           toFieldPath: spec.forProvider.serverName
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-sqlserver"
+#         - fromFieldPath: metadata.name
+#           toFieldPath: spec.forProvider.resourceGroupName
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-rg"
+#         # Generate and set the database name
+#         - fromFieldPath: spec.parameters.sqlDatabase.name
+#           toFieldPath: metadata.annotations[crossplane.io/external-name]
+#         - fromFieldPath: spec.parameters.sqlDatabase.name
+#           toFieldPath: metadata.name
+#         # Patch other database parameters
+#         - fromFieldPath: spec.parameters.sqlDatabase.collation
+#           toFieldPath: spec.forProvider.collation
+#           policy:
+#             fromFieldPath: Optional
+#         - fromFieldPath: spec.parameters.sqlDatabase.skuTier
+#           toFieldPath: spec.forProvider.sku.tier
+#         - fromFieldPath: spec.parameters.sqlDatabase.skuName
+#           toFieldPath: spec.forProvider.sku.name
+#         - fromFieldPath: spec.parameters.sqlDatabase.capacity
+#           toFieldPath: spec.forProvider.sku.capacity
 
-    # 5. Create Azure Redis Cache
-    - name: redis-cache
-      base:
-        apiVersion: cache.azure.upbound.io/v1beta1
-        kind: RedisCache
-        spec:
-          forProvider:
-            enableNonSslPort: false
-            minimumTlsVersion: "1.2"
-      patches:
-        - fromFieldPath: spec.parameters.location
-          toFieldPath: spec.forProvider.location
-        - fromFieldPath: metadata.name
-          toFieldPath: spec.forProvider.resourceGroupName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
-        - fromFieldPath: spec.parameters.redisCache.name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
-        - fromFieldPath: spec.parameters.redisCache.name
-          toFieldPath: metadata.name
-        - fromFieldPath: spec.parameters.subnetAzureResourceID
-          toFieldPath: spec.forProvider.subnetId
-          policy:
-            fromFieldPath: Optional
-        # ----- CORRECTED AND NEW PATCHES START HERE -----
-        - fromFieldPath: spec.parameters.redisCache.skuName
-          toFieldPath: spec.forProvider.skuName # <-- CORRECTED PATH (no .sku)
-        - fromFieldPath: spec.parameters.redisCache.skuFamily
-          toFieldPath: spec.forProvider.family # <-- CORRECTED PATH (no .sku)
-        - fromFieldPath: spec.parameters.redisCache.skuCapacity
-          toFieldPath: spec.forProvider.capacity # <-- CORRECTED PATH (no .sku)
-        - fromFieldPath: spec.parameters.redisCache.redisVersion
-          toFieldPath: spec.forProvider.redisVersion # <-- NEWLY ADDED PATCH
-        # ----- CORRECTED AND NEW PATCHES END HERE -----
-        - fromFieldPath: metadata.name
-          toFieldPath: spec.writeConnectionSecretToRef.name
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-redis-conn"
-        - fromFieldPath: spec.parameters.connectionSecretNamespace
-          toFieldPath: spec.writeConnectionSecretToRef.namespace
+#     # 5. Create Azure Redis Cache
+#     - name: redis-cache
+#       base:
+#         apiVersion: cache.azure.upbound.io/v1beta1
+#         kind: RedisCache
+#         spec:
+#           forProvider:
+#             enableNonSslPort: false
+#             minimumTlsVersion: "1.2"
+#       patches:
+#         - fromFieldPath: spec.parameters.location
+#           toFieldPath: spec.forProvider.location
+#         - fromFieldPath: metadata.name
+#           toFieldPath: spec.forProvider.resourceGroupName
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-rg"
+#         - fromFieldPath: spec.parameters.redisCache.name
+#           toFieldPath: metadata.annotations[crossplane.io/external-name]
+#         - fromFieldPath: spec.parameters.redisCache.name
+#           toFieldPath: metadata.name
+#         - fromFieldPath: spec.parameters.subnetAzureResourceID
+#           toFieldPath: spec.forProvider.subnetId
+#           policy:
+#             fromFieldPath: Optional
+#         # ----- CORRECTED AND NEW PATCHES START HERE -----
+#         - fromFieldPath: spec.parameters.redisCache.skuName
+#           toFieldPath: spec.forProvider.skuName # <-- CORRECTED PATH (no .sku)
+#         - fromFieldPath: spec.parameters.redisCache.skuFamily
+#           toFieldPath: spec.forProvider.family # <-- CORRECTED PATH (no .sku)
+#         - fromFieldPath: spec.parameters.redisCache.skuCapacity
+#           toFieldPath: spec.forProvider.capacity # <-- CORRECTED PATH (no .sku)
+#         - fromFieldPath: spec.parameters.redisCache.redisVersion
+#           toFieldPath: spec.forProvider.redisVersion # <-- NEWLY ADDED PATCH
+#         # ----- CORRECTED AND NEW PATCHES END HERE -----
+#         - fromFieldPath: metadata.name
+#           toFieldPath: spec.writeConnectionSecretToRef.name
+#           transforms:
+#             - type: string
+#               string:
+#                 fmt: "%s-redis-conn"
+#         - fromFieldPath: spec.parameters.connectionSecretNamespace
+#           toFieldPath: spec.writeConnectionSecretToRef.namespace
