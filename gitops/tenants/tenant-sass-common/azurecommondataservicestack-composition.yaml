@@ -12,29 +12,7 @@ spec:
     kind: XAzureCommonDataServiceStack
 
   resources:
-    # 1. Azure Resource Group
-    - name: resourcegroup
-      base:
-        apiVersion: azure.upbound.io/v1beta1 # Correct, modern API
-        kind: ResourceGroup
-        spec:
-          forProvider: {}
-      patches:
-        - fromFieldPath: spec.parameters.location
-          toFieldPath: spec.forProvider.location
-        # Generate the external (Azure) and K8s metadata name from the XR name
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.annotations[crossplane.io/external-name]
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
-        - fromFieldPath: metadata.name
-          toFieldPath: metadata.name
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
+    # Removed: 1. Azure Resource Group - now using existing as per user request
 
     # 2. Azure SQL Server
     - name: sqlserver
@@ -56,13 +34,9 @@ spec:
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
-        # Set the resource group name directly using the same transform as the RG
-        - fromFieldPath: metadata.name
+        # Patch to use the existing resource group name from XR parameters
+        - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
         # Generate and set the server name
         - fromFieldPath: metadata.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
@@ -99,25 +73,21 @@ spec:
     - name: sqlserver-vnet-rule
       base:
         apiVersion: sql.azure.upbound.io/v1beta1
-        kind: MSSQLVirtualNetworkRule # <-- CORRECTED
+        kind: MSSQLVirtualNetworkRule
         spec:
           forProvider:
             ignoreMissingVNetServiceEndpoint: false
       patches:
-        - fromFieldPath: metadata.name
+        # MODIFIED: Get serverName from the actual SQLServer composed resource
+        - fromFieldPath: resources[sqlserver].metadata.annotations[crossplane.io/external-name]
           toFieldPath: spec.forProvider.serverName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-sqlserver"
-        - fromFieldPath: metadata.name
+        # This one is already correct, reading from XR parameters
+        - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
+        # Subnet ID is also from XR parameters
         - fromFieldPath: spec.parameters.subnetAzureResourceID
           toFieldPath: spec.forProvider.subnetId
+        # External name for the VNet Rule itself
         - fromFieldPath: metadata.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
           transforms:
@@ -138,19 +108,11 @@ spec:
         spec:
           forProvider: {}
       patches:
-        # Set server and RG names directly using the same transforms
-        - fromFieldPath: metadata.name
+        # MODIFIED: Get serverName from the actual SQLServer composed resource
+        - fromFieldPath: resources[sqlserver].metadata.annotations[crossplane.io/external-name]
           toFieldPath: spec.forProvider.serverName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-sqlserver"
-        - fromFieldPath: metadata.name
+        - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
         # Generate and set the database name
         - fromFieldPath: spec.parameters.sqlDatabase.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
@@ -180,30 +142,21 @@ spec:
       patches:
         - fromFieldPath: spec.parameters.location
           toFieldPath: spec.forProvider.location
-        - fromFieldPath: metadata.name
+        - fromFieldPath: spec.parameters.resourceGroupName
           toFieldPath: spec.forProvider.resourceGroupName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rg"
         - fromFieldPath: spec.parameters.redisCache.name
           toFieldPath: metadata.annotations[crossplane.io/external-name]
         - fromFieldPath: spec.parameters.redisCache.name
           toFieldPath: metadata.name
-        - fromFieldPath: spec.parameters.subnetAzureResourceID
-          toFieldPath: spec.forProvider.subnetId
-          policy:
-            fromFieldPath: Optional
-        # ----- CORRECTED AND NEW PATCHES START HERE -----
+        # REMOVED: Patch for subnetId to allow Basic SKU
         - fromFieldPath: spec.parameters.redisCache.skuName
-          toFieldPath: spec.forProvider.skuName # <-- CORRECTED PATH (no .sku)
+          toFieldPath: spec.forProvider.skuName
         - fromFieldPath: spec.parameters.redisCache.skuFamily
-          toFieldPath: spec.forProvider.family # <-- CORRECTED PATH (no .sku)
+          toFieldPath: spec.forProvider.family
         - fromFieldPath: spec.parameters.redisCache.skuCapacity
-          toFieldPath: spec.forProvider.capacity # <-- CORRECTED PATH (no .sku)
+          toFieldPath: spec.forProvider.capacity
         - fromFieldPath: spec.parameters.redisCache.redisVersion
-          toFieldPath: spec.forProvider.redisVersion # <-- NEWLY ADDED PATCH
-        # ----- CORRECTED AND NEW PATCHES END HERE -----
+          toFieldPath: spec.forProvider.redisVersion
         - fromFieldPath: metadata.name
           toFieldPath: spec.writeConnectionSecretToRef.name
           transforms:

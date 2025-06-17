@@ -39,15 +39,15 @@ spec:
                         - WestEurope
                         - CentralUS
                         - SoutheastAsia
+                    resourceGroupName:
+                      type: string
+                      description: The name of the Azure Resource Group to use.
                     subnetAzureResourceID:
                       type: string
-                      description: |
-                        The full Azure Resource ID of the existing Subnet to attach the SQL Server (and Redis Cache) to.
-                        This ID includes subscription, resource group, VNet name, and subnet name.
-                        Example: /subscriptions/uuid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/subnet
+                      description: Full Azure Resource ID of an existing subnet.
                     administratorLogin:
                       type: string
-                      description: Administrator login name for the SQL Server.
+                      description: Administrator login for the SQL Server.
                     administratorLoginPasswordSecretRef:
                       type: object
                       description: Secret reference for the SQL Server administrator password.
@@ -63,30 +63,35 @@ spec:
                         - key
                     sqlDatabase:
                       type: object
-                      description: Parameters for the Azure SQL Database.
+                      description: Parameters for the SQL Database.
                       properties:
+                        name:
+                          type: string
+                          description: Name of the SQL Database.
                         collation:
                           type: string
-                          description: Collation for the SQL Database.
-                          default: SQL_Latin1_General_CP1_CI_AS
+                          description: Collation of the SQL Database.
                         skuTier:
                           type: string
-                          description: Tier of the SQL Database SKU (e.g., Basic, Standard, Premium, GeneralPurpose).
-                          enum: [Basic, Standard, Premium, GeneralPurpose, BusinessCritical]
+                          description: SKU Tier of the SQL Database (e.g., Basic, Standard, Premium).
                         skuName:
                           type: string
-                          description: Name of the SQL Database SKU (e.g., Basic for Basic tier; GP_Gen5_2 for GeneralPurpose with 2 vCores).
+                          description: SKU Name of the SQL Database (e.g., Basic, S0).
                         capacity:
                           type: integer
-                          description: Capacity of the SQL Database SKU (e.g., 5 for Basic tier, or vCores for GeneralPurpose).
+                          description: Capacity of the SQL Database in GB.
                       required:
+                        - name
                         - skuTier
                         - skuName
                         - capacity
                     redisCache:
                       type: object
-                      description: Parameters for the Azure Redis Cache instance.
+                      description: Parameters for the Azure Redis Cache.
                       properties:
+                        name:
+                          type: string
+                          description: Name of the Redis Cache.
                         skuName:
                           type: string
                           description: Name of the Redis Cache SKU (e.g., Basic, Standard, Premium).
@@ -98,7 +103,7 @@ spec:
                         skuCapacity:
                           type: integer
                           description: Capacity of the Redis Cache SKU (0-6 for Basic/Standard, 1-5 for Premium).
-                        redisVersion: # <-- ADD THIS
+                        redisVersion:
                           type: string
                           description: "The version of Redis to use, e.g., '6'."
                       required:
@@ -112,6 +117,7 @@ spec:
                       default: default
                   required:
                     - location
+                    - resourceGroupName
                     - subnetAzureResourceID
                     - administratorLogin
                     - administratorLoginPasswordSecretRef
