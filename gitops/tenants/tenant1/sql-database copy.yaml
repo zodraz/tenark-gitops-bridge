@@ -14,9 +14,7 @@ spec:
     serverIdSelector:
       matchLabels:
         testing.upbound.io/example-name: mssqlelasticpoolsrv
-    elasticPoolIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: examplemssqlelasticpool
+    elasticPoolId: examplemssqlelasticpool
     skuName: S0
     tags:
       foo: bar
