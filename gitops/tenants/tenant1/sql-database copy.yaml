@@ -10,8 +10,8 @@ spec:
         testing.upbound.io/example-name: mssqlelasticpool-rg
     serverNameRef:
       name: mssqlelasticpoolsrv
-    elasticPoolIdRef:
-      name: examplemssqlelasticpool
+    # elasticPoolIdRef:
+    #   name: examplemssqlelasticpool
     name: tenant-common
     collation: SQL_Latin1_General_CP1_CI_AS
   writeConnectionSecretToRef:

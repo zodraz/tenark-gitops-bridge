@@ -17,10 +17,10 @@ spec:
                 - tenant: tenant1
                 # - tenant: tenant2
                 - tenant: tenant3
-          - clusters: {}
-              # selector:
-              #   matchLabels:
-              #     environment: control-plane
+          - clusters: 
+               selector:
+                 matchLabels:
+                   environment: control-plane
   template:
     metadata:
       name: '{{.tenant}}-{{.name}}'  # Use tenant and cluster name for uniqueness
