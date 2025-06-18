@@ -9,14 +9,12 @@ metadata:
 spec:
   forProvider:
     collation: SQL_Latin1_General_CP1_CI_AS
-    enclaveType: VBS
     licenseType: LicenseIncluded
     maxSizeGb: 1
-    readScale: true
     serverIdSelector:
       matchLabels:
         testing.upbound.io/example-name: mssqlelasticpoolsrv
     skuName: S0
     tags:
       foo: bar
-    zoneRedundant: true
+    zoneRedundant: false
