@@ -17,4 +17,3 @@ spec:
     skuName: S0
     tags:
       foo: bar
-    zoneRedundant: false
