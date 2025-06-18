@@ -11,7 +11,7 @@ spec:
     collation: SQL_Latin1_General_CP1_CI_AS
     enclaveType: VBS
     licenseType: LicenseIncluded
-    maxSizeGb: 4
+    maxSizeGb: 1
     readScale: true
     serverIdSelector:
       matchLabels:
