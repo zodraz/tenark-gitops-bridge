@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: sql/v1beta2/mssqldatabase
   labels:
-    testing.upbound.io/example-name: example2
-  name: example2
+    testing.upbound.io/example-name: example3
+  name: example3
 spec:
   forProvider:
     collation: SQL_Latin1_General_CP1_CI_AS
