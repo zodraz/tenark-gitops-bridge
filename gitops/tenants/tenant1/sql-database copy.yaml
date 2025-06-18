@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: sql/v1beta2/mssqldatabase
   labels:
-    testing.upbound.io/example-name: example4
-  name: example4
+    testing.upbound.io/example-name: example5
+  name: example5
 spec:
   forProvider:
     collation: SQL_Latin1_General_CP1_CI_AS
@@ -14,7 +14,6 @@ spec:
     serverIdSelector:
       matchLabels:
         testing.upbound.io/example-name: mssqlelasticpoolsrv
-    elasticPoolId: subscriptions/bd43835b-1fe0-433f-a654-785ef6b4dc11/resourceGroups/mssqlelasticpool-rg/providers/Microsoft.Sql/servers/mssqlelasticpoolsrv/elasticpools/examplemssqlelasticpool
     skuName: S0
     tags:
       foo: bar
