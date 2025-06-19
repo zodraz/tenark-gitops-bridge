@@ -28,10 +28,10 @@
 #       source:
 #         repoURL: 'https://github.com/zodraz/tenark-services.git'
 #         targetRevision: 'HEAD'
-#         path: '{{.repo_path}}'
+#         path: '{{.repo_path}}/overlays/dev'
 #       destination:
 #         name: '{{name}}'
-#         namespace: workload
+#         namespace: default
 #       syncPolicy:
 #         retry:
 #           limit: 10

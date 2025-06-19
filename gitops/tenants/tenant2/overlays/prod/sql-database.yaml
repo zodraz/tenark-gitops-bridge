@@ -4,7 +4,5 @@ metadata:
   name: sqldb-tenark-sass-tenant2
 spec:
   forProvider:
-    serverIdRef:
-      name: sql-tenark-sass-tenant-common-prod
-    elasticPoolIdRef:
-      name: sqlep-tenark-sass-tenant-common-prod
+    serverNameRef:
+      name: tenark-sqlserver-prod

@@ -4,8 +4,8 @@ metadata:
   name: recommendation-ingress
 spec:
   rules:
-  - host: tenant2-prod.tenark.com
+  - host: recommendation.tenant2.prod.tenark.com
   tls:
   - hosts:
-    - tenant2-prod.tenark.com
+    - recommendation.tenant2.prod.tenark.com
     secretName: keyvault-recommendation-ingress-prod

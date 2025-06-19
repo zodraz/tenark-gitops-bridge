@@ -1,0 +1,11 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portal-ingress
+spec:
+  rules:
+  - host: portal.dev.tenark.com
+  tls:
+  - hosts:
+    - portal.dev.tenark.com
+    secretName: keyvault-portal-ingress-dev

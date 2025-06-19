@@ -1,0 +1,15 @@
+apiVersion: sql.azure.upbound.io/v1beta2
+kind: MSSQLServer
+metadata:
+  name: tenark-sqlserver
+spec:
+  forProvider:
+    administratorLogin: 4dm1n157r470r
+    administratorLoginPasswordSecretRef:
+      key: password
+      name: sql-admin-password-prod
+      namespace: default
+    location: West Europe
+    resourceGroupNameRef:
+      name: rg-tenark-sass-tenant-prod
+    version: "12.0"

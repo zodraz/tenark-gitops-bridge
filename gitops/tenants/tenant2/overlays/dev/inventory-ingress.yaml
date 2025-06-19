@@ -4,8 +4,8 @@ metadata:
   name: inventory-ingress
 spec:
   rules:
-  - host: tenant2-dev.tenark.com
+  - host: inventory.tenant2.dev.tenark.com
   tls:
   - hosts:
-    - tenant2-dev.tenark.com
+    - inventory.tenant2.dev.tenark.com
     secretName: keyvault-inventory-ingress-dev

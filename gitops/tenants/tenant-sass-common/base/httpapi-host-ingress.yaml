@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://tenark.vault.azure.net/certificates/aks-certificate-tenark/faad9bb180d44d7a92a310298c1891b7
+  name: httpapi-host-ingress
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+  - host: httpapi-host.tenark.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: tenark-httpapi-host-service
+            port:
+              number: 8081
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - httpapi-host.tenark.com
+    secretName: keyvault-httpapi-host-ingress

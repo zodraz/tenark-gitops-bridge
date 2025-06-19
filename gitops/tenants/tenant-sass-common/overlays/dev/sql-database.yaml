@@ -1,0 +1,8 @@
+apiVersion: sql.azure.upbound.io/v1beta2
+kind: MSSQLDatabase
+metadata:
+  name: sqldb-tenark-sass-tenant-common
+spec:
+  forProvider:
+    serverNameRef:
+      name: tenark-sqlserver-dev
