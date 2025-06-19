@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ordering-service
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: init-db
+        env:
+        - name: DATABASE_HOST
+          value: "tenark-sqlserver-dev"
+        - name: DATABASE_NAME
+          value: "ordering-db-tenant2"
+      containers:
+      - name: ordering-service
+        env:
+        - name: DATABASE_HOST
+          value: "tenark-sqlserver-dev"
+        - name: DATABASE_NAME
+          value: "ordering-db-tenant2"
+

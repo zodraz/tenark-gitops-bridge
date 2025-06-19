@@ -5,8 +5,11 @@ bases:
 nameSuffix: -qa
 patchesStrategicMerge:
   - inventory-ingress.yaml
+  - inventory-service-deployment.yaml
   - ordering-ingress.yaml
+  - ordering-service-deployment.yaml
   - recommendation-ingress.yaml
+  - recommendation-service-deployment.yaml
   - redis.yaml
   - sql-database.yaml.yaml
   - tenant-sass-services.yaml

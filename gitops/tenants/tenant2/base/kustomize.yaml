@@ -4,7 +4,9 @@ kind: Kustomization
 resources:
   - inventory-ingress.yaml
   - ordering-ingress.yaml
+  - ordering-deployment.yaml
   - recommendation-ingress.yaml
+  - recommendation-service-deployment.yaml
   - redis.yaml
   - sql-database.yaml.yaml
   - tenant-sass-services.yaml

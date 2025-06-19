@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendation-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recommendation-service
+  template:
+    metadata:
+      labels:
+        app: recommendation-service
+    spec:
+      initContainers:
+      - name: init-db
+        image: flyway/flyway:9
+        command: ["migrate"]
+        args:
+        - "-url=jdbc:sqlserver://${DATABASE_HOST}:1433;databaseName=${DATABASE_NAME}"
+        - "-user=${DATABASE_USER}"
+        - "-password=${DATABASE_PASSWORD}"
+        env:
+        - name: DATABASE_HOST
+          value: "tenark-sqlserver"
+        - name: DATABASE_NAME
+          value: "recommendation-db"
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: recommendation-db-credentials
+              key: DATABASE_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: recommendation-db-credentials
+              key: DATABASE_PASSWORD
+        resources:
+          limits:
+            cpu: "0.2"
+            memory: "256Mi"
+          requests:
+            cpu: "0.1"
+            memory: "128Mi"
+        volumeMounts:
+        - name: flyway-scripts
+          mountPath: /flyway/sql
+      volumes:
+      - name: flyway-scripts
+        configMap:
+          name: recommendation-flyway-scripts
+      containers:
+      - name: recommendation-service
+        image: recommendation-service:v0.0.4
+        env:
+        - name: DATABASE_HOST
+          value: "tenark-sqlserver"
+        - name: DATABASE_NAME
+          value: "recommendation-db"
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: recommendation-db-credentials
+              key: DATABASE_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: recommendation-db-credentials
+              key: DATABASE_PASSWORD
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"
+
