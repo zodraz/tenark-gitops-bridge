@@ -5,4 +5,4 @@ metadata:
 spec:
   forProvider:
     resourceGroupNameRef:
-      name: rg-tenark-sass-tenant-dev
+      name: rg-tenark-tenant-dev

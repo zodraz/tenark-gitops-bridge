@@ -11,5 +11,5 @@ spec:
       namespace: default
     location: West Europe
     resourceGroupNameRef:
-      name: rg-tenark-sass-tenant-dev
+      name: rg-tenark-tenant-dev
     version: "12.0"

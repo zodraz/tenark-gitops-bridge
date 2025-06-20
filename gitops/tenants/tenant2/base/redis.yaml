@@ -12,5 +12,5 @@ spec:
     redisConfiguration: {}
     redisVersion: "6"
     resourceGroupNameRef:
-      name: rg-tenark-sass-tenant
+      name: rg-tenark-tenant
     skuName: Basic

@@ -5,7 +5,7 @@ metadata:
 spec:
   forProvider:
     resourceGroupNameRef:
-      name: rg-tenark-sass-tenant
+      name: rg-tenark-tenant
     serverNameRef:
       name: tenark-sqlserver
     name: tenant-common
