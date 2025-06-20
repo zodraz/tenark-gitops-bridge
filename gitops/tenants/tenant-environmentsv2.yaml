@@ -16,7 +16,7 @@ spec:
                 # - tenant: tenant-common
                 - tenant: tenant1
                 # - tenant: tenant2
-                - tenant: tenant3
+                # - tenant: tenant3
           - clusters: 
                selector:
                  matchLabels:
