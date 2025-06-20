@@ -32,7 +32,7 @@ spec:
         targetRevision: 'HEAD'
         path: '{{.repo_path}}'
       destination:
-        name: '{{name}}'
+        name: '{{.name}}'
         namespace: default
       syncPolicy:
         retry:
