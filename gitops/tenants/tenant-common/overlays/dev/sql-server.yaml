@@ -4,12 +4,5 @@ metadata:
   name: tenark-sqlserver
 spec:
   forProvider:
-    administratorLogin: 4dm1n157r470r
-    administratorLoginPasswordSecretRef:
-      key: password
-      name: sql-admin-password-dev
-      namespace: default
-    location: West Europe
     resourceGroupNameRef:
       name: rg-tenark-tenant-dev
-    version: "12.0"

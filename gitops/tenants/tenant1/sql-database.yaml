@@ -15,3 +15,24 @@ spec:
     skuName: S0
     tags:
       tenant: tenant1
+
+---
+
+apiVersion: sql.azure.upbound.io/v1beta2
+kind: MSSQLDatabase
+metadata:
+  labels:
+    tenark/sqlserverdatabase: tenark-sqlserver2-dev
+  name: sqldb-tenark-tenant1-dev-v2
+spec:
+  forProvider:
+    collation: SQL_Latin1_General_CP1_CI_AS
+    enclaveType: VBS
+    licenseType: LicenseIncluded
+    maxSizeGb: 1
+    serverIdSelector:
+      matchLabels:
+        tenark/sqlserver: tenark-sqlserver2-dev
+    skuName: S0
+    tags:
+      tenant: tenant1

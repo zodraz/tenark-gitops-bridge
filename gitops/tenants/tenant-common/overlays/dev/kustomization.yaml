@@ -40,6 +40,10 @@ patches:
     target:
       kind: MSSQLServer
       name: tenark-sqlserver
+  - path: sql-server2.yaml
+    target:
+      kind: MSSQLServer
+      name: tenark-sqlserver2
   - path: tenant-common-apps.yaml
     target:
       kind: ApplicationSet

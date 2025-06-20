@@ -1,0 +1,11 @@
+apiVersion: sql.azure.upbound.io/v1beta2
+kind: MSSQLServer
+metadata:
+  labels:
+    tenark/sqlserver: tenark-sqlserver2-dev
+  name: tenark-sqlserver2
+spec:
+  forProvider:
+    resourceGroupNameSelector:
+      matchLabels:
+        tenark/resourcegroup: rg-tenark-tenant-dev
