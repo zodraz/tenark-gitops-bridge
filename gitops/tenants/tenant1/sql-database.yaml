@@ -5,10 +5,10 @@ metadata:
 spec:
   forProvider:
     resourceGroupNameRef:
-      name: rg-tenark-tenant
+      name: rg-tenark-tenant-dev
     serverNameRef:
-      name: tenark-sqlserver
-    name: tenant-common
+      name: tenark-sqlserver-dev
+    name: sqldb-tenant1-dev
     collation: SQL_Latin1_General_CP1_CI_AS
     licenseType: LicenseIncluded
     maxSizeGb: 1
