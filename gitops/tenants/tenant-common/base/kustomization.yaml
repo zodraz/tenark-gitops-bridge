@@ -11,5 +11,5 @@ resources:
   - sql-admin-password.yaml
   - sql-database.yaml
   - sql-server.yaml
-  - tenants-sass-common-apps.yaml
+  - tenant-common-apps.yaml
   - vcluster.yaml
