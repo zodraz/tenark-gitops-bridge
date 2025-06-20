@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: tenants-sass-common-apps
+  name: tenant-sass-common-apps
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "2"
@@ -24,7 +24,7 @@ spec:
         environment: control-plane
   template:
     metadata:
-      name: tenants-sass-common-apps
+      name: tenant-sass-common-apps
     spec:
       project: default
       source:
