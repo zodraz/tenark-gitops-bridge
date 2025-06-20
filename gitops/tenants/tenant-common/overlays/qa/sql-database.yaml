@@ -4,5 +4,7 @@ metadata:
   name: sqldb-tenark-tenant-common
 spec:
   forProvider:
+    resourceGroupNameRef:
+      name: rg-tenark-tenant-qa
     serverNameRef:
       name: tenark-sqlserver-qa
