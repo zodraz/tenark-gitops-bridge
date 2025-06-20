@@ -14,17 +14,22 @@ spec:
   - list:
       elements:
       - repo_path: kubernetes/Tenark.AuthServer
+        app: authserver
       - repo_path: kubernetes/Tenark.DbMigrator
+        app: dbmigrator
       - repo_path: kubernetes/Tenark.HttpApi.Host
+        app: httpapi
       - repo_path: kubernetes/Tenark.ControlPlane
+        app: controlplane
       - repo_path: kubernetes/Tenark.Portal
+        app: portal
   - clusters:
     selector:
       matchLabels:
         environment: control-plane
   template:
     metadata:
-      name: tenant-common-apps
+      name: tenant-common-apps-{{.app}}
     spec:
       project: default
       source:
