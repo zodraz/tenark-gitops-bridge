@@ -24,7 +24,7 @@ spec:
         environment: control-plane
   template:
     metadata:
-      name: tenant-sass-common-apps
+      name: tenant-common-apps
     spec:
       project: default
       source:
@@ -32,7 +32,7 @@ spec:
         targetRevision: 'HEAD'
         path: '{{.repo_path}}'
       destination:
-        name: '{{.name}}'
+        name: '{{name}}'
         namespace: default
       syncPolicy:
         retry:

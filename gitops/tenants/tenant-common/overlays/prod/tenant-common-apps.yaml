@@ -10,3 +10,12 @@ spec:
     spec:
       source:
         path: '{{.repo_path}}/overlays/prod'
+      destination:
+        name: 'tenant-common-prod'
+        namespace: default
+      syncPolicy:
+        retry:
+          limit: 10
+        automated: {}
+        syncOptions:
+          - CreateNamespace=true

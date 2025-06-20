@@ -10,3 +10,12 @@ spec:
     spec:
       source:
         path: '{{.repo_path}}/overlays/qa'
+      destination:
+        name: 'tenant-common-qa'
+        namespace: default
+      syncPolicy:
+        retry:
+          limit: 10
+        automated: {}
+        syncOptions:
+          - CreateNamespace=true
