@@ -30,6 +30,10 @@ spec:
         repoURL: '{{.metadata.annotations.addons_repo_url}}'
         targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
         path: 'gitops/tenants/{{.tenant}}'
+        directory:
+          recurse: true
+          exclude: '{compositions/*,overlays/qa/*,overlays/prod/*,base/*}'
+          include: '{overlays/dev/*}'
       destination:
         name: '{{.name}}'
         namespace: default
