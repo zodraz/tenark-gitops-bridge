@@ -31,7 +31,7 @@ spec:
         targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
         path: 'gitops/tenants/{{.tenant}}'
         directory:
-          recurse: true
+          # recurse: true
           exclude: '{compositions/*,overlays/qa/*,overlays/prod/*,base/*}'
           include: '{overlays/dev/*}'
       destination:
