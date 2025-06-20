@@ -13,9 +13,9 @@ spec:
         generators:
           - list:
               elements:
-                - tenant: tenant-sass-common
+                - tenant: tenant-common
                 - tenant: tenant1
-                # - tenant: tenant2
+                - tenant: tenant2
                 - tenant: tenant3
           - clusters: 
                selector:
