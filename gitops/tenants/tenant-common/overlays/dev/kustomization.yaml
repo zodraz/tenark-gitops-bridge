@@ -1,17 +1,50 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-bases:
+resources:
   - ../../base
 nameSuffix: -dev
-patchesStrategicMerge:
-  # - authserver-ingress.yaml
-  # - controlplane-ingress.yaml
-  # - httpapi-host-ingress.yaml
-  # - portal-ingress.yaml
-  # - redis.yaml
-  - resource-group.yaml
-  # - sql-admin-password.yaml
-  # - sql-database.yaml
-  # - sql-server.yaml
-  # - tenants-sass-common-apps.yaml
-  - vcluster.yaml
+patches: 
+  - path: authserver-ingress.yaml
+    target:
+      kind: Ingress
+      name: authserver-ingress
+  - path: controlplane-ingress.yaml
+    target:
+      kind: Ingress
+      name: controlplane-ingress
+  - path: httpapi-host-ingress.yaml
+    target:
+      kind: Ingress
+      name: httpapi-host-ingress
+  - path: portal-ingress.yaml
+    target:
+      kind: Ingress
+      name: portal-ingress
+  - path: redis.yaml
+    target:
+      kind: RedisCache
+      name: redis-tenark-tenant-common
+  - path: resource-group.yaml
+    target:
+      kind: ResourceGroup
+      name: rg-tenark-tenant
+  - path: sql-admin-password.yaml
+    target:
+      kind: Secret
+      name: sql-admin-password
+  - path:  sql-database.yaml
+    target:
+      kind: MSSQLDatabase
+      name: sqldb-tenark-tenant-common
+  - path: sql-server.yaml
+    target:
+      kind: MSSQLServer
+      name: tenark-sqlserver
+  - path: tenant-common-apps.yaml
+    target:
+      kind: ApplicationSet
+      name: tenant-common-apps
+  - path: vcluster.yaml
+    target:
+      kind: Application
+      name: tenant-common-vcluster
