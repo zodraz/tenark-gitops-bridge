@@ -1,7 +1,7 @@
 apiVersion: cache.azure.upbound.io/v1beta2
 kind: RedisCache
 metadata:
-  name: redis-tenark-sass-tenant-common
+  name: redis-tenark-tenant-common
 spec:
   forProvider:
     resourceGroupNameRef:

@@ -1,7 +1,7 @@
 apiVersion: cache.azure.upbound.io/v1beta2
 kind: RedisCache
 metadata:
-  name: redis-tenark-sass-tenant2
+  name: redis-tenark-tenant2
 spec:
   forProvider:
     capacity: 0
