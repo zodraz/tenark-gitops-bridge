@@ -9,7 +9,7 @@ patchesStrategicMerge:
   # - httpapi-host-ingress.yaml
   # - portal-ingress.yaml
   # - redis.yaml
-  # - resource-group.yaml
+  - resource-group.yaml
   # - sql-admin-password.yaml
   # - sql-database.yaml
   # - sql-server.yaml
