@@ -16,11 +16,14 @@ spec:
           - list:
               elements:
               - repo_path: kubernetes/inventory
+                app: inventory
               - repo_path: kubernetes/ordering
+                app: ordering
               - repo_path: kubernetes/recommendation
+                app: recommendation
   template:
     metadata:
-      name: tenants-sass-services
+      name: tenants-sass-services-{{.app}}
     spec:
       project: default
       source:
