@@ -39,13 +39,6 @@ spec:
           toHost:
             ingresses:
               enabled: true
-        policies:
-          resourceQuota:
-            enabled: true
-            quota:
-              cpu: "3"
-              memory: 3Gi
-              pods: "10"
   sources: []
   syncPolicy:
     automated:
