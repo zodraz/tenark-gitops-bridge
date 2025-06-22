@@ -6,6 +6,10 @@ metadata:
   name: tenark-sqlserver2
 spec:
   forProvider:
+    administratorLoginPasswordSecretRef:
+      key: password
+      name: sql-admin-password-dev
+      namespace: default
     resourceGroupNameSelector:
       matchLabels:
         tenark/resourcegroup: rg-tenark-tenant-dev
