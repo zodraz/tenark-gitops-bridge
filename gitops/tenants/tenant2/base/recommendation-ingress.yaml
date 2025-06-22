@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:
-  - host: recommendation.tenant2.tenark.com
+  - host: tenant2.tenark.com
     http:
       paths:
       - backend:
@@ -15,9 +15,9 @@ spec:
             name: recommendation-ingress
             port:
               number: 80
-        path: /
+        path: /recommendation
         pathType: Prefix
   tls:
   - hosts:
-    - recommendation.tenant2.tenark.com
+    - tenant2.tenark.com
     secretName: keyvault-recommendation-ingress

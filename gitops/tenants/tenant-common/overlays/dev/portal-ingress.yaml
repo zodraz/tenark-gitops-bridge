@@ -4,8 +4,8 @@ metadata:
   name: portal-ingress
 spec:
   rules:
-  - host: portal.dev.tenark.com
+  - host: dev.tenark.com
   tls:
   - hosts:
-    - portal.dev.tenark.com
+    - dev.tenark.com
     secretName: keyvault-portal-ingress-dev
