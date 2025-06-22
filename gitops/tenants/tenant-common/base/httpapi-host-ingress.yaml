@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:
-  - host: httpapi-host.tenark.com
+  - host: tenark.com
     http:
       paths:
       - backend:
@@ -15,9 +15,9 @@ spec:
             name: tenark-httpapi-host-service
             port:
               number: 8081
-        path: /
+        path: /httpapi-host.
         pathType: Prefix
   tls:
   - hosts:
-    - httpapi-host.tenark.com
+    - tenark.com
     secretName: keyvault-httpapi-host-ingress

@@ -4,8 +4,8 @@ metadata:
   name: httpapi-host-ingress
 spec:
   rules:
-  - host: httpapi-host.dev.tenark.com
+  - host: tenark.com
   tls:
   - hosts:
-    - httpapi-host.dev.tenark.com
+    - tenark.com
     secretName: keyvault-httpapi-host-ingress-dev

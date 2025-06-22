@@ -4,8 +4,8 @@ metadata:
   name: authserver-ingress
 spec:
   rules:
-  - host: authserver-dev.tenark.com
+  - host: qa.tenark.com
   tls:
   - hosts:
-    - authserver-dev.tenark.com
+    - qa.tenark.com
     secretName: keyvault-authserver-ingress-dev

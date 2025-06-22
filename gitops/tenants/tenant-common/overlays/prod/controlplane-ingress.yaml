@@ -4,8 +4,8 @@ metadata:
   name: controlplane-ingress
 spec:
   rules:
-  - host: controlplane.dev.tenark.com
+  - host: tenark.com
   tls:
   - hosts:
-    - controlplane.dev.tenark.com
+    - tenark.com
     secretName: keyvault-controlplane-ingress-dev

@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:
-  - host: controlplane.tenark.com
+  - host: tenark.com
     http:
       paths:
       - backend:
@@ -15,9 +15,9 @@ spec:
             name: tenark-web-controlplane-service
             port:
               number: 8081
-        path: /
+        path: /controlplane
         pathType: Prefix
   tls:
   - hosts:
-    - controlplane.tenark.com
+    - tenark.com
     secretName: keyvault-controlplane-ingress
