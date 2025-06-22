@@ -1,10 +1,11 @@
 apiVersion: sql.azure.upbound.io/v1beta2
 kind: MSSQLDatabase
 metadata:
+  labels:
+    tenark/sqlserverdatabase: tenark-sqlserver-dev
   name: sqldb-tenark-tenant-common
 spec:
   forProvider:
-    resourceGroupNameRef:
-      name: rg-tenark-tenant-dev
-    serverNameRef:
-      name: tenark-sqlserver-dev
+    serverIdSelector:
+      matchLabels:
+        tenark/sqlserver: tenark-sqlserver-dev
