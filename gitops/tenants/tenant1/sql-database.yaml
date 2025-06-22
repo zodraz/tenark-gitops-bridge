@@ -1,29 +1,9 @@
 apiVersion: sql.azure.upbound.io/v1beta2
 kind: MSSQLDatabase
 metadata:
-  name: sqldb-tenark-tenant1
-spec:
-  forProvider:
-    resourceGroupNameRef:
-      name: rg-tenark-tenant-dev
-    serverNameRef:
-      name: tenark-sqlserver-dev
-    name: sqldb-tenant1-dev
-    collation: SQL_Latin1_General_CP1_CI_AS
-    licenseType: LicenseIncluded
-    maxSizeGb: 1
-    skuName: S0
-    tags:
-      tenant: tenant1
-
----
-
-apiVersion: sql.azure.upbound.io/v1beta2
-kind: MSSQLDatabase
-metadata:
   labels:
-    tenark/sqlserverdatabase: tenark-sqlserver2-dev
-  name: sqldb-tenark-tenant1-dev-v2
+    tenark/sqlserverdatabase: tenark-sqlserver-dev
+  name: sqldb-tenark-tenant1-dev
 spec:
   forProvider:
     collation: SQL_Latin1_General_CP1_CI_AS
@@ -32,7 +12,7 @@ spec:
     maxSizeGb: 1
     serverIdSelector:
       matchLabels:
-        tenark/sqlserver: tenark-sqlserver2-dev
+        tenark/sqlserver: tenark-sqlserver-dev
     skuName: S0
     tags:
       tenant: tenant1
