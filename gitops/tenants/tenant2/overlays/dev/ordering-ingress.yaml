@@ -4,8 +4,8 @@ metadata:
   name: ordering-ingress
 spec:
   rules:
-  - host: ordering.tenant2.dev.tenark.com
+  - host: tenant2.dev.tenark.com
   tls:
   - hosts:
-    - ordering.tenant2.dev.tenark.com
+    - tenant2.dev.tenark.com
     secretName: keyvault-ordering-ingress-dev
