@@ -19,9 +19,9 @@ spec:
         app: dbmigrator
       - repo_path: kubernetes/Tenark.HttpApi.Host
         app: httpapi
-      - repo_path: kubernetes/Tenark.ControlPlane
+      - repo_path: kubernetes/Tenark.Web.ControlPlane
         app: controlplane
-      - repo_path: kubernetes/Tenark.Portal
+      - repo_path: kubernetes/Tenark.Web.Portal
         app: portal
   - clusters:
     selector:
