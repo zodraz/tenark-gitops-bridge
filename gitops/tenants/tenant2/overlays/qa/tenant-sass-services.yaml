@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: tenants-sass-services
+  name: tenant-sass-services
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "2"
@@ -18,7 +18,7 @@ spec:
       - repo_path: kubernetes/recommendation    
   template:
     metadata:
-      name: tenants-sass-services
+      name: tenant-sass-services
     spec:
       project: default
       source:
