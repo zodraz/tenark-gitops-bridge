@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.azure.com/tls-cert-keyvault-uri: https://tenark.vault.azure.net/certificates/aks-certificate-tenark/faad9bb180d44d7a92a310298c1891b7
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://tenark.vault.azure.net/certificates/aks-certificate-tenark/4685d0b931f64993b45cc90b1c198000
   name: portal-ingress
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
