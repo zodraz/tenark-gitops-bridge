@@ -15,7 +15,7 @@ spec:
             name: tenark-httpapi-host-service
             port:
               number: 8080
-        path: /httpapi-host.
+        path: /httpapi-host
         pathType: Prefix
   tls:
   - hosts:
