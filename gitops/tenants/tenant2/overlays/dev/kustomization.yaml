@@ -12,7 +12,7 @@ patches:
     target:
       kind: Deployment
       name: inventory-service
-  - path: orderting-ingress.yaml
+  - path: ordering-ingress.yaml
     target:
       kind: Ingress
       name: ordering-ingress
