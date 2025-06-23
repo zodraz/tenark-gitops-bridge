@@ -1,0 +1,54 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+nameSuffix: -dev
+patches: 
+  - path: inventory-ingress.yaml
+    target:
+      kind: Ingress
+      name: inventory-ingress
+  - path: inventory-service-deployment.yaml
+    target:
+      kind: Deployment
+      name: inventory-service
+  - path: orderting-ingress.yaml
+    target:
+      kind: Ingress
+      name: ordering-ingress
+  - path: ordering-service-deployment.yaml
+    target:
+      kind: Deployment
+      name: ordering-service
+  - path: recommendation-ingress.yaml
+    target:
+      kind: Ingress
+      name: recommendation-ingress
+  - path: recommendation-service-deployment.yaml
+    target:
+      kind: Deployment
+      name: recommendation-service
+  - path: redis.yaml
+    target:
+      kind: RedisCache
+      name: redis-tenark-tenant2
+  - path: sql-database-inventory.yaml
+    target:
+      kind: MSSQLDatabase
+      name: sqldb-tenark-tenant2-inventory-db
+  - path: sql-database-ordering.yaml
+    target:
+      kind: MSSQLDatabase
+      name: sqldb-tenark-tenant2-ordering-db
+  - path: sql-database-recommendation.yaml
+    target:
+      kind: MSSQLDatabase
+      name: sqldb-tenark-tenant2-recommendation-db
+  - path: tenants-sass-services.yaml
+    target:
+      kind: ApplicationSet
+      name: tenants-sass-services
+  - path: vcluster.yaml
+    target:
+      kind: Application
+      name: tenant2-vcluster

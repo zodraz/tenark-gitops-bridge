@@ -1,0 +1,18 @@
+apiVersion: sql.azure.upbound.io/v1beta2
+kind: MSSQLDatabase
+metadata:
+  labels:
+    tenark/sqlserverdatabase: tenark-sqlserver
+  name: sqldb-tenark-tenant2-recommendation-db
+spec:
+  forProvider:
+    collation: SQL_Latin1_General_CP1_CI_AS
+    enclaveType: VBS
+    licenseType: LicenseIncluded
+    maxSizeGb: 1
+    serverIdSelector:
+      matchLabels:
+        tenark/sqlserver: tenark-sqlserver
+    skuName: S0
+    tags:
+      tenant: tenant2

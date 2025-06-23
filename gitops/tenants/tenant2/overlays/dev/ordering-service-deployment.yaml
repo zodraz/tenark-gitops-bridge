@@ -11,12 +11,12 @@ spec:
         - name: DATABASE_HOST
           value: "tenark-sqlserver-dev"
         - name: DATABASE_NAME
-          value: "ordering-db-tenant2"
+          value: "sqldb-tenark-tenant2-ordering-db"
       containers:
       - name: ordering-service
         env:
         - name: DATABASE_HOST
           value: "tenark-sqlserver-dev"
         - name: DATABASE_NAME
-          value: "ordering-db-tenant2"
+          value: "sqldb-tenark-tenant2-ordering-db"
 

@@ -24,7 +24,7 @@ spec:
         - name: DATABASE_HOST
           value: "tenark-sqlserver"
         - name: DATABASE_NAME
-          value: "recommendation-db"
+          value: "sqldb-tenark-tenant2-recommendation-db"
         - name: DATABASE_USER
           valueFrom:
             secretKeyRef:
@@ -56,7 +56,7 @@ spec:
         - name: DATABASE_HOST
           value: "tenark-sqlserver"
         - name: DATABASE_NAME
-          value: "recommendation-db"
+          value: "sqldb-tenark-tenant2-recommendation-db"
         - name: DATABASE_USER
           valueFrom:
             secretKeyRef:

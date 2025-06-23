@@ -24,7 +24,7 @@ spec:
         - name: DATABASE_HOST
           value: "tenark-sqlserver"
         - name: DATABASE_NAME
-          value: "ordering-db"
+          value: "sqldb-tenark-tenant2-ordering-db"
         - name: DATABASE_USER
           valueFrom:
             secretKeyRef:
@@ -56,7 +56,7 @@ spec:
         - name: DATABASE_HOST
           value: "tenark-sqlserver"
         - name: DATABASE_NAME
-          value: "ordering-db"
+          value: "sqldb-tenark-tenant2-ordering-db"
         - name: DATABASE_USER
           valueFrom:
             secretKeyRef:

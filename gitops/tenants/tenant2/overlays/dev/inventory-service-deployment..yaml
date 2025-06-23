@@ -11,11 +11,11 @@ spec:
         - name: DATABASE_HOST
           value: "tenark-sqlserver-dev"
         - name: DATABASE_NAME
-          value: "inventory-db-tenant2"
+          value: "sqldb-tenark-tenant2-inventory-db"
       containers:
       - name: inventory-service
         env:
         - name: DATABASE_HOST
           value: "tenark-sqlserver-dev"
         - name: DATABASE_NAME
-          value: "inventory-db-tenant2"
+          value: "sqldb-tenark-tenant2-inventory-db"
