@@ -14,7 +14,7 @@ spec:
           service:
             name: tenark-web-portal-service
             port:
-              number: 8081
+              number: 8080
         path: /portal
         pathType: Prefix
   tls:

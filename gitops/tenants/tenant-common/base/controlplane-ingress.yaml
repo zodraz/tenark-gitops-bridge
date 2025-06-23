@@ -14,7 +14,7 @@ spec:
           service:
             name: tenark-web-controlplane-service
             port:
-              number: 8081
+              number: 8080
         path: /controlplane
         pathType: Prefix
   tls:

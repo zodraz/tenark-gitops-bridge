@@ -14,7 +14,7 @@ spec:
           service:
             name: tenark-authserver-service
             port:
-              number: 8081
+              number: 8080
         path: /authserver
         pathType: Prefix
   tls:
