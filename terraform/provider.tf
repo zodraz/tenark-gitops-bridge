@@ -22,7 +22,7 @@ terraform {
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.13"
+      version = "= 2.13"
     }
   }
   required_version = ">= 1.1.0"
@@ -63,7 +63,7 @@ output "kube_config_cluster_ca_certificate" {
 }
 
 provider "helm" {
-  kubernetes = {
+  kubernetes {
     host                   = module.aks.host
     client_certificate     = base64decode(module.aks.client_certificate)
     client_key             = base64decode(module.aks.client_key)
