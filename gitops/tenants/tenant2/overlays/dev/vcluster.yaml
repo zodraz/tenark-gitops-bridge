@@ -14,7 +14,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://charts.loft.sh'
-    targetRevision: 0.25.0
+    targetRevision: 0.23.1
     chart: vcluster
     helm:
       releaseName: tenant2-dev
