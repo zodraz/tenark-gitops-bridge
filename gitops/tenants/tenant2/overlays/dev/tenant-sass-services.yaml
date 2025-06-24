@@ -6,31 +6,9 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
-  syncPolicy:
-    preserveResourcesOnDeletion: true
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
-  generators:
-  - list:
-      elements:
-      - repo_path: kubernetes/inventory
-      - repo_path: kubernetes/ordering
-      - repo_path: kubernetes/recommendation 
   template:
-    metadata:
-      name: tenant-sass-services
     spec:
-      project: default
       source:
-        repoURL: 'https://github.com/zodraz/tenark-services.git'
-        targetRevision: 'HEAD'
         path: '{{.repo_path}}/overlays/dev'
       destination:
         name: 'tenant2-dev'
-        namespace: default
-      syncPolicy:
-        retry:
-          limit: 10
-        automated: {}
-        syncOptions:
-          - CreateNamespace=true
