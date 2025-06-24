@@ -1,0 +1,277 @@
+{
+  "version": 4,
+  "terraform_version": "1.9.8",
+  "serial": 87,
+  "lineage": "94048103-9ce1-bf8c-e0e4-4dc4e3fcf514",
+  "outputs": {
+    "akspe_client_id": {
+      "value": "a8841a50-61e1-4069-8b94-8cc75c5951b1",
+      "type": "string"
+    },
+    "azurerm_key_vault_id": {
+      "value": "/subscriptions/bd43835b-1fe0-433f-a654-785ef6b4dc11/resourceGroups/tenark-gitops/providers/Microsoft.KeyVault/vaults/tenark",
+      "type": "string"
+    },
+    "azurerm_key_vault_name": {
+      "value": "tenark",
+      "type": "string"
+    },
+    "kube_config_client_certificate": {
+      "value": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZIVENDQXdXZ0F3SUJBZ0lRWmhueU1PRUZmNUx2SkxoUkxseVBtakFOQmdrcWhraUc5dzBCQVFzRkFEQU4KTVFzd0NRWURWUVFERXdKallUQWVGdzB5TlRBMk1qTXhOREUwTURoYUZ3MHlOekEyTWpNeE5ESTBNRGhhTURBeApGekFWQmdOVkJBb1REbk41YzNSbGJUcHRZWE4wWlhKek1SVXdFd1lEVlFRREV3eHRZWE4wWlhKamJHbGxiblF3CmdnSWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUNEd0F3Z2dJS0FvSUNBUUM2YzRUUUY1dE0wSkZzVlFseGdwQ0IKWms4TlVnYkVmUnVEalFsa0luWFUyb2hTTkxsQlRiQXBmNUZnSnNwM1FpNjJrMVo2STVXWmhyUDBoc1V4bGYyWAppbW1zS2s0Z3JWdDJRdTNJR3Q2WFZvOUkxV1FDaWljalNXMmErWkxGYVExRUFpSVpaVW1vNks2d0FDU3NFWjRDClpweE5ZNzVEcWJ3TnRJR3RvdUVYWVZ5K041dk13VjZNL0JBUmVPV2xQaXJwMGY2QlBudmVLejRGazliSGF2ZWMKK3B5NTRENkhOMjdLYVJsbnZ2VWJwZC9aODJ3MWJUTGZQSWk5VnNBT2svOUtoNVI5ZFZTa1lCZXloMEV5VnpIcQpGeXVRVTdGWTFkbE40bDcyUTFva3ZabWRuVFE4bHUwQ3FEam90UUxtZ2JCVy9XWkRZTGxFMThCaXBsSEdTVnNKCitGVVdPOC90cGtZNlBiQTE4OE5jZEdSV1VpeFoxY0JFdFVqcE55Z0Y2N2RCelhHbElHNElwTU9zUWNYQ1dHSnkKTXg2bWtLNFhENEVndlBDSFI0WXhLRXRyNE1xbFZrM1hxbjlsNlRpc2hBYXlwcWFCUDN0eGUrMDMzTHYweVJUeQpFQWYxSCs5bUFSRXNpeXB3ampyL1pvZmtrSWpYckJldGlFYmNVUUxkNElqblh6Z0xTRmdwenN2cE9PWjlJRk1YCm9PWmZMQytOSU1jcmh6T2ErRytEYWZ2VHZiUVA1aWU4eGJqWlVEL2d4eTRsQXZSUjFSRWhWRDZsL0ZXbEhjUXEKeTNjSWJERnQrNkF4c1JGODhSS1FBR3AwQmFVeU1LMTN3L2sxZjFaV1llN1plekU4MllWQ09rM1B5WnF2OHFHNgp3MWdyWk91bTFQdFM5TkxhTlA0RlJ3SURBUUFCbzFZd1ZEQU9CZ05WSFE4QkFmOEVCQU1DQmFBd0V3WURWUjBsCkJBd3dDZ1lJS3dZQkJRVUhBd0l3REFZRFZSMFRBUUgvQkFJd0FEQWZCZ05WSFNNRUdEQVdnQlJaS0xMT3RURmsKbFU4NVM2bjZpWG9hRzJQZXh6QU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FnRUFlU0ZCR3BjR0hyd0J3Sk5wdjAwMwp5QVBXdEVIUmJwbWlJL1ZuYzVITENieFVCL3NJanhVcWhGSlBSVVVkRjhoZm5IUU1DNXV0cDJIVG9reTh4MHdBCjFtT21nWHdaVW5FTy9XK0lwVTRRcXB3SWpYMWVNMlRVTzhYenFHdEVLRE40VEtNdGRGVk9WS3puSFN2R0NiYUwKZ2xwKy9MNmlJRGNvK3FyVVZQWW5IdUJEVnBET0FLdmZKZnBTVmpyYUZEazNmUE0ra05BWUVHMnFRcGpqUThxcApIbndHSmZvMzgweVRMM1JMWjErQkhwQVFFMURXMWtnRWpKb2piMlA0TW5OamJNM0NKWnFBOG9vMTBoTTZiTTYzCnUxcW52Sk55WDNnWHdrNXB4Rk9vN09aWFhraHRBcHhROTJibjJxM0dtdmI1cDNYRlhHeGx3SlBCNy9oRzdRYXgKeDVTVmZ4ZXg4bWNyd1FWeWg0OFdNQTJiZEpCVEdYdjVpVEw2MjZ3R0ZWVEZGanZXbnFSRUpvTGRMcnExNE5SMQpGWFB5WmhRbWR3V25jN1pOa3p3VE9FS0xlVFdIMmdHTVd1S2FrMlVZd0p4RDhOWTJTcjJDTWxhakNkRU5mS3JyCmVkVGthbExoSGQ1OVE2RGgzeGdFZmNjZHdMcTRQc3ZxajMyTm8zTVBZU3FmNW1HNzluOVRWbWF0aE9ZOTNWK1MKVFRNSkExVStycjYrMURXWU9Tb0lvVXg3VlZPZGJNaFR0OVg3N0Nva0UyWXE5NzRpeGtUZXE5V0sxM09mQU93YQpjZnBUdDR3QkREYm5hdkpKdVZBaThsYmV5bHVLT0loN2FndjNuOFJoL0djakxnalhGRVJvL1FkYXc2Zm8wU0lSCmdMMURQZVZ1alZHLy8rUFA0Ky8yN1BzPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==",
+      "type": "string",
+      "sensitive": true
+    },
+    "kube_config_client_key": {
+      "value": "LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlKS1FJQkFBS0NBZ0VBdW5PRTBCZWJUTkNSYkZVSmNZS1FnV1pQRFZJR3hIMGJnNDBKWkNKMTFOcUlValM1ClFVMndLWCtSWUNiS2QwSXV0cE5XZWlPVm1ZYXo5SWJGTVpYOWw0cHByQ3BPSUsxYmRrTHR5QnJlbDFhUFNOVmsKQW9vbkkwbHRtdm1TeFdrTlJBSWlHV1ZKcU9pdXNBQWtyQkdlQW1hY1RXTytRNm04RGJTQnJhTGhGMkZjdmplYgp6TUZlalB3UUVYamxwVDRxNmRIK2dUNTczaXMrQlpQV3gycjNuUHFjdWVBK2h6ZHV5bWtaWjc3MUc2WGYyZk5zCk5XMHkzenlJdlZiQURwUC9Tb2VVZlhWVXBHQVhzb2RCTWxjeDZoY3JrRk94V05YWlRlSmU5a05hSkwyWm5aMDAKUEpidEFxZzQ2TFVDNW9Hd1Z2MW1RMkM1Uk5mQVlxWlJ4a2xiQ2ZoVkZqdlA3YVpHT2oyd05mUERYSFJrVmxJcwpXZFhBUkxWSTZUY29CZXUzUWMxeHBTQnVDS1REckVIRndsaGljak1lcHBDdUZ3K0JJTHp3aDBlR01TaExhK0RLCnBWWk4xNnAvWmVrNHJJUUdzcWFtZ1Q5N2NYdnROOXk3OU1rVThoQUg5Ui92WmdFUkxJc3FjSTQ2LzJhSDVKQ0kKMTZ3WHJZaEczRkVDM2VDSTUxODRDMGhZS2M3TDZUam1mU0JURjZEbVh5d3ZqU0RISzRjem12aHZnMm43MDcyMApEK1ludk1XNDJWQS80TWN1SlFMMFVkVVJJVlErcGZ4VnBSM0VLc3QzQ0d3eGJmdWdNYkVSZlBFU2tBQnFkQVdsCk1qQ3RkOFA1Tlg5V1ZtSHUyWHN4UE5tRlFqcE56OG1hci9LaHVzTllLMlRycHRUN1V2VFMyalQrQlVjQ0F3RUEKQVFLQ0FnRUF0LzVCWlJ5Mm01SUN3QllXc0pZNHhnbFJINEwvdkt6OUZzOTZJZi9EcWQ1UndsWFhMdk5jVVVkYgpEYmlaK2lBc2V1MWczRHo3WnpxL29TSFJ2UUlYODVDYWdWUnFMdU1FSytzV1BXOE9rK2ZPbEFCSXBoenhUR2dzCnFrOTVJQ2h2OTlubkRvcWVxdm1iVVlHQ3J1N2ZyOXpVaDZaVFh2QkQ3SDVocmhqYTZiaWh6ZkNRWmZtNHRZWVUKMFRrdDNlaEFidWRVc1BRWlJvQUR2M3RKNnhiSzdYVitiZ3MxaVRnUnM5c05RQXo0VW1WWlJ2cHBvVHQyaFVkMgpaT29Uc3c4blVjUURxOTY2UFUrNmN1bjRVNVlxWXFpa3k5TmJZcC85eGxjS2dSaXIveSsvUlFPYVJlUm1WVVh1Cml1Mzl3N3pkYUtxOVhPWTVUZzlmQWJyQlhkeUw0ZFRGenRzRkNOdGNSelRTUG1VRHdHNG9hRi9mNEFkd3Fwbm8KWHlzUUJzNEVUZEFCclUyeFYyN3cxZTY1N016enZRY1MwNG8wcHBoSjA2YWkvenRGNkIxcFhCekJNRWFscTIzYgpoRlVoM3pWWjVaMTdYT0dtOFVEamF3bWRGdk1yUVRJeno1OVZrb3lOdjJlT1JHQnlSYmliWUNsT2U4RVl1V3BVCjhubDRLejdROGJrVW1HWnBtcitJQ29Gc2hVMjQ5OUlvSyt0K05RcnptQU1Ib2M3UnQxZmRXS3pVU3V0Qy8rNmkKZUllZlRPdloveGhVWDRsaHVERHZ6SzBzZ0hOQmp3Q01zS2d0bFZlWjE1eFlXcndxYkdkV3oxcWo1YnVoYjBkYQp4VU5sOG5NeCt5TmNIN3VsekxMN2RjZWhGUlgxQUxSdTk5QnQzVHFMZ1VHM3hpS2NKaUVDZ2dFQkFNY05DVFJVCjlaczFHVHR5dTVWdURzNWpuVGJLRHl5Y1JBWXRZQzdTS2F4S29xRXZkTElETHQ4V3VLTGMxMERicEd3a3NKMkwKL2dRQmhHeWpzbjlnOWlFdTh0SkpGclQyaEI3YWZUZ1VzRkJCZCtEeFJDZ2VYZlkxMEVscTdUYmhNZlRkMGoyZQpEY0JnNFdJbElBN2MwRUF3R2l5em8xYndQQU16SExTaUNNM3ZMUUVmdjBQQytBZUJKSTNsaWM3MnlhYkxYOG1xCktPWllJVG9oVnRiSGVLbjZkNGxTNk9ObFdxQ3lEYjkxSjZpSXhmZlE0YjkxOTRVYWJKR205MngvUFNWRDZDSTkKTWJEMDF6UEVJUks2djk4UFBKVTNxSmpWcEZRVkt1ZVBXK0pISlV3b2h0YkRsYVprNFl0eDJDamhLSDI0QWROdwp4elpYaThNd1JjV0N0akVDZ2dFQkFPL0xwd3JZYkRWR1I1NU1ISHVUdmEvSTNFR1gyVTJ3QXA4UWVxK0pVTmR0Cjc4YXJPenB5QU1IUXF5Y05BVGM3SkwxU2tBVjl5MXl1M3JDWXp3cUYyMkJYem8yYnV0U0IzZUJ4MVZJd3NiUm8KeHlTSDZ2SnV3VFpwWTZjUGRmZ2JFb3lob3VlK2NTVjdSM3hVZkhYYmVWaVdFWkVZSStzOTdNdVlHdjRFVm8wWgpmb3BqUzF4Y0dDQ3ZWS0xlZ0hYc1NkRDBSOG52NDdVRXBhMDd5MG5VOC95d1BUS3RjbldNYmhHVzNoVWUvS01aCitTeG1GK3VrY1lVN0V0U2hxaks3V1pvQ1ZwMDRzcEF3aHpqcDJWVEU0VHhCcjY1UzhaSFVZdTdXOHRhSFR3TnIKZHNhdXEyRWxWalB6U0dEdEx2U1B6REJ2RE1IMW44UDQ1VlVDemZjSS9QY0NnZ0VBVHIvUmpHcXdZSjg1UkZPMwo4djUvelJlTDgwa3RoN0NyR09hS3p2dEdrV3RWdS85U1k3cnVxRVFNK0NIMjV5bitldXBwRld0MUs1Q09HNDBICjZXMHE4eVhuMjFvZkthajl6RmNVZzBOc0hkUkk0UzJTa1d5eUw5NUtjVUZrWi9uZ0VjaFFqU0Fpd0tHVGlZaTIKamlxK0dTYnV0QkM5NW45VXZzOVI1QVRYQnVKQkk5aXppdE52M1VneWRoRUIzR2Uyajg2V0x1cXJFN1o2THMxUgoxZGRFM2JyQjRBcDFLTUhJZ1Jyd1pYYXNJZms2bVRpQ2w0VE1VRlNMNzNQbkgzMlhhMDdhWC9GbDMyUitYM1NRCndTQXhHTWFtYVVLRDZUTmN1QWRIMmlUVmJVaEljVUQzVjdBNVhJTTgyRFpLRnFJOXFyOUp1YVU4cXpzbmlDbG8KOFNNdGdRS0NBUUVBNGJ6bXVLZjZYY0NXWlNlalhKWTlhSUQvRCtTaUZhZFBJR3pFQWdHVGorb1hZZ0FLRnNBQgpoSE1xMiswN0tzSkxtTXBqZURmdXZJYUdidHE3ZFYyRG9sT214OXBGYkE0QlVHdjQ5SkdRaUpSbWZEWlRiL3ZoCmVaYUcwRnNXcEFUZ1ZuRkhTVUFYaGNCakVHRDhkWHF4NWpvSHVYNXZPZUlteTVhYU9temRDYUZwWlYrS0x4MG4KUFlXd2VFNWJ3aWM1YWpLOGJoYWRWdWhVQ3h1U0NTUW10OGMxSlVMdzBFWHR6RE1wUjlyTzI3LzB1TjQzUUlhaQpzMWhrSnJVMTR1Skp2RmpkTHM2VUVuY01wUUJIcnF4VW1JUUJuV3JKckkyeXdNS3JBbGVJZzJDa0JPK2p1Q1VNCjNJVDJxd0E5UnM4ajJxaC82d3VPWms4bG5QeXg1ZytaQ3dLQ0FRQncrM2ZQdDN0Z21ZL0lLclREOVcxYlJqOEoKcktBWFU3Z09pQ0Zjc210UnozOEJiRElIOFFkR0svTzdHZUkrcVh4WTAzOHdIRnFNNWVVMUVpckRkanBhSlVaVQp4UWV6WlRWc1ZhNC9jRS9qeDQwbXRlcmdwUVBvdVVHTHB1LytvR3BGTGFlM3FKYWZ4dTQ1OHAwSTlOaHlVWEVyCmZIYVBQTUNITXk3TXR2b3M4UjU3TUZPaWtvUEkybElXcVBNY1hZb1pjWTRidFZnOWE0VHJYZlVzUmVNdUx4alIKMWVXQjZzR09QUUtaQ2hBSWQyRWpEbmJGb1Y1M3h1YUpVdzNZam9VYUdjd29FTWdBQ2FYZXVoTFJsWnJkT1Q1NQoyZEVHb2h4UVhoYVVRbWxHL0lnRHR2Uk5WUzlvVHNHRXUrcGgyeGk1cnFwRGhqbE5WWUcvbnFpNGgvWGoKLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K",
+      "type": "string",
+      "sensitive": true
+    },
+    "kube_config_cluster_ca_certificate": {
+      "value": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUU2RENDQXRDZ0F3SUJBZ0lRT082cU9zNUozeStkZ1dXNGNOWmcrREFOQmdrcWhraUc5dzBCQVFzRkFEQU4KTVFzd0NRWURWUVFERXdKallUQWdGdzB5TlRBMk1qTXhOREUwTURoYUdBOHlNRFUxTURZeU16RTBNalF3T0ZvdwpEVEVMTUFrR0ExVUVBeE1DWTJFd2dnSWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUNEd0F3Z2dJS0FvSUNBUURJCnA1VytldjlpYk93cEVqYzBkQWY2UFNBQkNvNlFrTEFLZFVtaS95MVZVSlhXK2J1aGVEcHFxZFRROFNRbFRCa1UKM2JEbldIQUorQllXa3JnaXFSUWIxLzlWNjd1V0RHbDBNL05sclRONTZLMTRNWkRMbjVUUGRhT1hOQWRSdkJVWApIMExvUGxVb05YYit4dldMK2hrckxkTmE5RXdnY0dTakhtUitBZFhmTWY1S2s5ODNPdFBUbVd4U0dDeUF4M3UyCi9YQjAyVXR3MDYvM2pZWHQ0UHNJcE1JTmR6eUd1VURiRkloWnVGaVp5TktNZ1pXRG1RcTU5SWRKdi80RFl1QmsKaEtGMGlPaVNCdXJmYWEwUGUwakI3NWdXWjB0YkpOTzJYK0pYRFNVMk5yZFp6cThzeUtDbU15dGdBN0llZ1VwQgphUHlCelVSMXhiVjQ5eXRsWEEyYm9UT3RFSjd3d3Y1OGFZTmlsbW5Cei83cXBTMzd3MnYvT29nR004b1ROd0dRCnlXS1NiOVk0dFpGSHhzYkQzb0lIVk5Pa0JGeHUvcVNFR1Qwb3dWRGxLVFpFMEhPc3J0aHNxWktaMnZVUSsvRnIKWGJRWGF0NmtQdnJLeEs2ZGJqM2hxZ1V5UzBPeXdzaEd5NEcrOWUwYnhYMXdrY1RCMGJtK0YxVWk1bGltaXN5aAo4WlB0S2hHcDcyenErb1p1VjU4MU52RDNiSFhRQkh2VjF4RnhHQ3plVVdmZ2t2ZFRXS0tyTWZIM1ZTcU8wOUpuCmJ1SW9pWitOZE5Yc0tGeHgvbXovRFQzOGxXZUkyL1dmdUpTQmwzNHREVXI0djNmRTJLNzdST1crOVhIcld2OTkKVWpaMVZyZ3lHcU1iS2dYN29qRnpEUTQ3VCtQV3c1ZXlCNGI3ZzFOVS9RSURBUUFCbzBJd1FEQU9CZ05WSFE4QgpBZjhFQkFNQ0FxUXdEd1lEVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVVXU2l5enJVeFpKVlBPVXVwCitvbDZHaHRqM3Njd0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dJQkFFdGUzOVFqMGlEVWQ1UW1GUUU2WG0rd1NqaXkKTFVRSWVLVzd4SVVwTG9WUXgzSkJ0S3J5WEhSTTVQcjJjWXV0dXc1QnNvczVyMVhYelRRS2NacThXSDZlUmhYRwp4cGVVampaVXdneTkzbkF5cUJraDlNWUp0S2ZqVzM2Tk5ZQkVka2N2Y3ZDTzR1WEk0U0FBM3lGY3RybmUvOEZOCmNWRk5CbDRWNXBoUTBSWGZDTXg5aGRTeEpoS1A5REVvQUtycmZ6SG8yc0tZTVdHczJWRHVqWG1HSlRqbm8xaTIKVzZFeXUwVjVpaXBySXhKMEpnbXNIVFBwTkdZYVFIMVhHNGhjSDZZdldPcVlLV0RPY1FmNXR6cjhhd2haVGNEdQo2SjV0WTB1M0Qrbk91MWd4N2ZCZlc5R2JWQkRwNEtqUHI0UHY4ZThHUEEvUFk4ZlJNenJNYVp0QmpZTW1GU3JSCmw1NXVLR0laamdZVGh0RlJ6aGo3Um10ZzdDa05SYjdxVC9CTytTcWpxaGZYMkNIQVB3eTlZSG1jNVVyblExR1MKb3hRbEdRNmhjbTBKWVJoSllZMWZmT1Y2V0JmbmZWUlZBSDJUWitrRGtaTzFuQU9CVm9ZRHFFMmZEVnd0QzBpcQpzN0NWTXZOVERTc1JYSGFjckpGOC82OEtwM05QdDNDVHZ1WVZxQmJRTTFSbWc2TXFEQnlySXBsYVFNQVh2NEdhClBQQ0FBbkxRZ3plTHpnV0FKVXF0VjFycnZPVmdSb28vaW1Va25NSUdSSkp5bGxvME1FeDBQcTNEL1ZBNENQUGEKY0o3cWZZZzRBdUF5KzZrU0o1NHlCMXVBL0FROUdJdUxhVW5XUUx6bWZ4NVdXREh5cFg5Y2gwRGIyOFpaV0ZOMgpiOUF6THJrVU9BdnVDMzBmCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
+      "type": "string",
+      "sensitive": true
+    },
+    "kube_config_host": {
+      "value": "https://tenark-gitops-jpillx1z.hcp.westeurope.azmk8s.io:443",
+      "type": "string",
+      "sensitive": true
+    },
+    "subscription_id": {
+      "value": "bd43835b-1fe0-433f-a654-785ef6b4dc11",
+      "type": "string"
+    },
+    "tenant": {
+      "value": "2c14cfe2-54c7-4512-bac2-02e65dc7fc13",
+      "type": "string"
+    }
+  },
+  "resources": [
+    
+  ],
+  "check_results": [
+    {
+      "object_kind": "resource",
+      "config_addr": "module.aks.azurerm_kubernetes_cluster_node_pool.node_pool_create_after_destroy",
+      "status": "pass",
+      "objects": null
+    },
+    {
+      "object_kind": "resource",
+      "config_addr": "module.aks.azurerm_role_assignment.network_contributor_on_subnet",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.azurerm_role_assignment.network_contributor_on_subnet[\"aks\"]",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.sku_tier",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.sku_tier",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "resource",
+      "config_addr": "module.aks.azurerm_role_assignment.application_gateway_existing_vnet_network_contributor",
+      "status": "pass",
+      "objects": null
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.green_field_application_gateway_for_ingress",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.green_field_application_gateway_for_ingress",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "resource",
+      "config_addr": "module.aks.azurerm_role_assignment.network_contributor",
+      "status": "pass",
+      "objects": null
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "var.sku_name",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "var.sku_name",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.identity_type",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.identity_type",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.log_analytics_solution",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.log_analytics_solution",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.network.var.virtual_network_flow_timeout_in_minutes",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.network.var.virtual_network_flow_timeout_in_minutes",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.kms_key_vault_network_access",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.kms_key_vault_network_access",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.automatic_channel_upgrade",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.automatic_channel_upgrade",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "resource",
+      "config_addr": "module.aks.azurerm_kubernetes_cluster.main",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.azurerm_kubernetes_cluster.main",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.network.var.virtual_network_address_space",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.network.var.virtual_network_address_space",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "resource",
+      "config_addr": "module.aks.azurerm_log_analytics_workspace.main",
+      "status": "pass",
+      "objects": null
+    },
+    {
+      "object_kind": "resource",
+      "config_addr": "module.aks.azurerm_role_assignment.existing_application_gateway_contributor",
+      "status": "pass",
+      "objects": null
+    },
+    {
+      "object_kind": "resource",
+      "config_addr": "module.aks.azurerm_kubernetes_cluster_node_pool.node_pool_create_before_destroy",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.azurerm_kubernetes_cluster_node_pool.node_pool_create_before_destroy[\"userpool\"]",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.http_proxy_config",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.http_proxy_config",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.auto_scaler_profile_expander",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.auto_scaler_profile_expander",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.load_balancer_sku",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.load_balancer_sku",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "resource",
+      "config_addr": "module.aks.azurerm_role_assignment.application_gateway_byo_vnet_network_contributor",
+      "status": "pass",
+      "objects": null
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.aks.var.support_plan",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.aks.var.support_plan",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "var.key_type",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "var.key_type",
+          "status": "pass"
+        }
+      ]
+    }
+  ]
+}
+

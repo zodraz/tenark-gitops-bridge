@@ -41,7 +41,7 @@ spec:
       targetRevision: 'HEAD'
       path: 'gitops/tenants/tenant-common/sync-wave-2/overlays/dev'
   destination:
-    server: https://tenant-common.tenant-common:443
+    server: https://tenant-common-dev.tenant-common-dev:443
     namespace: default
   syncPolicy:
     automated:
