@@ -1,19 +1,19 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: tenant-common-apps
-  namespace: argocd
-spec:
-  template:
-    spec:
-      source:
-        path: '{{.repo_path}}/overlays/dev'
-      destination:
-        name: 'tenant-common-dev'
-        namespace: default
-      syncPolicy:
-        retry:
-          limit: 10
-        automated: {}
-        syncOptions:
-          - CreateNamespace=true
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: tenant-common-apps
+#   namespace: argocd
+# spec:
+#   template:
+#     spec:
+#       source:
+#         path: '{{.repo_path}}/overlays/dev'
+#       destination:
+#         name: 'tenant-common-dev'
+#         namespace: default
+#       syncPolicy:
+#         retry:
+#           limit: 10
+#         automated: {}
+#         syncOptions:
+#           - CreateNamespace=true

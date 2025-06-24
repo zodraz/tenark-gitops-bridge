@@ -20,7 +20,7 @@ patches:
     target:
       kind: Ingress
       name: portal-ingress
-  - path: tenant-common-apps.yaml
-    target:
-      kind: ApplicationSet
-      name: tenant-common-apps
+  # - path: tenant-common-apps.yaml
+  #   target:
+  #     kind: ApplicationSet
+  #     name: tenant-common-apps
