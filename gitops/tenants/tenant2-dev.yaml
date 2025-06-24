@@ -1,0 +1,99 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenant2-infra-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  sources:
+    - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
+      targetRevision: 'HEAD'
+      path: 'gitops/tenants/tenant2/infra/overlays/dev'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 5
+        maxDuration: 3m0s
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: tenant2-services-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      - repo_path: kubernetes/inventory
+        app: inventory
+      - repo_path: kubernetes/ordering
+        app: ordering
+      - repo_path: kubernetes/recommendation
+        app: recommendation
+  template:
+    metadata:
+      name: tenant2-services-{{.app}}
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/zodraz/tenark-services.git'
+        targetRevision: 'HEAD'
+        path: '{{.repo_path}}/overlays/dev'
+      destination:
+        name: 'tenant2-dev'
+        namespace: default
+      syncPolicy:
+        retry:
+          limit: 10
+        automated: {}
+        syncOptions:
+          - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenant-common-sync-wave-2-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  sources:
+    - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
+      targetRevision: 'HEAD'
+      path: 'gitops/tenants/tenant-common/sync-wave-2/overlays/dev'
+  destination:
+    server: https://tenant-common-dev.tenant-common-dev:443
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 5
+        maxDuration: 3m0s
+---
+
