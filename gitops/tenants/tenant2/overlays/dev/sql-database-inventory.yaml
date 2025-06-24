@@ -1,14 +1,14 @@
-apiVersion: sql.azure.upbound.io/v1beta2
-kind: MSSQLDatabase
-metadata:
-  labels:
-    tenark/sqlserverdatabase: tenark-sqlserver-dev
-  name: sqldb-tenark-tenant2-inventory-db
-spec:
-  forProvider:
-    serverIdSelector:
-      matchLabels:
-        tenark/sqlserver: tenark-sqlserver-dev
-    resourceGroupNameSelector:
-      matchLabels:
-        tenark/resourcegroup: rg-tenark-tenant2-dev
+# apiVersion: sql.azure.upbound.io/v1beta2
+# kind: MSSQLDatabase
+# metadata:
+#   labels:
+#     tenark/sqlserverdatabase: tenark-sqlserver-dev
+#   name: sqldb-tenark-tenant2-inventory-db
+# spec:
+#   forProvider:
+#     serverIdSelector:
+#       matchLabels:
+#         tenark/sqlserver: tenark-sqlserver-dev
+#     resourceGroupNameSelector:
+#       matchLabels:
+#         tenark/resourcegroup: rg-tenark-tenant2-dev

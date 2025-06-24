@@ -1,41 +1,41 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: tenant-sass-services
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-spec:
-  syncPolicy:
-    preserveResourcesOnDeletion: true
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
-  generators:
-    - matrix:
-        generators:
-          - list:
-              elements:
-              - repo_path: kubernetes/inventory
-                app: inventory
-              - repo_path: kubernetes/ordering
-                app: ordering
-              - repo_path: kubernetes/recommendation
-                app: recommendation
-  template:
-    metadata:
-      name: tenant-sass-services-{{.app}}
-    spec:
-      project: default
-      source:
-        repoURL: 'https://github.com/zodraz/tenark-services.git'
-        targetRevision: 'HEAD'
-        path: '{{.repo_path}}'
-      destination:
-        name: 'tenant2'
-        namespace: default
-      syncPolicy:
-        retry:
-          limit: 10
-        automated: {}
-        syncOptions:
-          - CreateNamespace=true
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: tenant-sass-services
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "2"
+# spec:
+#   syncPolicy:
+#     preserveResourcesOnDeletion: true
+#   goTemplate: true
+#   goTemplateOptions: ["missingkey=error"]
+#   generators:
+#     - matrix:
+#         generators:
+#           - list:
+#               elements:
+#               - repo_path: kubernetes/inventory
+#                 app: inventory
+#               - repo_path: kubernetes/ordering
+#                 app: ordering
+#               - repo_path: kubernetes/recommendation
+#                 app: recommendation
+#   template:
+#     metadata:
+#       name: tenant-sass-services-{{.app}}
+#     spec:
+#       project: default
+#       source:
+#         repoURL: 'https://github.com/zodraz/tenark-services.git'
+#         targetRevision: 'HEAD'
+#         path: '{{.repo_path}}'
+#       destination:
+#         name: 'tenant2'
+#         namespace: default
+#       syncPolicy:
+#         retry:
+#           limit: 10
+#         automated: {}
+#         syncOptions:
+#           - CreateNamespace=true

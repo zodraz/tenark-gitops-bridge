@@ -1,14 +1,14 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: tenant-sass-services
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-spec:
-  template:
-    spec:
-      source:
-        path: '{{.repo_path}}/overlays/dev'
-      destination:
-        name: 'tenant2-dev'
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: tenant-sass-services
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "2"
+# spec:
+#   template:
+#     spec:
+#       source:
+#         path: '{{.repo_path}}/overlays/dev'
+#       destination:
+#         name: 'tenant2-dev'
