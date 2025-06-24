@@ -6,4 +6,4 @@ resources:
   - controlplane-ingress.yaml
   - httpapi-host-ingress.yaml
   - portal-ingress.yaml
-  # - tenant-common-apps.yaml
+  - tenant-common-apps.yaml
