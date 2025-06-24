@@ -11,16 +11,14 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - matrix:
-        generators:
-          - list:
-              elements:
-              - repo_path: kubernetes/inventory
-                app: inventory
-              - repo_path: kubernetes/ordering
-                app: ordering
-              - repo_path: kubernetes/recommendation
-                app: recommendation
+  - list:
+      elements:
+      - repo_path: kubernetes/inventory
+        app: inventory
+      - repo_path: kubernetes/ordering
+        app: ordering
+      - repo_path: kubernetes/recommendation
+        app: recommendation
   template:
     metadata:
       name: tenant-sass-services-{{.app}}
