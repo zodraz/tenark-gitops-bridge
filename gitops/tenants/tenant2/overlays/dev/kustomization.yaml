@@ -4,54 +4,54 @@ resources:
   - ../../base
 nameSuffix: -dev
 patches: 
-  - path: inventory-ingress.yaml
-    target:
-      kind: Ingress
-      name: inventory-ingress
-  - path: inventory-service-deployment.yaml
-    target:
-      kind: Deployment
-      name: inventory-service
-  - path: ordering-ingress.yaml
-    target:
-      kind: Ingress
-      name: ordering-ingress
-  - path: ordering-service-deployment.yaml
-    target:
-      kind: Deployment
-      name: ordering-service
-  - path: recommendation-ingress.yaml
-    target:
-      kind: Ingress
-      name: recommendation-ingress
-  - path: recommendation-service-deployment.yaml
-    target:
-      kind: Deployment
-      name: recommendation-service
-  - path: redis.yaml
-    target:
-      kind: RedisCache
-      name: redis-tenark-tenant2
-  - path: resource-group.yaml
-    target:
-      kind: ResourceGroup
-      name: rg-tenark-tenant2
-  - path: sql-database-inventory.yaml
-    target:
-      kind: MSSQLDatabase
-      name: sqldb-tenark-tenant2-inventory-db
-  - path: sql-database-ordering.yaml
-    target:
-      kind: MSSQLDatabase
-      name: sqldb-tenark-tenant2-ordering-db
-  - path: sql-database-recommendation.yaml
-    target:
-      kind: MSSQLDatabase
-      name: sqldb-tenark-tenant2-recommendation-db
-  - path: tenant-sass-services.yaml
-    target:
-      kind: ApplicationSet
-      name: tenant-sass-services
+  # - path: inventory-ingress.yaml
+  #   target:
+  #     kind: Ingress
+  #     name: inventory-ingress
+  # - path: inventory-service-deployment.yaml
+  #   target:
+  #     kind: Deployment
+  #     name: inventory-service
+  # - path: ordering-ingress.yaml
+  #   target:
+  #     kind: Ingress
+  #     name: ordering-ingress
+  # - path: ordering-service-deployment.yaml
+  #   target:
+  #     kind: Deployment
+  #     name: ordering-service
+  # - path: recommendation-ingress.yaml
+  #   target:
+  #     kind: Ingress
+  #     name: recommendation-ingress
+  # - path: recommendation-service-deployment.yaml
+  #   target:
+  #     kind: Deployment
+  #     name: recommendation-service
+  # - path: redis.yaml
+  #   target:
+  #     kind: RedisCache
+  #     name: redis-tenark-tenant2
+  # - path: resource-group.yaml
+  #   target:
+  #     kind: ResourceGroup
+  #     name: rg-tenark-tenant2
+  # - path: sql-database-inventory.yaml
+  #   target:
+  #     kind: MSSQLDatabase
+  #     name: sqldb-tenark-tenant2-inventory-db
+  # - path: sql-database-ordering.yaml
+  #   target:
+  #     kind: MSSQLDatabase
+  #     name: sqldb-tenark-tenant2-ordering-db
+  # - path: sql-database-recommendation.yaml
+  #   target:
+  #     kind: MSSQLDatabase
+  #     name: sqldb-tenark-tenant2-recommendation-db
+  # - path: tenant-sass-services.yaml
+  #   target:
+  #     kind: ApplicationSet
+  #     name: tenant-sass-services
   - path: vcluster.yaml
     target:
       kind: Application
