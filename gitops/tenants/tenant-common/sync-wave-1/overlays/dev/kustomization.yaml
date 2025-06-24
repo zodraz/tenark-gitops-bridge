@@ -4,22 +4,22 @@ resources:
   - ../../base
 nameSuffix: -dev
 patches: 
-  - path: authserver-ingress.yaml
-    target:
-      kind: Ingress
-      name: authserver-ingress
-  - path: controlplane-ingress.yaml
-    target:
-      kind: Ingress
-      name: controlplane-ingress
-  - path: httpapi-host-ingress.yaml
-    target:
-      kind: Ingress
-      name: httpapi-host-ingress
-  - path: portal-ingress.yaml
-    target:
-      kind: Ingress
-      name: portal-ingress
+  # - path: authserver-ingress.yaml
+  #   target:
+  #     kind: Ingress
+  #     name: authserver-ingress
+  # - path: controlplane-ingress.yaml
+  #   target:
+  #     kind: Ingress
+  #     name: controlplane-ingress
+  # - path: httpapi-host-ingress.yaml
+  #   target:
+  #     kind: Ingress
+  #     name: httpapi-host-ingress
+  # - path: portal-ingress.yaml
+  #   target:
+  #     kind: Ingress
+  #     name: portal-ingress
   - path: redis.yaml
     target:
       kind: RedisCache
@@ -40,10 +40,10 @@ patches:
     target:
       kind: MSSQLServer
       name: tenark-sqlserver
-  - path: tenant-common-apps.yaml
-    target:
-      kind: ApplicationSet
-      name: tenant-common-apps
+  # - path: tenant-common-apps.yaml
+  #   target:
+  #     kind: ApplicationSet
+  #     name: tenant-common-apps
   - path: vcluster.yaml
     target:
       kind: Application

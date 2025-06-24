@@ -1,0 +1,59 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenant-common-sync-wave-1-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  sources:
+    - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
+      targetRevision: 'HEAD'
+      path: 'gitops/tenants/tenant-common/sync-wave-1/overlays/dev'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 5
+        maxDuration: 3m0s
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenant-common-sync-wave-2-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  sources:
+    - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
+      targetRevision: 'HEAD'
+      path: 'gitops/tenants/tenant-common/sync-wave-2/overlays/dev'
+  destination:
+    server: https://tenant-common.tenant-common:443
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 5
+        maxDuration: 3m0s
+
+
