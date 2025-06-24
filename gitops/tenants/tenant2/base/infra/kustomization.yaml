@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - redis.yaml
-  - resource-group.yaml
   - sql-database-inventory.yaml
   - sql-database-ordering.yaml
   - sql-database-recommendation.yaml

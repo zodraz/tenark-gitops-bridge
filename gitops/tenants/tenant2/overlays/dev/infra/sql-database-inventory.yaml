@@ -9,6 +9,3 @@ spec:
     serverIdSelector:
       matchLabels:
         tenark/sqlserver: tenark-sqlserver-dev
-    resourceGroupNameSelector:
-      matchLabels:
-        tenark/resourcegroup: rg-tenark-tenant2-dev
