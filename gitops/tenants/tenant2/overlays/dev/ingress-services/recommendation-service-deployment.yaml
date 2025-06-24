@@ -11,11 +11,35 @@ spec:
         - name: DATABASE_HOST
           value: "tenark-sqlserver-dev"
         - name: DATABASE_NAME
-          value: "sqldb-tenark-tenant2-recommendation-db"
+          value: "sqldb-tenark-tenant2-recommendation-db-dev"
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: recommendation-db-credentials-dev
+              key: DATABASE_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: recommendation-db-credentials-dev
+              key: DATABASE_PASSWORD
+      volumes:
+      - name: flyway-scripts
+        configMap:
+          name: recommendation-flyway-scripts-dev
       containers:
       - name: recommendation-service
         env:
         - name: DATABASE_HOST
           value: "tenark-sqlserver-dev"
         - name: DATABASE_NAME
-          value: "sqldb-tenark-tenant2-recommendation-db"
+          value: "sqldb-tenark-tenant2-recommendation-db-dev"
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: recommendation-db-credentials-dev
+              key: DATABASE_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: recommendation-db-credentials-dev
+              key: DATABASE_PASSWORD

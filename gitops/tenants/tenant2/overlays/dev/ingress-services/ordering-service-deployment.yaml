@@ -11,12 +11,36 @@ spec:
         - name: DATABASE_HOST
           value: "tenark-sqlserver-dev"
         - name: DATABASE_NAME
-          value: "sqldb-tenark-tenant2-ordering-db"
+          value: "sqldb-tenark-tenant2-ordering-db-dev"
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: ordering-db-credentials-dev
+              key: DATABASE_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ordering-db-credentials-dev
+              key: DATABASE_PASSWORD
+      volumes:
+      - name: flyway-scripts
+        configMap:
+          name: ordering-flyway-scripts-dev
       containers:
       - name: ordering-service
         env:
         - name: DATABASE_HOST
           value: "tenark-sqlserver-dev"
         - name: DATABASE_NAME
-          value: "sqldb-tenark-tenant2-ordering-db"
+          value: "sqldb-tenark-tenant2-ordering-db-dev"
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: ordering-db-credentials-dev
+              key: DATABASE_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ordering-db-credentials-dev
+              key: DATABASE_PASSWORD
 
