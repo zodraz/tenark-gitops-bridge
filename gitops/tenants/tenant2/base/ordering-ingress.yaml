@@ -1,23 +1,23 @@
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   annotations:
-#     kubernetes.azure.com/tls-cert-keyvault-uri: https://tenark.vault.azure.net/certificates/aks-certificate-tenark/4685d0b931f64993b45cc90b1c198000
-#   name: ordering-ingress
-# spec:
-#   ingressClassName: webapprouting.kubernetes.azure.com
-#   rules:
-#   - host: tenant2.tenark.com
-#     http:
-#       paths:
-#       - backend:
-#           service:
-#             name: ordering-ingress
-#             port:
-#               number: 80
-#         path: /ordering
-#         pathType: Prefix
-#   tls:
-#   - hosts:
-#     - tenant2.tenark.com
-#     secretName: keyvault-ordering-ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://tenark.vault.azure.net/certificates/aks-certificate-tenark/4685d0b931f64993b45cc90b1c198000
+  name: ordering-ingress
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+  - host: tenant2.tenark.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: ordering-ingress
+            port:
+              number: 80
+        path: /ordering
+        pathType: Prefix
+  tls:
+  - hosts:
+    - tenant2.tenark.com
+    secretName: keyvault-ordering-ingress

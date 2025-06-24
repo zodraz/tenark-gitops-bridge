@@ -1,10 +1,10 @@
-# apiVersion: azure.upbound.io/v1beta1
-# kind: ResourceGroup
-# metadata:
-#   labels:
-#     tenark/resourcegroup: rg-tenark-tenant2-dev
-#   name: rg-tenark-tenant2
-# spec:
-#   forProvider:
-#     location: West Europe
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  labels:
+    tenark/resourcegroup: rg-tenark-tenant2-dev
+  name: rg-tenark-tenant2
+spec:
+  forProvider:
+    location: West Europe
     

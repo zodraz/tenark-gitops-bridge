@@ -1,21 +1,21 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: recommendation-service
-# spec:
-#   template:
-#     spec:
-#       initContainers:
-#       - name: init-db
-#         env:
-#         - name: DATABASE_HOST
-#           value: "tenark-sqlserver-dev"
-#         - name: DATABASE_NAME
-#           value: "sqldb-tenark-tenant2-recommendation-db"
-#       containers:
-#       - name: recommendation-service
-#         env:
-#         - name: DATABASE_HOST
-#           value: "tenark-sqlserver-dev"
-#         - name: DATABASE_NAME
-#           value: "sqldb-tenark-tenant2-recommendation-db"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendation-service
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: init-db
+        env:
+        - name: DATABASE_HOST
+          value: "tenark-sqlserver-dev"
+        - name: DATABASE_NAME
+          value: "sqldb-tenark-tenant2-recommendation-db"
+      containers:
+      - name: recommendation-service
+        env:
+        - name: DATABASE_HOST
+          value: "tenark-sqlserver-dev"
+        - name: DATABASE_NAME
+          value: "sqldb-tenark-tenant2-recommendation-db"

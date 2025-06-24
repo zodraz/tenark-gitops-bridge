@@ -1,16 +1,16 @@
-# apiVersion: cache.azure.upbound.io/v1beta2
-# kind: RedisCache
-# metadata:
-#   name: redis-tenark-tenant2
-# spec:
-#   forProvider:
-#     capacity: 0
-#     enableNonSslPort: false
-#     family: C
-#     location: West Europe
-#     minimumTlsVersion: "1.2"
-#     redisConfiguration: {}
-#     redisVersion: "6"
-#     resourceGroupNameRef:
-#       name: rg-tenark-tenant
-#     skuName: Basic
+apiVersion: cache.azure.upbound.io/v1beta2
+kind: RedisCache
+metadata:
+  name: redis-tenark-tenant2
+spec:
+  forProvider:
+    capacity: 0
+    enableNonSslPort: false
+    family: C
+    location: West Europe
+    minimumTlsVersion: "1.2"
+    redisConfiguration: {}
+    redisVersion: "6"
+    resourceGroupNameRef:
+      name: rg-tenark-tenant
+    skuName: Basic

@@ -1,8 +1,8 @@
-# apiVersion: cache.azure.upbound.io/v1beta2
-# kind: RedisCache
-# metadata:
-#   name: redis-tenark-tenant2
-# spec:
-#   forProvider:
-#     resourceGroupNameRef:
-#       name: rg-tenark-tenant-dev
+apiVersion: cache.azure.upbound.io/v1beta2
+kind: RedisCache
+metadata:
+  name: redis-tenark-tenant2
+spec:
+  forProvider:
+    resourceGroupNameRef:
+      name: rg-tenark-tenant-dev
