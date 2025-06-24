@@ -13,15 +13,19 @@ spec:
         - name: DATABASE_NAME
           value: "sqldb-tenark-tenant2-inventory-db-dev"
         - name: DATABASE_USER
-          valueFrom:
-            secretKeyRef:
-              name: inventory-db-credentials-dev
-              key: DATABASE_USER
+          value: "sa"
         - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: inventory-db-credentials-dev
-              key: DATABASE_PASSWORD
+          value: "Password123"
+        # - name: DATABASE_USER
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: inventory-db-credentials-dev
+        #       key: DATABASE_USER
+        # - name: DATABASE_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: inventory-db-credentials-dev
+        #       key: DATABASE_PASSWORD
       volumes:
       - name: flyway-scripts
         configMap:
