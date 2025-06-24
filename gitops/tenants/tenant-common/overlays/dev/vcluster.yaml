@@ -22,16 +22,15 @@ spec:
         controlPlane:
           ingress:
             enabled: true
-            host: tenant-common-dev.tenark.com
+            host: tenant-common.dev.tenark.com
             spec:
               ingressClassName: nginx
           proxy:
             extraSANs:
-            - tenant-common-dev.tenark.com
             - tenant-common-dev
             - tenant-common-dev.tenant-common-dev
             - tenant-common-dev.tenant-common-dev.svc
-            - tenant-common-dev.tenant-common-dev.svc.cluster.local
+            - tenant-common-dev.tenant.common-dev.svc.cluster.local
         sync:
           fromHost:
             ingressClasses:

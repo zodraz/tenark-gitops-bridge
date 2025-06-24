@@ -9,6 +9,7 @@ resources:
   - recommendation-ingress.yaml
   - recommendation-service-deployment.yaml
   - redis.yaml
+  - resource-group.yaml
   - sql-database-inventory.yaml
   - sql-database-ordering.yaml
   - sql-database-recommendation.yaml

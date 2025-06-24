@@ -27,7 +27,6 @@ spec:
               ingressClassName: nginx
           proxy:
             extraSANs:
-            - tenant2.tenark.com
             - tenant2
             - tenant2.tenant2
             - tenant2.tenant2.svc

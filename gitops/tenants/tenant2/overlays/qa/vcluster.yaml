@@ -10,14 +10,14 @@ metadata:
 spec:
   project: default
   destination:
-    namespace: tenant2
+    namespace: tenant2-qa
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://charts.loft.sh'
     targetRevision: 0.25.0
     chart: vcluster
     helm:
-      releaseName: tenant2
+      releaseName: tenant2-qa
       values: |
         controlPlane:
           ingress:
@@ -27,11 +27,10 @@ spec:
               ingressClassName: nginx
           proxy:
             extraSANs:
-            - tenant2-qa.tenark.com
             - tenant2-qa
-            - tenant2-qa.tenant2
-            - tenant2-qa.tenant2.svc
-            - tenant2-qa.tenant2.svc.cluster.local
+            - tenant2-qa.tenant2-qa
+            - tenant2-qa.tenant2-qa.svc
+            - tenant2-qa.tenant2-qa.svc.cluster.local
         sync:
           fromHost:
             ingressClasses:

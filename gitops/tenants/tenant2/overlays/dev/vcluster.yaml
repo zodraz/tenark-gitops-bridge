@@ -10,28 +10,27 @@ metadata:
 spec:
   project: default
   destination:
-    namespace: tenant2
+    namespace: tenant2-dev
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://charts.loft.sh'
     targetRevision: 0.25.0
     chart: vcluster
     helm:
-      releaseName: tenant2
+      releaseName: tenant2-dev
       values: |
         controlPlane:
           ingress:
             enabled: true
-            host: tenant2-dev.tenark.com
+            host: tenant2.dev.tenark.com
             spec:
               ingressClassName: nginx
           proxy:
             extraSANs:
-            - tenant2-dev.tenark.com
             - tenant2-dev
-            - tenant2-dev.tenant2
-            - tenant2-dev.tenant2.svc
-            - tenant2-dev.tenant2.svc.cluster.local
+            - tenant2-dev.tenant2-dev
+            - tenant2-dev.tenant2-dev.svc
+            - tenant2-dev.tenant2-dev.svc.cluster.local
         sync:
           fromHost:
             ingressClasses:

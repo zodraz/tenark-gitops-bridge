@@ -32,6 +32,10 @@ patches:
     target:
       kind: RedisCache
       name: redis-tenark-tenant2
+  - path: resource-group.yaml
+    target:
+      kind: ResourceGroup
+      name: rg-tenark-tenant2
   - path: sql-database-inventory.yaml
     target:
       kind: MSSQLDatabase

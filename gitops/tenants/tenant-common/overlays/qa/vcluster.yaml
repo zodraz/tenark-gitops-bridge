@@ -27,7 +27,6 @@ spec:
               ingressClassName: nginx
           proxy:
             extraSANs:
-            - tenant-common-qa.tenark.com
             - tenant-common-qa
             - tenant-common-qa.tenant-common-qa
             - tenant-common-qa.tenant-common-qa.svc

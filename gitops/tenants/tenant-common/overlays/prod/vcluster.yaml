@@ -22,12 +22,11 @@ spec:
         controlPlane:
           ingress:
             enabled: true
-            host: tenant-common-prod.tenark.com
+            host: tenant-common.tenark.com
             spec:
               ingressClassName: nginx
           proxy:
             extraSANs:
-            - tenant-common-prod.tenark.com
             - tenant-common-prod
             - tenant-common-prod.tenant-common-prod
             - tenant-common-prod.tenant-common-prod.svc
