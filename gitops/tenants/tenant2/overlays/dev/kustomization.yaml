@@ -48,10 +48,10 @@ patches:
   #   target:
   #     kind: MSSQLDatabase
   #     name: sqldb-tenark-tenant2-recommendation-db
-  # - path: tenant-sass-services.yaml
-  #   target:
-  #     kind: ApplicationSet
-  #     name: tenant-sass-services
+  - path: tenant-sass-services.yaml
+    target:
+      kind: ApplicationSet
+      name: tenant-sass-services
   - path: vcluster.yaml
     target:
       kind: Application
