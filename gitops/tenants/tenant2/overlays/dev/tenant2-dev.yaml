@@ -10,7 +10,7 @@ spec:
   sources:
     - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
       targetRevision: 'HEAD'
-      path: 'gitops/tenants/tenant2/infra/overlays/dev'
+      path: 'gitops/tenants/tenant2/overlays/dev/infra'
   destination:
     server: https://kubernetes.default.svc
     namespace: default
@@ -70,18 +70,18 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tenant-common-sync-wave-2-dev
+  name: tenant2-ingress-services-dev
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   project: default
   sources:
     - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
       targetRevision: 'HEAD'
-      path: 'gitops/tenants/tenant-common/sync-wave-2/overlays/dev'
+      path: 'gitops/tenants/tenant2/overlays/dev/ingress-services'
   destination:
-    server: https://tenant-common-dev.tenant-common-dev:443
+    name: 'tenant2-dev'
     namespace: default
   syncPolicy:
     automated:

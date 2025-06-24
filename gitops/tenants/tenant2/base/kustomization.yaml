@@ -2,16 +2,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - inventory-ingress.yaml
-  - inventory-service-deployment.yaml
-  - ordering-ingress.yaml
-  - ordering-service-deployment.yaml
-  - recommendation-ingress.yaml
-  - recommendation-service-deployment.yaml
-  - redis.yaml
-  - resource-group.yaml
-  - sql-database-inventory.yaml
-  - sql-database-ordering.yaml
-  - sql-database-recommendation.yaml
   - tenant-sass-services.yaml
-  # - vcluster.yaml
