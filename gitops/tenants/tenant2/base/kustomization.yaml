@@ -14,4 +14,4 @@ resources:
   - sql-database-ordering.yaml
   - sql-database-recommendation.yaml
   - tenant-sass-services.yaml
-  - vcluster.yaml
+  # - vcluster.yaml

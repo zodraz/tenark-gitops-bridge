@@ -52,7 +52,7 @@ patches:
     target:
       kind: ApplicationSet
       name: tenant-sass-services
-  - path: vcluster.yaml
-    target:
-      kind: Application
-      name: tenant2-vcluster
+  # - path: vcluster.yaml
+  #   target:
+  #     kind: Application
+  #     name: tenant2-vcluster
