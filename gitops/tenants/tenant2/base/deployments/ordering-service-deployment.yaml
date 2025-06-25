@@ -52,7 +52,7 @@ spec:
           name: ordering-flyway-scripts
       containers:
       - name: ordering-service
-        image: tenark.azurecr.io/ordering-service:v0.0.4
+        image: tenark.azurecr.io/tenark-ordering:v0.0.4
         env:
         - name: DATABASE_HOST
           value: "tenark-sqlserver"
