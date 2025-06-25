@@ -1,40 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: recommendation-service
+  name: inventory-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: recommendation-service
+      app: inventory-service
   template:
     metadata:
       labels:
-        app: recommendation-service
+        app: inventory-service
     spec:
       initContainers:
       - name: init-db
         image: flyway/flyway:9
         command: ["flyway"]
         args:
-        - "-url=jdbc:sqlserver://${DATABASE_HOST}:1433;databaseName=${DATABASE_NAME}"
-        - "-user=${DATABASE_USER}"
-        - "-password=${DATABASE_PASSWORD}"
+        - "-url=jdbc:sqlserver://$(DATABASE_HOST):1433;databaseName=$(DATABASE_NAME)"
+        - "-user=$(DATABASE_USER)"
+        - "-password=$(DATABASE_PASSWORD)"
         - "migrate"
         env:
         - name: DATABASE_HOST
-          value: "tenark-sqlserver"
+          value: "tenark-sqlserver-dev.database.windows.net"
         - name: DATABASE_NAME
-          value: "sqldb-tenark-tenant2-recommendation-db"
+          value: "sqldb-tenark-tenant2-inventory-db"
         - name: DATABASE_USER
           valueFrom:
             secretKeyRef:
-              name: recommendation-db-credentials
+              name: inventory-db-credentials
               key: DATABASE_USER
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: recommendation-db-credentials
+              name: inventory-db-credentials
               key: DATABASE_PASSWORD
         resources:
           limits:
@@ -49,24 +49,24 @@ spec:
       volumes:
       - name: flyway-scripts
         configMap:
-          name: recommendation-flyway-scripts
+          name: inventory-flyway-scripts
       containers:
-      - name: recommendation-service
-        image: recommendation-service:v0.0.4
+      - name: inventory-service
+        image: tenark.azurecr.io/inventory-service:v0.0.4
         env:
         - name: DATABASE_HOST
-          value: "tenark-sqlserver"
+          value: "tenark-sqlserver-dev.database.windows.net"
         - name: DATABASE_NAME
-          value: "sqldb-tenark-tenant2-recommendation-db"
+          value: "sqldb-tenark-tenant2-inventory-db"
         - name: DATABASE_USER
           valueFrom:
             secretKeyRef:
-              name: recommendation-db-credentials
+              name: inventory-db-credentials
               key: DATABASE_USER
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: recommendation-db-credentials
+              name: inventory-db-credentials
               key: DATABASE_PASSWORD
         resources:
           limits:

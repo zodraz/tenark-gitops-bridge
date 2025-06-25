@@ -1,40 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: inventory-service
+  name: ordering-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: inventory-service
+      app: ordering-service
   template:
     metadata:
       labels:
-        app: inventory-service
+        app: ordering-service
     spec:
       initContainers:
       - name: init-db
         image: flyway/flyway:9
         command: ["flyway"]
         args:
-        - "-url=jdbc:sqlserver://$(DATABASE_HOST):1433;databaseName=$(DATABASE_NAME)"
-        - "-user=$(DATABASE_USER)"
-        - "-password=$(DATABASE_PASSWORD)"
+        - "-url=jdbc:sqlserver://${DATABASE_HOST}:1433;databaseName=${DATABASE_NAME}"
+        - "-user=${DATABASE_USER}"
+        - "-password=${DATABASE_PASSWORD}"
         - "migrate"
         env:
         - name: DATABASE_HOST
-          value: "tenark-sqlserver-dev.database.windows.net"
+          value: "tenark-sqlserver"
         - name: DATABASE_NAME
-          value: "sqldb-tenark-tenant2-inventory-db"
+          value: "sqldb-tenark-tenant2-ordering-db"
         - name: DATABASE_USER
           valueFrom:
             secretKeyRef:
-              name: inventory-db-credentials
+              name: ordering-db-credentials
               key: DATABASE_USER
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: inventory-db-credentials
+              name: ordering-db-credentials
               key: DATABASE_PASSWORD
         resources:
           limits:
@@ -49,24 +49,24 @@ spec:
       volumes:
       - name: flyway-scripts
         configMap:
-          name: inventory-flyway-scripts
+          name: ordering-flyway-scripts
       containers:
-      - name: inventory-service
-        image: inventory-service:v0.0.4
+      - name: ordering-service
+        image: tenark.azurecr.io/ordering-service:v0.0.4
         env:
         - name: DATABASE_HOST
-          value: "tenark-sqlserver-dev.database.windows.net"
+          value: "tenark-sqlserver"
         - name: DATABASE_NAME
-          value: "sqldb-tenark-tenant2-inventory-db"
+          value: "sqldb-tenark-tenant2-ordering-db"
         - name: DATABASE_USER
           valueFrom:
             secretKeyRef:
-              name: inventory-db-credentials
+              name: ordering-db-credentials
               key: DATABASE_USER
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: inventory-db-credentials
+              name: ordering-db-credentials
               key: DATABASE_PASSWORD
         resources:
           limits:

@@ -70,7 +70,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tenant2-ingress-services-dev
+  name: tenant2-ingress-dev
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "3"
@@ -79,7 +79,7 @@ spec:
   sources:
     - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
       targetRevision: 'HEAD'
-      path: 'gitops/tenants/tenant2/overlays/dev/ingress-services'
+      path: 'gitops/tenants/tenant2/overlays/dev/ingress'
   destination:
     name: 'tenant2-dev'
     namespace: default
@@ -96,4 +96,31 @@ spec:
         factor: 5
         maxDuration: 3m0s
 ---
-
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenant2-deployments-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  project: default
+  sources:
+    - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
+      targetRevision: 'HEAD'
+      path: 'gitops/tenants/tenant2/overlays/dev/deployments'
+  destination:
+    name: 'tenant2-dev'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 5
+        maxDuration: 3m0s

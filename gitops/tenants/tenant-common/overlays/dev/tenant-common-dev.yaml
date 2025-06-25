@@ -85,7 +85,7 @@ spec:
   sources:
     - repoURL: 'https://github.com/zodraz/tenark-gitops-bridge'
       targetRevision: 'HEAD'
-      path: 'gitops/tenants/tenant-common/overlays/dev/ingress-services'
+      path: 'gitops/tenants/tenant-common/overlays/dev/ingress'
   destination:
     name: 'tenant-common-dev'
     namespace: default
