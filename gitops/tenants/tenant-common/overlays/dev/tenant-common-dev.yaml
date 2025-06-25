@@ -76,7 +76,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tenant-common-ingress-services-dev
+  name: tenant-common-ingress-dev
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "3"
