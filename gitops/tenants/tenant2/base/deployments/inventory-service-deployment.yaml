@@ -52,7 +52,7 @@ spec:
           name: inventory-flyway-scripts
       containers:
       - name: inventory-service
-        image: tenark.azurecr.io/tenark-inventory:v0.0.4
+        image: tenark.azurecr.io/tenark-inventory:v0.0.16
         env:
         - name: DATABASE_HOST
           value: "tenark-sqlserver-dev.database.windows.net"
