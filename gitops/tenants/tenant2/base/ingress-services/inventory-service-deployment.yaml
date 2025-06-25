@@ -18,8 +18,8 @@ spec:
         command: ["flyway"]
         args:
         - "-url=jdbc:sqlserver://${DATABASE_HOST}:1433;databaseName=${DATABASE_NAME}"
-        - "-user=testing"
-        - "-password=testing"
+        - "-user=4dm1n157r470r"
+        - "-password=sKaBq68#"
         - "migrate"
         env:
         - name: DATABASE_HOST
