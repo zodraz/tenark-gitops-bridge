@@ -2,14 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  # - authserver-ingress.yaml
-  # - controlplane-ingress.yaml
-  # - httpapi-host-ingress.yaml
-  # - portal-ingress.yaml
   - redis.yaml
   - resource-group.yaml
   - sql-admin-password.yaml
   - sql-database.yaml
   - sql-server.yaml
-  # - tenant-common-apps.yaml
   - vcluster.yaml

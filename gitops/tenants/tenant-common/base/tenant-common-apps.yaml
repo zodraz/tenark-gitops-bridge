@@ -23,10 +23,6 @@ spec:
         app: controlplane
       - repo_path: kubernetes/Tenark.Web.Portal
         app: portal
-  - clusters:
-    selector:
-      matchLabels:
-        environment: control-plane
   template:
     metadata:
       name: tenant-common-apps-{{.app}}
@@ -37,7 +33,7 @@ spec:
         targetRevision: 'HEAD'
         path: '{{.repo_path}}'
       destination:
-        name: '{{name}}'
+        name: tenant-common
         namespace: default
       syncPolicy:
         retry:
