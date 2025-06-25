@@ -17,29 +17,29 @@ spec:
         image: flyway/flyway:9
         command: ["flyway"]
         args:
-        - "-url=jdbc:sqlserver://${DATABASE_HOST}:1433;databaseName=${DATABASE_NAME}"
+        - "-url=jdbc:sqlserver://$(DATABASE_HOST):1433;databaseName=$(DATABASE_NAME)"
         - "-user=$(DATABASE_USER)"
-        - "-password=testing"
+        - "-password=$(DATABASE_PASSWORD)"
         - "migrate"
         env:
         - name: DATABASE_HOST
           value: "tenark-sqlserver"
         - name: DATABASE_NAME
           value: "sqldb-tenark-tenant2-inventory-db"
-        # - name: DATABASE_USER
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: inventory-db-credentials
-        #       key: DATABASE_USER
-        # - name: DATABASE_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: inventory-db-credentials
-        #       key: DATABASE_PASSWORD
         - name: DATABASE_USER
-          value: "4dm1n157r470r"
+          valueFrom:
+            secretKeyRef:
+              name: inventory-db-credentials
+              key: DATABASE_USER
         - name: DATABASE_PASSWORD
-          value: "sKaBq68#"
+          valueFrom:
+            secretKeyRef:
+              name: inventory-db-credentials
+              key: DATABASE_PASSWORD
+        # - name: DATABASE_USER
+        #   value: "4dm1n157r470r"
+        # - name: DATABASE_PASSWORD
+        #   value: "sKaBq68#"
         resources:
           limits:
             cpu: "0.2"
