@@ -63,7 +63,6 @@ locals {
   }
 
   tags = {
-    Blueprint  = local.name
     GithubRepo = "https://github.com/zodraz/tenark-gitops-bridge"
     Environment = local.environment
     CreatedWith = "Terraform"

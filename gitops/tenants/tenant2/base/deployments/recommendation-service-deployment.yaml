@@ -31,11 +31,6 @@ spec:
             secretKeyRef:
               name: recommendation-db-credentials
               key: DATABASE_USER
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: recommendation-db-credentials
-              key: DATABASE_PASSWORD
         resources:
           limits:
             cpu: "0.2"
@@ -63,11 +58,6 @@ spec:
             secretKeyRef:
               name: recommendation-db-credentials
               key: DATABASE_USER
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: recommendation-db-credentials
-              key: DATABASE_PASSWORD
         resources:
           limits:
             cpu: "0.5"
