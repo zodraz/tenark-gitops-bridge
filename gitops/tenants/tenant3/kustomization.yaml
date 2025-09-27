@@ -5,3 +5,7 @@ resources:
   - inventory-service-deployment.yaml
   - ordering-service-deployment.yaml
   - recommendation-service-deployment.yaml
+  - inventory-ingress.yaml
+  - ordering-ingress.yaml
+  - recommendation-ingress.yaml
+  
