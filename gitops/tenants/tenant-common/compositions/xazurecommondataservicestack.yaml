@@ -1,0 +1,128 @@
+# xazurecommondataservicestack.yaml
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xazurecommondataservicestacks.azure.tenark.com
+spec:
+  group: azure.tenark.com
+  names:
+    kind: XAzureCommonDataServiceStack
+    plural: xazurecommondataservicestacks
+  claimNames:
+    kind: AzureCommonDataServiceStack
+    plural: azurecommondataservicestacks
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                parameters:
+                  type: object
+                  description: |
+                    Parameters define the desired state for a complete Azure Common Data Service Stack,
+                    including SQL Server, SQL Database, and Redis Cache, all integrated into an
+                    existing Virtual Network and Subnet by its full Azure Resource ID.
+                  properties:
+                    location:
+                      type: string
+                      description: Azure region where the resources will be deployed.
+                      enum:
+                        - EastUS
+                        - WestUS
+                        - NorthEurope
+                        - WestEurope
+                        - CentralUS
+                        - SoutheastAsia
+                    resourceGroupName:
+                      type: string
+                      description: The name of the Azure Resource Group to use.
+                    subnetAzureResourceID:
+                      type: string
+                      description: Full Azure Resource ID of an existing subnet.
+                    administratorLogin:
+                      type: string
+                      description: Administrator login for the SQL Server.
+                    administratorLoginPasswordSecretRef:
+                      type: object
+                      description: Secret reference for the SQL Server administrator password.
+                      properties:
+                        name:
+                          type: string
+                          description: Name of the Kubernetes Secret.
+                        key:
+                          type: string
+                          description: Key in the Kubernetes Secret holding the password.
+                      required:
+                        - name
+                        - key
+                    sqlDatabase:
+                      type: object
+                      description: Parameters for the SQL Database.
+                      properties:
+                        name:
+                          type: string
+                          description: Name of the SQL Database.
+                        collation:
+                          type: string
+                          description: Collation of the SQL Database.
+                        skuTier:
+                          type: string
+                          description: SKU Tier of the SQL Database (e.g., Basic, Standard, Premium).
+                        skuName:
+                          type: string
+                          description: SKU Name of the SQL Database (e.g., Basic, S0).
+                        capacity:
+                          type: integer
+                          description: Capacity of the SQL Database in GB.
+                      required:
+                        - name
+                        - skuTier
+                        - skuName
+                        - capacity
+                    redisCache:
+                      type: object
+                      description: Parameters for the Azure Redis Cache.
+                      properties:
+                        name:
+                          type: string
+                          description: Name of the Redis Cache.
+                        skuName:
+                          type: string
+                          description: Name of the Redis Cache SKU (e.g., Basic, Standard, Premium).
+                          enum: [Basic, Standard, Premium]
+                        skuFamily:
+                          type: string
+                          description: Family of the Redis Cache SKU (e.g., C for Basic/Standard, P for Premium).
+                          enum: [C, P]
+                        skuCapacity:
+                          type: integer
+                          description: Capacity of the Redis Cache SKU (0-6 for Basic/Standard, 1-5 for Premium).
+                        redisVersion:
+                          type: string
+                          description: "The version of Redis to use, e.g., '6'."
+                      required:
+                        - skuName
+                        - skuFamily
+                        - skuCapacity
+                        - redisVersion
+                    connectionSecretNamespace:
+                      type: string
+                      description: Kubernetes namespace where connection secrets will be created.
+                      default: default
+                  required:
+                    - location
+                    - resourceGroupName
+                    - subnetAzureResourceID
+                    - administratorLogin
+                    - administratorLoginPasswordSecretRef
+                    - sqlDatabase
+                    - redisCache
+                    - connectionSecretNamespace
+              required:
+                - parameters

@@ -1,0 +1,11 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: controlplane-ingress
+spec:
+  rules:
+  - host: dev.tenark.com
+  tls:
+  - hosts:
+    - dev.tenark.com
+    secretName: keyvault-controlplane-ingress-dev
