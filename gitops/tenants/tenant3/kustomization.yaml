@@ -8,4 +8,5 @@ resources:
   - inventory-ingress.yaml
   - ordering-ingress.yaml
   - recommendation-ingress.yaml
+  - vcluster.yaml
   
