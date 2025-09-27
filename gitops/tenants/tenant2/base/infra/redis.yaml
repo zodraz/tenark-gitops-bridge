@@ -14,3 +14,6 @@ spec:
     resourceGroupNameRef:
       name: rg-tenark-tenant
     skuName: Basic
+
+
+    
