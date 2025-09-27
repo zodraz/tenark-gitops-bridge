@@ -30,7 +30,7 @@ spec:
         repoURL: '{{.metadata.annotations.addons_repo_url}}'
         targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
         # path: 'gitops/tenants/{{.tenant}}/overlays/dev'
-        path: 'gitops/tenants/tenant-common'
+        path: 'gitops/tenants/tenant-common/overlays/dev'
         # directory:
         #   # recurse: true
         #   exclude: '{compositions/*,overlays/qa/*,overlays/prod/*,base/*}'
