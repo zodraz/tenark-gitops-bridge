@@ -113,7 +113,7 @@ resource "azurerm_resource_group" "this" {
 
 module "network" {
   source              = "Azure/subnets/azurerm"
-  version             = "1.0.0"
+  version             = "1.1.0"
   resource_group_name = azurerm_resource_group.this.name
   subnets = {
     aks = {
